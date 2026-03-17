@@ -39,14 +39,14 @@ Every video follows a 4-act structure, regardless of length:
 
 Not every video needs custom animations — simple videos (mood, vibe, announcements) work great with just pexels + gradient + counter.
 
-## When to Use Dynamic Animations vs Other Assets
+## When to Use Coded Animations vs Other Assets
 
 | Content | Best asset type | Why |
 |---------|----------------|-----|
 | A number/statistic | counter | Built-in, reliable, looks great |
-| Feature list (3-6 items) | dynamic animation | Staggered reveal looks professional |
-| Comparison (A vs B) | dynamic animation | Need layout control |
-| Pricing tiers | dynamic animation | Complex layout |
+| Feature list (3-6 items) | coded animation (list-reveal, feature-grid) | Staggered reveal looks professional |
+| Comparison (A vs B) | coded animation (comparison) | Need layout control |
+| Pricing tiers | coded animation (stats-dashboard) | Complex layout |
 | Quote/testimonial | gradient + copy text | Simple text is enough |
 | Product screenshot | pexels-image/upload-image | Real visual |
 | Action/activity | pexels-video | Movement sells |

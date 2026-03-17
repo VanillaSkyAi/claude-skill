@@ -29,7 +29,7 @@ There are no "modes." Every video is 6-10 scenes composed from whatever asset ty
 - **pexels-video** — the default. Real footage is engaging and easy to swap in the editor.
 - **gradient** — branded moments (logo, tagline, text-heavy). Simple and effective.
 - **counter** — a single impressive statistic. Built-in, polished.
-- **coded animation** — custom Canvas2D visuals for content stock footage can't show well (feature lists, comparisons, stats dashboards). More impactful when justified, but harder to edit.
+- **coded animation** — built-in React-based animations for content stock footage can't show well (feature lists, comparisons, stats dashboards). More impactful when justified, but harder to edit.
 
 **When proposing the plan, be transparent:**
 - Explain *why* each scene uses its asset type
@@ -49,8 +49,7 @@ There are no "modes." Every video is 6-10 scenes composed from whatever asset ty
 Read these for detailed creative and technical patterns:
 
 - [rules/composition-rules.md](rules/composition-rules.md) — Narrative arc, asset mix, pacing, transitions, overlays
-- [rules/animation-timing.md](rules/animation-timing.md) — Easing functions, staggered reveals, beat-synced effects
-- [rules/canvas-patterns.md](rules/canvas-patterns.md) — Canvas2D drawing: backgrounds, text, shapes, icons
+- [rules/animation-timing.md](rules/animation-timing.md) — Timing concepts: staggered reveals, beat-synced effects, easing
 
 ## Available Tracks
 
@@ -269,40 +268,7 @@ Trend: `"up"`, `"down"`, `"neutral"`.
 { "type": "coded-animation", "animationId": "notification", "inputs": { "app": "VanillaSky", "title": "New feature available", "message": "Cinematic trailers just got easier. Tap to explore." } }
 ```
 
-**When to use built-in vs dynamic:** Built-in animations are preferred — they're tested, polished, and editable in the UI. Only use dynamic animations when none of the 16 types fit.
-
-### Dynamic Animation — custom Canvas2D code
-
-For visuals that don't exist in the built-in library:
-
-```json
-{
-  "type": "coded-animation",
-  "animationId": "custom",
-  "code": "// Canvas2D function body\nconst { inputs, style, progress, width, height } = context;\n...",
-  "inputs": { "title": "My Feature", "items": "Fast, Easy, Free" },
-  "inputSchema": {
-    "title": { "type": "string", "label": "Title", "required": true },
-    "items": { "type": "string", "label": "Items (comma-separated)", "required": true }
-  }
-}
-```
-
-The `code` field is a function body receiving `ctx` (CanvasRenderingContext2D) and `context` ({ inputs, style, progress, beatIntensity, width, height }). Canvas is 1080x1920.
-
-**Quality rules (non-negotiable):**
-1. Always draw a background first (use brandKit colors)
-2. Always use easing — never linear motion (see rules/animation-timing.md)
-3. Use opacity for reveals — fade elements in
-4. Stagger multi-element reveals
-5. Use `context.style.font` and brandKit colors
-6. Leave padding of at least width*0.08 from edges
-7. Auto-size text with `ctx.measureText()` to fit
-8. Keep code under 80 lines
-9. No external imports — only Canvas2D API
-10. Use `context.progress` (0-1) for animation, never timers or RAF
-
-See rules/canvas-patterns.md for full drawing patterns and templates.
+All 16 animations are React components internally. The config format is unchanged: use `animationId` + `inputs`. The `inputSchema` on each animation type is used by the editor UI for input controls.
 
 ## Text Effects
 

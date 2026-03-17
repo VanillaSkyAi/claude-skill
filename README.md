@@ -49,7 +49,7 @@ Once installed, just ask Claude to create a video:
 - **6-10 scenes** synced to beat markers in the music
 - **Stock footage** auto-selected from Pexels based on keywords
 - **Built-in animations** for stats, features, comparisons, testimonials
-- **Custom Canvas2D animations** when stock footage can't tell the story
+- **Built-in coded animations** (React-based) when stock footage can't tell the story
 - **Transitions, overlays, and text effects** composed for cinematic impact
 - A **shareable link** that opens in VanillaSky's browser-based editor
 
