@@ -1,0 +1,25 @@
+{
+  "name": "@vanillasky/mcp-server",
+  "version": "0.1.0",
+  "description": "VanillaSky MCP server for Claude Code — save video configs, search stock footage, browse tracks",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "vanillasky-mcp": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "@types/node": "^20.0.0"
+  },
+  "files": ["dist"],
+  "license": "MIT"
+}

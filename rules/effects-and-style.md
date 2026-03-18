@@ -87,7 +87,7 @@ Set via `style.defaultTransition` or per-scene `transition`.
 | `flash` | High-energy beat drops |
 | `zoom-in` | Moving into detail (wide → close) |
 | `zoom-out` | Revealing bigger picture |
-| `blur-dissolve` | Dream-like, emotional moments |
+| `cut` | Hard cut, no transition — fast pacing, aggressive edits |
 | `slide-left` | Sequential progression (step 1 → step 2) |
 | `slide-right` | Sequential progression (reverse direction) |
 
@@ -101,7 +101,7 @@ Set via `style.defaultTransition` or per-scene `transition`.
 
 ## Fonts
 
-41 fonts available. Set via `style.font` (use the `value` string, not the label).
+34 fonts available. Set via `style.font` (use the `value` string, not the label).
 
 ### Sans-Serif (16)
 | Label | Value | Character |
