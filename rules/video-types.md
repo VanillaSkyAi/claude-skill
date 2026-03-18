@@ -144,6 +144,72 @@ Infer from context when possible. Look for cues:
 | "TikTok", "Reel", "Short", "social" | Social Media |
 | "launch video", "product video" | Trailer or Ad (ask) |
 | "pitch video", "investor" | Trailer |
+| "our story", "who we are", "brand film" | Brand Story |
+| "launch event", "announcement", "save the date" | Event / Launch |
 | No clear type | Default to Trailer (most versatile) |
 
 If ambiguous, ask: "This could work as a quick social ad or a longer cinematic trailer — what's the primary platform?"
+
+---
+
+## Brand Story (25–40s)
+
+**Goal:** Build emotional connection, communicate values, make people feel something.
+
+| Aspect | Guideline |
+|--------|-----------|
+| Duration | 25–40s (6–8 scenes) |
+| Orientation | Landscape for cinematic, portrait for social |
+| Pacing | Slow, deliberate — let footage breathe |
+| Tracks | Shadow Countdown, Shadows at the Gate |
+| Fonts | Serif: Playfair Display, Cinzel, Cormorant Garamond |
+| Text effects | `fade-in`, `word-stagger` |
+| Background effects | `ken-burns-*`, `drift-*`, `slow-zoom-in` |
+| Transitions | `crossfade` (80%), `dip-to-black` for section breaks |
+
+**Typical structure:**
+1. `fullscreen-media` — Mood-setting footage. No text or just one word.
+2. `fullscreen-media` — People, craft, or environment.
+3. `gradient-text` — Core values statement.
+4. `fullscreen-media` — Impact / the work in action.
+5. `fullscreen-media` — Community or human connection.
+6. `social-proof` — Authentic quote from customer or team member.
+7. `end-screen` — Brand name + tagline.
+
+**Copy pattern:** Mood → People → Values → Impact → Trust → Brand
+
+**Special rules:**
+- More footage, fewer data scenes — emotion over metrics
+- Longer scene durations — don't rush (durationWeight: 1.2–1.5 on footage)
+- Subtitles > headlines — understated text lets footage do the talking
+
+---
+
+## Event / Launch Announcement (15–25s)
+
+**Goal:** Create urgency, reveal something new, drive to a date or action.
+
+| Aspect | Guideline |
+|--------|-----------|
+| Duration | 15–25s (5–6 scenes) |
+| Orientation | Portrait for social, landscape for email/web |
+| Pacing | Builds fast — tease → reveal → details → urgency |
+| Tracks | Pulse in the Dark, Shadow Countdown |
+| Fonts | Bold display: Bebas Neue, Anton, Oswald |
+| Text effects | `slam`, `zoom-through`, `cut-in` |
+| Background effects | `slow-zoom-in`, `pulse` for reveal |
+| Transitions | `crossfade`, `flash` for the reveal moment |
+
+**Typical structure:**
+1. `fullscreen-media` — Teaser. Mysterious or exciting footage. "Something's coming."
+2. `gradient-text` — The reveal. Product name or event name, big and bold.
+3. `fullscreen-media` — Context / what to expect.
+4. `counter` — The date, countdown number, or key metric.
+5. `end-screen` — CTA with date. "March 25 / Save your spot."
+
+**Copy pattern:** Tease → Reveal → Context → Date/Number → CTA
+
+**Special rules:**
+- `flash` transition on the reveal scene (scene 2) for maximum impact
+- Counter works great for dates (`value: 25`, `label: "March"`, `unit: ""`) or countdowns
+- Keep it short — urgency loses power if the video drags

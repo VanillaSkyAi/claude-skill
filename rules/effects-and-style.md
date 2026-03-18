@@ -74,6 +74,15 @@ Set via `style.defaultBackgroundEffect` or per-scene `backgroundEffect`.
 - `camera-shake` is intense — use sparingly (max 1 scene)
 - `pulse` is beat-synced — only use with energetic tracks
 
+**Storytelling intent — pick the movement that matches the scene's purpose:**
+- **Zoom in** → focusing, revealing, building tension
+- **Zoom out** → contextualizing, pulling back, conclusion
+- **Ken-burns** → nostalgia, stillness-to-life, documentary feel
+- **Drift** → passage of time, calm journey, contemplation
+- **Pulse / beat-zoom** → energy peak, climax, excitement
+- **Slow-tilt** → unease, tension, something's off
+- **Static** → letting the content speak, text-heavy moments
+
 ---
 
 ## Transitions

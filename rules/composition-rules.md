@@ -37,11 +37,30 @@ Every video follows a 4-act structure, regardless of length:
 | 8 | 4 fullscreen-media + 1 gradient-text + 1 counter + 1 social-proof + end-screen |
 | 10 | 5 fullscreen-media + 1 gradient-text + 1 counter + 1 product-launch + 1 social-proof + end-screen |
 
+## Scene Flow (Adjacent Scenes)
+
+- **Alternate shot scale:** Don't put two wide/aerial shots or two close-ups back to back — vary the distance
+- **Palate cleanser:** Use `gradient-text` between two similar `fullscreen-media` scenes to break visual monotony
+- **Return to footage after data:** After `counter` or `social-proof`, the next scene should be `fullscreen-media`
+- **Vary camera movement:** If one scene uses `drift-left`, the next should be `static`, `slow-zoom-in`, or drift the other way
+- **Match cuts:** When adjacent scenes share a visual element (color, shape, motion direction), use `crossfade` to connect them smoothly
+
 ## Pexels Keyword Strategy
 
-Write descriptive, visual keywords (2–4 words) for `mediaKeyword`. Think cinematically.
+Write descriptive, visual keywords (2–4 words) for `mediaKeyword`. Think cinematically — choose a shot type, then describe the subject.
 
-**Good keywords:** `"aerial city night"`, `"hands typing laptop"`, `"runner mountain trail"`, `"coffee shop ambiance"`, `"team celebrating success"`, `"close up smartphone"`, `"drone ocean waves"`, `"woman working desk"`
+### Cinematic Shot Types
+
+| Shot type | When to use | Example keywords |
+|-----------|-------------|------------------|
+| Establishing/wide | Scene 1 hook, context setting | `"aerial city night"`, `"drone ocean sunset"` |
+| Medium | Subject in context, lifestyle | `"woman working laptop cafe"`, `"team office meeting"` |
+| Close-up | Emotion, detail, product | `"hands typing keyboard"`, `"coffee cup steam close up"` |
+| Detail/macro | Texture, craftsmanship, premium feel | `"watch mechanism macro"`, `"fabric texture close"` |
+| POV/first-person | Immersion, user perspective | `"first person walking city"`, `"hands smartphone screen"` |
+| Action/motion | Energy, dynamism | `"runner trail morning"`, `"skateboard street tricks"` |
+
+**Match shot types to the arc:** wide shots for hooks → medium for build → close-ups for climax → wide for CTA resolution.
 
 **Bad keywords:** `"business"`, `"technology"`, `"success"`, `"happy"` — too vague, returns generic footage
 
@@ -93,6 +112,18 @@ Use these patterns for scene 1 headlines or gradient-text statements:
 | "[Provocative statement]." | "Email is broken." |
 | "There's a better way." | — |
 | "Built for [audience]." | "Built for developers who ship." |
+
+### Visual Hooks (Scene 1 Footage)
+
+The headline hooks above, but the *footage* also grabs attention. Pair a text hook with a visual hook:
+
+| Visual hook | Keyword style | Why it grabs |
+|-------------|---------------|--------------|
+| Human face/emotion | `"woman smiling close up"` | Faces are hardwired attention magnets |
+| Fast motion | `"drone speed city traffic"` | Movement triggers alertness |
+| Scale/grandeur | `"aerial mountain landscape epic"` | Awe creates curiosity |
+| Contrast/mystery | `"silhouette doorway dark light"` | Incomplete info demands resolution |
+| Vivid color | `"neon lights city rain night"` | Color pops stop the scroll |
 
 ### CTA Formulas
 
