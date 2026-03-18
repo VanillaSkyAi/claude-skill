@@ -3,322 +3,213 @@ name: vanillasky
 description: Create cinematic beat-synced trailer videos from natural language descriptions using VanillaSky
 ---
 
-# VanillaSky — Create Cinematic Trailer Videos
+# VanillaSky — Create Cinematic Videos
 
-Create professional beat-synced trailer videos by describing what you want. You compose the scenes, save the config, and return a link that opens the video in VanillaSky's editor — ready to preview, tweak, and export.
+Create professional beat-synced videos by describing what you want. You compose scenes from React templates, sync them to music, and return a link that opens in VanillaSky's editor — ready to preview, tweak, and export.
 
 **Example prompts:**
 - "Create a product launch video for my fitness app FitPulse"
 - "Make a cinematic trailer for a coffee brand called Ritual Roasters"
-- "Build a startup pitch video — we're an AI writing tool with 10K users"
+- "Build a 15-second social media ad for our AI writing tool"
+- "Create a startup pitch video — we're a dev tools company with 10K users"
 
 ## Workflow
 
-1. **Understand the brief** — ask about the product/brand, target audience, key message, tone, and any specific visuals they have in mind
-2. **Pick a music track** — choose from the catalog based on mood
-3. **Propose a scene plan** — present a table showing each scene's asset type, content, transition, and *why* that type fits. Be transparent about trade-offs.
-4. **User confirms or tweaks** the plan
-5. **Build the VideoConfig** — compose the full JSON synced to the track's beat markers
-6. **Save and share** — call the save-config API and return the editor link
+### 1. Understand the Brief
 
-## Scene Planning
+Ask about:
+- **Product/brand** — what is it, what does it do
+- **Target audience** — who is this video for
+- **Key message** — the one thing viewers should remember
+- **Tone/mood** — cinematic, energetic, calm, edgy, premium
 
-There are no "modes." Every video is 6-10 scenes composed from whatever asset types best serve the content.
+### 2. Brand Kit (optional — offer, don't interrogate)
 
-**Asset types to choose from:**
-- **pexels-video** — the default. Real footage is engaging and easy to swap in the editor.
-- **gradient** — branded moments (logo, tagline, text-heavy). Simple and effective.
-- **counter** — a single impressive statistic. Built-in, polished.
-- **coded animation** — built-in React-based animations for content stock footage can't show well (feature lists, comparisons, stats dashboards). More impactful when justified, but harder to edit.
+Ask naturally as part of the brief conversation:
+- "Do you have **brand colors**?" → `style.brandKit.bg` + `.accent`
+- "**Font preference**?" → `style.font` (or suggest based on mood)
+- "Got a **logo**?" → for `end-screen` logoUrl
+- "Any **existing media** — product screenshots, app screenshots?" → for `product-launch` screenMediaUrl or `fullscreen-media` mediaUrl
 
-**When proposing the plan, be transparent:**
-- Explain *why* each scene uses its asset type
-- If suggesting a coded animation, say what it would show and why stock footage wouldn't work as well
-- Not every video needs custom animations — pexels-video + a gradient + a counter makes plenty of great videos
+If they don't have these, that's fine — defaults look professional. They can always customize in the editor later.
 
-**Scene plan format:**
+### 3. Detect Video Type
 
-| Scene | Beat | Asset | Why this type | Copy |
-|-------|------|-------|---------------|------|
-| 1 | 0-0 | pexels-video "fitness workout gym" | Strong visual hook | "Get moving." |
-| 2 | 1-1 | pexels-video "runner sunrise trail" | Action footage sells the lifestyle | "Push harder." |
-| ... | ... | ... | ... | ... |
+Infer from context or ask. Types shape the starting structure:
+- **Ad** (15–30s) — hook fast, show value, drive action
+- **Trailer** (25–40s) — build tension, tell a story, create desire
+- **Showreel** (30–60s) — showcase breadth, demonstrate capability
+- **Social media** (15–20s) — stop the scroll, one message, immediate action
+
+See [rules/video-types.md](rules/video-types.md) for detailed presets. These are starting points — adapt freely.
+
+### 4. Pick a Music Track
+
+Choose from the catalog based on mood and video type. See [rules/audio-tracks.md](rules/audio-tracks.md) for full descriptions.
+
+| Track | Duration | Mood | Best for |
+|-------|----------|------|----------|
+| Shadow Countdown | 27.6s | Epic, Cinematic | Brand reveals, cinematic trailers |
+| HipHop Sequence | 27.4s | Hiphop, Beat | Fitness, lifestyle, social ads |
+| Momentum Theme | 37.4s | Energetic, Bold | Showreels, pitches, SaaS |
+| Shadows at the Gate | 31.4s | Thriller, Cinematic | Security, fintech, dark themes |
+| Pulse in the Dark | 25s | Trailer, Thriller | Social ads, short trailers, urgency |
+
+### 5. Propose a Scene Plan
+
+Present a transparent table showing each scene's template, content, and reasoning:
+
+| # | Template | Key variables | Why this template | Copy / Content |
+|---|----------|--------------|-------------------|----------------|
+| 1 | fullscreen-media | keyword: "coffee shop ambiance" | Visual hook — real footage | "Ritual starts here." |
+| 2 | gradient-text | — | Brand statement — typography focus | "Every cup, a story." |
+| 3 | fullscreen-media | keyword: "barista latte art" | Craftsmanship footage | "Crafted with care." |
+| 4 | counter | value: 50000, unit: "+" | Impressive scale | label: "Cups served" |
+| 5 | fullscreen-media | keyword: "coffee beans close up" | Premium product shot | "Premium beans." |
+| 6 | end-screen | — | CTA + brand | "Order now." / ritualroasters.com |
+
+Be transparent about template choices. Explain why a `counter` is worth it (the number is impressive) or why `social-proof` fits (strong testimonial available).
+
+### 6. User Confirms or Tweaks
+
+Wait for approval. Adjust based on feedback.
+
+### 7. Build the VideoConfig
+
+Compose the full JSON. See schema below and [rules/templates.md](rules/templates.md) for variable details.
+
+### 8. Save and Share
+
+Save the config and return the editor link. The user can preview, customize, and export in VanillaSky's browser-based editor.
 
 ## Rule Files
 
 Read these for detailed creative and technical patterns:
 
-- [rules/composition-rules.md](rules/composition-rules.md) — Narrative arc, asset mix, pacing, transitions, overlays
-- [rules/animation-timing.md](rules/animation-timing.md) — Timing concepts: staggered reveals, beat-synced effects, easing
+- [rules/templates.md](rules/templates.md) — All 6 templates: variable schemas, duration hints, usage guidelines
+- [rules/effects-and-style.md](rules/effects-and-style.md) — Text effects, background effects, transitions, fonts, brand kit
+- [rules/composition-rules.md](rules/composition-rules.md) — Narrative arc, template mix, pacing, copy best practices
+- [rules/video-types.md](rules/video-types.md) — Presets: Ad, Trailer, Showreel, Social
+- [rules/audio-tracks.md](rules/audio-tracks.md) — Track catalog with energy curves and best-for tags
 
-## Available Tracks
+## Templates (Quick Reference)
 
-Pick the track that best matches the requested video mood.
+6 React templates. Each scene references one by `templateId` and passes `variables`.
 
-```json
-[
-  {
-    "id": "7995f8e2-cd04-4cd0-b498-6672c5b34529",
-    "name": "Shadow Countdown",
-    "mood": ["Epic", "Cinematic", "Thriller"],
-    "duration": 27.6,
-    "beatMarkers": [1.2, 4.7, 8.1, 16.6, 18.7, 20.4, 21.9, 24.9]
-  },
-  {
-    "id": "a5cf8cbd-9606-4246-8408-61bc7e5d2794",
-    "name": "HipHop Sequence",
-    "mood": ["Hiphop", "Beat"],
-    "duration": 27.4,
-    "beatMarkers": [4.2, 7.6, 10.2, 12.7, 15.1, 17.4, 19.2, 22.8]
-  },
-  {
-    "id": "645b3256-5416-48cf-8f9d-39a2dbd9e167",
-    "name": "Momentum Theme",
-    "mood": ["Energetic", "Rhythmic", "Bold"],
-    "duration": 37.4,
-    "beatMarkers": [2, 5.6, 11.7, 14.6, 20, 22.7, 26.5, 30]
-  },
-  {
-    "id": "d899f250-3371-4e0e-a1b4-93bd868b07bc",
-    "name": "Shadows at the Gate",
-    "mood": ["Thriller", "Cinematic"],
-    "duration": 31.4,
-    "beatMarkers": [0.2, 3.8, 7.3, 10, 18.2, 20.3, 24.1, 29.1]
-  },
-  {
-    "id": "8e83c405-08cb-45fd-b119-604ce81dfccd",
-    "name": "Pulse in the Dark",
-    "mood": ["Trailer", "Thriller"],
-    "duration": 25,
-    "beatMarkers": [3.7, 7.1, 9.9, 12.7, 15, 17.4, 19, 20.9]
-  }
-]
-```
+| Template | Use for | Key variables |
+|----------|---------|---------------|
+| `fullscreen-media` | Footage scenes, hooks, mood | `headline`, `subtitle`, `mediaKeyword` |
+| `gradient-text` | Brand statements, title cards | `headline`, `subtitle` |
+| `counter` | Statistics, metrics | `value`, `label`, `unit` |
+| `social-proof` | Testimonials, reviews | `quote`, `author`, `role`, `rating` |
+| `product-launch` | App/product showcases | `productName`, `tagline`, `features`, `deviceType`, `screenMediaUrl`, `ctaText` |
+| `end-screen` | Closing CTA | `ctaText`, `tagline`, `logoUrl` |
 
 ## VideoConfig Schema
 
-Build a complete config following this structure. All fields shown — omit optional ones if not needed.
-
 ```json
 {
+  "orientation": "portrait",
   "audio": {
-    "trackId": "from track catalog",
+    "trackId": "a5cf8cbd-9606-4246-8408-61bc7e5d2794",
     "audioUrl": "",
     "duration": 27.4,
     "beatDetection": { "sensitivity": 0.5 },
-    "beatMarkers": [{ "time": 4.2 }, { "time": 7.6 }, { "time": 10.2 }]
+    "beatMarkers": [
+      { "time": 4.2 }, { "time": 7.6 }, { "time": 10.2 }, { "time": 12.7 },
+      { "time": 15.1 }, { "time": 17.4 }, { "time": 19.2 }, { "time": 22.8 }
+    ]
   },
   "scenes": [
     {
       "id": "s1",
-      "asset": { "see Asset Types below" },
-      "copy": { "text": "Your tagline.", "textEffect": "fade-in" },
-      "timing": {
-        "beatStart": 0,
-        "beatEnd": 0,
-        "durationWeight": 1.0
+      "templateId": "fullscreen-media",
+      "variables": {
+        "headline": "Get moving.",
+        "subtitle": "",
+        "mediaUrl": "",
+        "mediaKeyword": "fitness workout gym"
       },
+      "timing": { "beatStart": 0, "beatEnd": 0, "durationWeight": 1.0 },
       "transition": "crossfade",
-      "backgroundAnimation": "slow-zoom-in",
-      "overlays": [{ "type": "vignette", "intensity": 0.5 }]
+      "backgroundEffect": "slow-zoom-in"
+    },
+    {
+      "id": "s2",
+      "templateId": "counter",
+      "variables": {
+        "value": 10000,
+        "label": "Active users",
+        "unit": "+"
+      },
+      "timing": { "beatStart": 3, "beatEnd": 4, "durationWeight": 1.3 }
+    },
+    {
+      "id": "s3",
+      "templateId": "end-screen",
+      "variables": {
+        "ctaText": "Start free today.",
+        "tagline": "fitpulse.app",
+        "logoUrl": ""
+      },
+      "timing": { "beatStart": 7, "beatEnd": 7, "durationWeight": 1.0 }
     }
   ],
   "style": {
-    "font": "Inter",
+    "font": "'Inter', sans-serif",
+    "brandKit": {
+      "bg": "#1a1a2e",
+      "accent": "#e94560"
+    },
     "defaultTextEffect": "fade-in",
     "defaultTransition": "crossfade",
-    "defaultBackgroundAnimation": "slow-zoom-in",
-    "brandKit": { "bg": "#1a1a2e", "accent": "#e94560" }
-  },
-  "endScreen": {
-    "enabled": true,
-    "ctaText": "Learn more",
-    "backgroundColor": "#1a1a2e",
-    "duration": 3
+    "defaultBackgroundEffect": "slow-zoom-in"
   },
   "meta": {
-    "name": "My Video",
-    "prompt": "the user's original request",
+    "name": "FitPulse Launch",
+    "prompt": "Create a launch video for a fitness app called FitPulse",
     "mood": ["Energetic"]
   }
 }
 ```
 
-**Key rules:**
-- `audio.beatMarkers` — wrap each time value from the track catalog in `{ "time": value }`
-- `audio.audioUrl` — leave empty, the editor loads it from the track database
-- `scenes[].id` — use "s1", "s2", etc.
-- `timing.beatStart` / `beatEnd` — 0-based beat indices into the beatMarkers array
-- `timing.durationWeight` — 1.0 = normal, 1.3-1.5 = longer (use for animations that need time)
-- `copy` — set to `{}` for coded-animation scenes (they render their own content)
+### Schema Rules
 
-## Asset Types
+- **`audio.audioUrl`** — always leave empty (`""`), the editor loads it from the track database
+- **`audio.beatMarkers`** — wrap each time value: `{ "time": 4.2 }` not just `4.2`
+- **`scenes[].id`** — use `"s1"`, `"s2"`, etc.
+- **`scenes[].templateId`** — must be one of: `fullscreen-media`, `gradient-text`, `counter`, `social-proof`, `product-launch`, `end-screen`
+- **`scenes[].variables`** — keys must match the template's variable schema (see [rules/templates.md](rules/templates.md))
+- **`timing.beatStart` / `beatEnd`** — 0-based indices into the `beatMarkers` array
+- **`timing.durationWeight`** — `1.0` = normal. Use `1.3–1.5` for `counter`, `social-proof`, `product-launch` (they need more time)
+- **`transition` / `backgroundEffect`** — set per-scene to override `style.defaultTransition` / `style.defaultBackgroundEffect`
+- **`textEffect`** — only meaningful for `fullscreen-media` and `gradient-text` (they use global text effect). Set per-scene to override.
+- **`style.font`** — use the full CSS value: `"'Inter', sans-serif"` not `"Inter"` (see [rules/effects-and-style.md](rules/effects-and-style.md) for all options)
+- **`orientation`** — `"portrait"` (1080×1920, default) or `"landscape"` (1920×1080)
+- **`meta.mood`** — array of mood tags matching the track's mood
 
-### Pexels Video (default for most scenes)
-```json
-{ "type": "pexels-video", "url": "", "keyword": "city skyline sunset" }
-```
-Leave `url` empty — the editor auto-fills from Pexels using the keyword. Write descriptive keywords (2-4 words) that find great stock footage.
+### Media Handling
 
-**Default to pexels-video, not pexels-image.** Video footage is almost always more engaging. Only use pexels-image when a still genuinely works better (portrait, product shot, ken-burns landscape). Max 1 pexels-image per video.
-
-### Pexels Image
-```json
-{ "type": "pexels-image", "url": "", "keyword": "portrait woman smiling" }
-```
-
-### Gradient (for branded/text-focused scenes)
-```json
-{
-  "type": "gradient",
-  "gradientConfig": {
-    "colors": ["#1a1a2e", "#e94560"],
-    "style": "blobs",
-    "animationSpeed": 0.5
-  }
-}
-```
-Styles: `"solid"` | `"blobs"` | `"waves"` | `"circles"` | `"blob-scene"` | `"layered-waves"` | `"stacked-waves"` | `"blob-scatter"` | `"radial-gradient"` | `"mesh-gradient"`
-
-### Built-in Coded Animations (16 types)
-
-All support an optional `bgColor` field. Set `copy: {}` for these scenes.
-
-**Counter** — single statistic counting up
-```json
-{ "type": "coded-animation", "animationId": "counter", "inputs": { "value": 42, "label": "growth rate", "unit": "%" } }
-```
-
-**Bar Chart** — horizontal bars growing, staggered
-```json
-{ "type": "coded-animation", "animationId": "bar-chart", "inputs": { "title": "Revenue by Quarter", "bars": "Q1:45,Q2:72,Q3:89,Q4:120", "unit": "k" } }
-```
-
-**Progress Ring** — circular progress percentage
-```json
-{ "type": "coded-animation", "animationId": "progress-ring", "inputs": { "value": 87, "label": "Completion rate" } }
-```
-
-**List Reveal** — items appearing one by one
-```json
-{ "type": "coded-animation", "animationId": "list-reveal", "inputs": { "title": "Key Features", "items": "Fast setup,Easy to use,Free forever", "style": "check" } }
-```
-Styles: `"check"`, `"bullet"`, `"number"`. Max 6 items.
-
-**Quote Card** — stylized quote with attribution
-```json
-{ "type": "coded-animation", "animationId": "quote-card", "inputs": { "quote": "The best way to predict the future is to create it.", "author": "Peter Drucker" } }
-```
-
-**Comparison** — side-by-side before/after
-```json
-{ "type": "coded-animation", "animationId": "comparison", "inputs": { "leftLabel": "Before", "leftValue": "2 hours", "rightLabel": "After", "rightValue": "5 minutes", "title": "Setup time" } }
-```
-
-**Stats Dashboard** — multiple metrics in a grid
-```json
-{ "type": "coded-animation", "animationId": "stats-dashboard", "inputs": { "metrics": "10K:Active Users,99.9%:Uptime,50ms:Latency,4.9:Rating", "title": "Platform Metrics" } }
-```
-
-**Feature Grid** — 2x2 feature showcase
-```json
-{ "type": "coded-animation", "animationId": "feature-grid", "inputs": { "features": "Fast:Lightning quick setup,Easy:No code required,Free:Start at $0,Secure:Enterprise grade", "title": "Why Choose Us" } }
-```
-
-**Text Stack** — kinetic typography word reveal
-```json
-{ "type": "coded-animation", "animationId": "text-stack", "inputs": { "words": "Build,Ship,Scale,Repeat", "style": "stack" } }
-```
-Styles: `"stack"`, `"replace"`, `"cascade"`. Max 8 words.
-
-**Social Card** — social media testimonial
-```json
-{ "type": "coded-animation", "animationId": "social-card", "inputs": { "name": "Sarah Chen", "handle": "@sarahchen", "message": "This product changed everything for our team." } }
-```
-
-**Announcement Banner** — bold announcement with impact
-```json
-{ "type": "coded-animation", "animationId": "announcement-banner", "inputs": { "headline": "NOW AVAILABLE", "subtext": "The future of video creation" } }
-```
-
-**Metric Highlight** — single hero metric with flair
-```json
-{ "type": "coded-animation", "animationId": "metric-highlight", "inputs": { "value": 247, "label": "Revenue Growth", "unit": "%", "trend": "up" } }
-```
-Trend: `"up"`, `"down"`, `"neutral"`.
-
-**Testimonial Card** — frosted glass testimonial
-```json
-{ "type": "coded-animation", "animationId": "testimonial-card", "inputs": { "quote": "This transformed how our team ships products.", "name": "Alex Rivera", "title": "CEO of Acme" } }
-```
-
-**Chat Messages** — iMessage-style conversation
-```json
-{ "type": "coded-animation", "animationId": "chat-messages", "inputs": { "messages": "L:Hey have you tried this?,R:Yes it's amazing!,L:Right? Game changer.,R:Totally worth it." } }
-```
-`L` = left/other person, `R` = right/user.
-
-**Tweet Card** — realistic tweet
-```json
-{ "type": "coded-animation", "animationId": "tweet-card", "inputs": { "name": "VanillaSky", "handle": "@vanillasky", "tweet": "Just shipped the biggest update yet.", "verified": "true" } }
-```
-
-**Notification** — push notification banner
-```json
-{ "type": "coded-animation", "animationId": "notification", "inputs": { "app": "VanillaSky", "title": "New feature available", "message": "Cinematic trailers just got easier. Tap to explore." } }
-```
-
-All 16 animations are React components internally. The config format is unchanged: use `animationId` + `inputs`. The `inputSchema` on each animation type is used by the editor UI for input controls.
-
-## Text Effects
-
-Pick effects that match the mood. Use max 2-3 distinct effects per video.
-
-- **Calm/elegant:** `"fade-in"`, `"blur-in"`, `"typewriter"`, `"slide-up"`
-- **Energetic:** `"slam"`, `"bounce-drop"`, `"scale-pop"`, `"flash-in"`, `"stomp-up"`
-- **Edgy/tech:** `"glitch"`, `"scramble"`, `"neon-flicker"`, `"zoom-through"`
-- **Dramatic:** `"fade-in"`, `"blur-in"`, `"expand"`, `"tracking-expand"`
-
-## Transitions
-
-Use 2-3 types max per video. `crossfade` is the workhorse (~70%).
-
-| Transition | When to use |
-|------------|-------------|
-| `crossfade` | Default — between most scenes |
-| `dip-to-black` | Dramatic pause, structural break |
-| `flash` | High-energy beat drops |
-| `zoom-in` / `zoom-out` | Moving into/revealing detail |
-| `blur-dissolve` | Dream-like, emotional |
-| `slide-left` / `slide-right` | Sequential progression |
-
-## Overlays
-
-Max 2 per scene. Keep intensity subtle.
-
-| Overlay | Intensity | Notes |
-|---------|-----------|-------|
-| `vignette` | 0.4-0.6 | Use on most media scenes |
-| `film-grain` | 0.15-0.25 | Cinematic texture, 2-3 scenes max |
-| `letterbox` | 0.5 | All scenes or none |
-| `light-leak` | 0.3-0.5 | Once for emotional peak |
-| `rgb-split` | 0.3 | Tech/edgy, max 1 scene |
-| `bokeh` | 0.3 | Dreamy, gradient/slow scenes |
-
-## Background Animations
-
-Pick one primary animation and stick with it. Deviate only for contrast.
-
-- `slow-zoom-in` — default, works everywhere
-- `slow-zoom-out` — alternate with zoom-in
-- `ken-burns` — best on images (adds movement to stills)
-- `drift` — calm, introspective
-- `pulse` / `beat-zoom` — high energy, max 1-2 scenes
+- For `fullscreen-media`: set `mediaKeyword` with a descriptive Pexels search keyword (2–4 words). Leave `mediaUrl` empty — the editor auto-fills from Pexels.
+- For `product-launch`: set `screenMediaKeyword` if user doesn't have a screenshot. Or set `screenMediaUrl` directly if they provide one.
+- For `end-screen`: set `logoUrl` if user provided a logo.
+- If the user provides media files/URLs, use them directly in the relevant `mediaUrl` / `screenMediaUrl` / `logoUrl` fields.
 
 ## Saving and Sharing
 
-After building the VideoConfig, save it and return the editor link:
+### Option A: MCP Tools (if available)
 
+If the VanillaSky MCP server is configured, use the tools directly:
+
+- **`save_config`** — saves config, returns `{ id, url }`
+- **`search_pexels`** — search stock footage: `{ query, type: "video"|"photo", per_page, orientation }`
+- **`list_tracks`** — get available tracks with metadata
+
+### Option B: Bash Fallback
+
+If MCP tools are not available, use fetch commands:
+
+**Save config:**
 ```bash
 node -e "
 const config = <YOUR_CONFIG_JSON>;
@@ -336,12 +227,7 @@ console.log('https://vanillasky.app/create?config=' + id);
 "
 ```
 
-This returns a short link like `https://vanillasky.app/create?config=a1b2c3d4` that opens the video in VanillaSky's editor, fully loaded and ready to preview.
-
-## Searching for Stock Media
-
-To find specific Pexels videos or images before building the config:
-
+**Search Pexels (optional — usually keywords are enough):**
 ```bash
 node -e "
 const resp = await fetch('https://vjcfvsooygzrwinscobk.supabase.co/functions/v1/search-pexels', {
@@ -357,27 +243,29 @@ console.log(JSON.stringify(data.results?.map(r => ({ id: r.id, src: r.src })), n
 "
 ```
 
-Usually you don't need to pre-search — leaving `url` empty with a good keyword is enough. The editor resolves Pexels URLs automatically. Pre-search is useful when you want to verify a specific keyword returns good results.
+The save endpoint returns a short link like `https://vanillasky.app/create?config=a1b2c3d4` that opens the video in VanillaSky's editor, fully loaded and ready to preview.
 
 ## Example
 
 **User:** "Create a launch video for a fitness app called FitPulse"
 
-**You:** Ask about the brief — target audience, key features, what makes it special.
+**You:** Ask about the brief — target audience, key features, what makes it special, any brand colors or screenshots.
 
-**User:** "It tracks heart rate, calories, steps, and sleep. 10K+ users already. Aimed at everyday athletes."
+**User:** "It tracks heart rate, calories, steps, and sleep. 10K+ users. For everyday athletes. Colors are dark blue (#1a1a3e) and electric green (#00ff88). I have an app screenshot I can share."
 
-**You:** Pick "HipHop Sequence" (energetic mood matches fitness). Propose:
+**You:** This feels like a **Trailer** — cinematic reveal of the app. Pick "HipHop Sequence" (energetic, fitness mood). Propose:
 
-| Scene | Beat | Asset | Why this type | Copy |
-|-------|------|-------|---------------|------|
-| 1 | 0-0 | pexels-video "fitness workout gym" | Strong visual hook — real footage grabs attention | "Get moving." |
-| 2 | 1-1 | pexels-video "runner sunrise trail" | Action footage sells the lifestyle | "Push harder." |
-| 3 | 2-2 | pexels-video "smartwatch close up" | Shows the tech angle | "Track everything." |
-| 4 | 3-3 | list-reveal (Heart Rate, Calories, Steps, Sleep) | 4 features to showcase — staggered reveal works better than text overlay | *(rendered by animation)* |
-| 5 | 4-4 | pexels-video "healthy meal preparation" | Lifestyle footage, breathing room | "Fuel your body." |
-| 6 | 5-5 | gradient (blobs, brand colors) | Brand moment — name, clean and bold | "FitPulse." |
-| 7 | 6-6 | pexels-video "group fitness class energy" | Community energy | "Join thousands." |
-| 8 | 7-7 | pexels-video "person celebrating achievement" | CTA needs emotional footage | "Start free today." |
+| # | Template | Key variables | Why | Copy |
+|---|----------|--------------|-----|------|
+| 1 | fullscreen-media | keyword: "fitness workout gym" | Visual hook — real footage grabs attention | "Get moving." |
+| 2 | fullscreen-media | keyword: "runner sunrise trail" | Action footage sells the lifestyle | "Push harder." |
+| 3 | fullscreen-media | keyword: "smartwatch close up" | Shows the tech angle | "Track everything." |
+| 4 | product-launch | features: "Heart Rate,Calories,Steps,Sleep", deviceType: "phone" | 4 features — device mockup with badges | productName: "FitPulse" |
+| 5 | counter | value: 10000, unit: "+" | Impressive scale metric | label: "Active users" |
+| 6 | fullscreen-media | keyword: "healthy meal preparation" | Lifestyle footage, breathing room | "Fuel your body." |
+| 7 | fullscreen-media | keyword: "group fitness class energy" | Community energy | "Join thousands." |
+| 8 | end-screen | — | CTA + brand | "Start free today." / fitpulse.app |
 
-After confirmation, build the full VideoConfig and save it.
+Brand: dark blue `#1a1a3e` + electric green `#00ff88`. Font: Bebas Neue (bold, energetic). Text effect: `slam`. Background: `slow-zoom-in`.
+
+After confirmation, build the full VideoConfig JSON and save it.
