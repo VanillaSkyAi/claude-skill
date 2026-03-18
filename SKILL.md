@@ -102,7 +102,7 @@ Read these for detailed creative and technical patterns:
 | `gradient-text` | Brand statements, title cards | `headline`, `subtitle` |
 | `counter` | Statistics, metrics | `value`, `label`, `unit` |
 | `social-proof` | Testimonials, reviews | `quote`, `author`, `role`, `rating` |
-| `product-launch` | App/product showcases | `productName`, `tagline`, `features`, `deviceType`, `screenMediaUrl`, `ctaText` |
+| `product-launch` | App/product showcases | `productName`, `tagline`, `features`, `deviceType`, `screenMediaUrl`, `screenMediaKeyword`, `ctaText` |
 | `end-screen` | Closing CTA | `ctaText`, `tagline`, `logoUrl` |
 
 ## VideoConfig Schema
