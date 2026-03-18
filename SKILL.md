@@ -103,6 +103,7 @@ Read these for detailed creative and technical patterns:
 - [rules/templates.md](rules/templates.md) — All 6 templates: variable schemas, duration hints, usage guidelines
 - [rules/effects-and-style.md](rules/effects-and-style.md) — Text effects, background effects, transitions, fonts, brand kit
 - [rules/composition-rules.md](rules/composition-rules.md) — Narrative arc, template mix, pacing, copy best practices
+- [rules/custom-animations.md](rules/custom-animations.md) — Creative patterns, anti-patterns, and code examples for custom animation scenes
 - [rules/video-types.md](rules/video-types.md) — Presets: Ad, Trailer, Showreel, Social
 - [rules/audio-tracks.md](rules/audio-tracks.md) — Track catalog with energy curves and best-for tags
 
