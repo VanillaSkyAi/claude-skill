@@ -190,6 +190,7 @@ Read these for detailed creative and technical patterns:
 
 ### Schema Rules
 
+- **`audio` object is REQUIRED** — without it, beat-based timing breaks and all scenes fall back to 3s fixed duration. Always include the full audio object with `trackId`, `audioUrl`, `duration`, `beatDetection`, and `beatMarkers`.
 - **`audio.audioUrl`** — always leave empty (`""`), the editor loads it from the track database
 - **`audio.beatMarkers`** — wrap each time value: `{ "time": 4.2 }` not just `4.2`
 - **`scenes[].id`** — use `"s1"`, `"s2"`, etc.
