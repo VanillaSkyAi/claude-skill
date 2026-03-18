@@ -33,7 +33,21 @@ Ask naturally as part of the brief conversation:
 
 If they don't have these, that's fine — defaults look professional. They can always customize in the editor later.
 
-### 3. Detect Video Type
+### 3. Format — Vertical or Horizontal?
+
+Ask in plain terms the user understands:
+
+- "Is this for **TikTok, Instagram Reels, or YouTube Shorts**? → **Vertical** (9:16 portrait, 1080×1920)"
+- "Or more for **YouTube, LinkedIn, or a website**? → **Horizontal** (16:9 landscape, 1920×1080)"
+
+If they say "social" or mention a specific platform, infer:
+- TikTok / Reels / Shorts / Stories / Pinterest → `"portrait"`
+- YouTube / LinkedIn / Website / Presentation / TV → `"landscape"`
+- If unclear, default to `"portrait"` — most video today is vertical
+
+Set `orientation` in the config accordingly.
+
+### 4. Detect Video Type
 
 Infer from context or ask. Types shape the starting structure:
 - **Ad** (15–30s) — hook fast, show value, drive action
@@ -43,7 +57,7 @@ Infer from context or ask. Types shape the starting structure:
 
 See [rules/video-types.md](rules/video-types.md) for detailed presets. These are starting points — adapt freely.
 
-### 4. Pick a Music Track
+### 5. Pick a Music Track
 
 Choose from the catalog based on mood and video type. See [rules/audio-tracks.md](rules/audio-tracks.md) for full descriptions.
 
@@ -55,7 +69,7 @@ Choose from the catalog based on mood and video type. See [rules/audio-tracks.md
 | Shadows at the Gate | 31.4s | Thriller, Cinematic | Security, fintech, dark themes |
 | Pulse in the Dark | 25s | Trailer, Thriller | Social ads, short trailers, urgency |
 
-### 5. Propose a Scene Plan
+### 6. Propose a Scene Plan
 
 Present a transparent table showing each scene's template, content, and reasoning:
 
@@ -70,15 +84,15 @@ Present a transparent table showing each scene's template, content, and reasonin
 
 Be transparent about template choices. Explain why a `counter` is worth it (the number is impressive) or why `social-proof` fits (strong testimonial available).
 
-### 6. User Confirms or Tweaks
+### 7. User Confirms or Tweaks
 
 Wait for approval. Adjust based on feedback.
 
-### 7. Build the VideoConfig
+### 8. Build the VideoConfig
 
 Compose the full JSON. See schema below and [rules/templates.md](rules/templates.md) for variable details.
 
-### 8. Save and Share
+### 9. Save and Share
 
 Save the config and return the editor link. The user can preview, customize, and export in VanillaSky's browser-based editor.
 
