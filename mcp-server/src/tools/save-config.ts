@@ -28,6 +28,6 @@ export async function saveConfig(config: unknown): Promise<SaveConfigResult> {
   const { id } = (await resp.json()) as { id: string };
   return {
     id,
-    url: `https://vanillasky.app/create?config=${id}`,
+    url: `https://vanillasky.ai/create?config=${id}`,
   };
 }

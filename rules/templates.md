@@ -33,7 +33,7 @@ Full-screen background video or image with centered text overlay. Best for estab
 | `headline` | string | yes | "Your headline here." | Main text overlay |
 | `subtitle` | string | no | "" | Secondary text below headline |
 | `mediaUrl` | media | no | — | Video or image URL for background |
-| `mediaKeyword` | string | no | "" | Pexels search keyword (auto-fills mediaUrl) |
+| `mediaKeyword` | string | no | "" | Pexels search keyword (editor auto-fills mediaUrl on load) |
 
 - **Min duration:** 1.5s | **Preferred:** 3s
 - **Global effects:** text effect, transition, background effect

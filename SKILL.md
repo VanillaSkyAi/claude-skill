@@ -190,7 +190,7 @@ Read these for detailed creative and technical patterns:
 
 ### Media Handling
 
-- For `fullscreen-media`: set `mediaKeyword` with a descriptive Pexels search keyword (2–4 words). Leave `mediaUrl` empty — the editor auto-fills from Pexels.
+- For `fullscreen-media`: set `mediaKeyword` with a descriptive Pexels search keyword (2–4 words). Leave `mediaUrl` empty — the editor auto-fills the top Pexels result on load.
 - For `product-launch`: set `screenMediaKeyword` if user doesn't have a screenshot. Or set `screenMediaUrl` directly if they provide one.
 - For `end-screen`: set `logoUrl` if user provided a logo.
 - If the user provides media files/URLs, use them directly in the relevant `mediaUrl` / `screenMediaUrl` / `logoUrl` fields.
@@ -223,7 +223,7 @@ const resp = await fetch('https://vjcfvsooygzrwinscobk.supabase.co/functions/v1/
 });
 if (!resp.ok) { const err = await resp.json(); console.error('Error:', err.error); process.exit(1); }
 const { id } = await resp.json();
-console.log('https://vanillasky.app/create?config=' + id);
+console.log('https://vanillasky.ai/create?config=' + id);
 "
 ```
 
@@ -243,7 +243,7 @@ console.log(JSON.stringify(data.results?.map(r => ({ id: r.id, src: r.src })), n
 "
 ```
 
-The save endpoint returns a short link like `https://vanillasky.app/create?config=a1b2c3d4` that opens the video in VanillaSky's editor, fully loaded and ready to preview.
+The save endpoint returns a short link like `https://vanillasky.ai/create?config=a1b2c3d4` that opens the video in VanillaSky's editor, fully loaded and ready to preview.
 
 ## Example
 

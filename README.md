@@ -2,7 +2,7 @@
 
 Create cinematic beat-synced videos from your terminal. Describe what you want, and Claude composes a professional video — scene by scene, synced to music, with transitions, effects, and brand colors. No video editing experience needed.
 
-[VanillaSky](https://vanillasky.app) is a cinematic video creator. This skill lets you use it directly from Claude Code.
+[VanillaSky](https://vanillasky.ai) is a cinematic video creator. This skill lets you use it directly from Claude Code.
 
 ## Installation
 
