@@ -181,7 +181,7 @@ Read these for detailed creative and technical patterns:
 - **`scenes[].templateId`** — must be one of: `fullscreen-media`, `gradient-text`, `counter`, `social-proof`, `product-launch`, `end-screen`
 - **`scenes[].variables`** — keys must match the template's variable schema (see [rules/templates.md](rules/templates.md))
 - **`timing.beatStart` / `beatEnd`** — 0-based indices into the `beatMarkers` array
-- **`timing.durationWeight`** — `1.0` = normal. Use `1.3–1.5` for `counter`, `social-proof`, `product-launch` (they need more time)
+- **`timing.durationWeight`** — `1.0` = normal. Use `1.3–1.5` for `counter`, `social-proof`, `product-launch` (they need more time). **Check the duration budget in [rules/composition-rules.md](rules/composition-rules.md) — scenes that are too short for their animations look broken.**
 - **`transition` / `backgroundEffect`** — set per-scene to override `style.defaultTransition` / `style.defaultBackgroundEffect`
 - **`textEffect`** — only meaningful for `fullscreen-media` and `gradient-text` (they use global text effect). Set per-scene to override.
 - **`style.font`** — use the full CSS value: `"'Inter', sans-serif"` not `"Inter"` (see [rules/effects-and-style.md](rules/effects-and-style.md) for all options)

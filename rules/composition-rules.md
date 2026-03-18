@@ -138,13 +138,47 @@ For end-screen `ctaText`:
 | "[Product] — [value prop]." | "Flowstate — focus, amplified." |
 | "Try [product] free." | "Try Flowstate free." |
 
-## Pacing
+## Pacing & Duration Budget
+
+### Duration Budget Rule (Non-Negotiable)
+
+Before composing, calculate the time budget to prevent scenes from being too short for their animations:
+
+**Minimum durations per template:**
+
+| Template | Minimum | Preferred | Notes |
+|----------|---------|-----------|-------|
+| `fullscreen-media` | 1.5s | 3s | Can go shorter for fast cuts |
+| `gradient-text` | 1.5s | 2.5s | Text needs time to read |
+| `counter` | 2s | 3s | Count-up animation needs time |
+| `social-proof` | 2.5s | 3.5s | Quote + author + stars stagger |
+| `product-launch` | 3s | 4s | Device + badges + CTA entrance |
+| `end-screen` | 2s | 3s | Logo + CTA + tagline stagger |
+
+**Budget check:** Sum all preferred durations. If total exceeds track duration, reduce scene count — don't compress complex templates below their minimum.
+
+**Example:** Shadow Countdown (27.6s) with 8 scenes:
+- 4× fullscreen-media (3s) + 1× gradient-text (2.5s) + 1× counter (3s) + 1× social-proof (3.5s) + 1× end-screen (3s) = **27s** — fits perfectly
+- Adding a product-launch (4s) would push to 28s — drop a fullscreen-media instead
+
+**Max scene counts per track:**
+
+| Track | Duration | Max scenes (comfortable) |
+|-------|----------|-------------------------|
+| Pulse in the Dark | 25s | 6–7 |
+| Shadow Countdown | 27.6s | 7–8 |
+| HipHop Sequence | 27.4s | 7–8 |
+| Shadows at the Gate | 31.4s | 8–9 |
+| Momentum Theme | 37.4s | 10–12 |
+
+### Timing Rules
 
 - **Beat distribution:** Each scene gets 1–2 beats. Give `counter`, `social-proof`, and `product-launch` at least 2 beats (set `durationWeight: 1.3–1.5`).
-- **Breathing room:** Don't cram 10 scenes into 8 beats. 6–8 scenes for an 8-beat track is ideal.
+- **Breathing room:** Don't cram scenes — respect the budget table above.
 - **Energy matching:** High-energy beats → `slam`/`flash`/`zoom-through`. Calm moments → `fade-in`/`crossfade`.
 - **Accelerate toward climax:** Scenes get shorter (1 beat each) as energy builds toward the peak.
 - **End with space:** Last 2 scenes should breathe — don't rush the CTA.
+- **Never give `product-launch` only 1 beat** — the device + badges animation needs at least 3s to play out.
 
 ## Scene Plan Format
 
