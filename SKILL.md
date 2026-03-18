@@ -195,6 +195,47 @@ Read these for detailed creative and technical patterns:
 - For `end-screen`: set `logoUrl` if user provided a logo.
 - If the user provides media files/URLs, use them directly in the relevant `mediaUrl` / `screenMediaUrl` / `logoUrl` fields.
 
+## Pre-Save Validation Checklist
+
+**Run these checks before saving the config. Fix any failures.**
+
+### 1. Beat overlap check
+Each beat index must belong to only one scene. A scene with `beatEnd: N` claims beats through index N (extends to `beatMarkers[N+1]`).
+
+```
+For each scene, list its claimed beats: range(beatStart, beatEnd) inclusive.
+Verify no beat index appears in more than one scene.
+```
+
+**Example (correct):** 8 scenes, 8 beats
+```
+s1: beat 0     s2: beat 1     s3: beat 2     s4: beat 3
+s5: beat 4     s6: beat 5     s7: beat 6     s8: beat 7
+```
+
+**Example (WRONG):** s2 takes 2 beats, s6 and s7 collide
+```
+s1: beat 0     s2: beats 1-2  s3: beat 3     s4: beat 4
+s5: beat 5     s6: beat 6     s7: beat 6 ← OVERLAP!  s8: beat 7
+```
+
+### 2. Scene count vs beat count
+Total beat slots used must equal total beats available. If a scene uses 2 beats (`beatStart:1, beatEnd:2`), it consumes 2 slots, so you need one fewer scene.
+
+```
+beat_slots_used = sum of (beatEnd - beatStart + 1) for each scene
+beat_slots_used must equal len(beatMarkers)
+```
+
+### 3. Duration budget
+Sum preferred durations and compare to track duration. See [rules/composition-rules.md](rules/composition-rules.md) for minimum durations per template.
+
+### 4. Template variables
+Each scene's `variables` keys must match its template's schema. Required fields must be set. See [rules/templates.md](rules/templates.md).
+
+### 5. Last scene is end-screen
+The final scene should use the `end-screen` template with a CTA.
+
 ## Saving and Sharing
 
 ### Option A: MCP Tools (if available)
