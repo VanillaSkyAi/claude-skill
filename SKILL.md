@@ -180,7 +180,7 @@ Read these for detailed creative and technical patterns:
 - **`scenes[].id`** — use `"s1"`, `"s2"`, etc.
 - **`scenes[].templateId`** — must be one of: `fullscreen-media`, `gradient-text`, `counter`, `social-proof`, `product-launch`, `end-screen`
 - **`scenes[].variables`** — keys must match the template's variable schema (see [rules/templates.md](rules/templates.md))
-- **`timing.beatStart` / `beatEnd`** — 0-based indices into the `beatMarkers` array
+- **`timing.beatStart` / `beatEnd`** — 0-based indices into the `beatMarkers` array. **`beatEnd` is inclusive** — a scene extends from `beatMarkers[beatStart]` to `beatMarkers[beatEnd + 1]`. So for 8 scenes on 8 beats, assign `beatStart:0,beatEnd:0` / `beatStart:1,beatEnd:1` / ... / `beatStart:7,beatEnd:7`. Give a scene 2 beats with `beatStart:3,beatEnd:4` (extends to beat 5). **Never overlap** — each beat index should be used by only one scene.
 - **`timing.durationWeight`** — `1.0` = normal. Use `1.3–1.5` for `counter`, `social-proof`, `product-launch` (they need more time). **Check the duration budget in [rules/composition-rules.md](rules/composition-rules.md) — scenes that are too short for their animations look broken.**
 - **`transition` / `backgroundEffect`** — set per-scene to override `style.defaultTransition` / `style.defaultBackgroundEffect`
 - **`textEffect`** — only meaningful for `fullscreen-media` and `gradient-text` (they use global text effect). Set per-scene to override.
