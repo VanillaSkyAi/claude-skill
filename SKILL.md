@@ -257,8 +257,8 @@ The text transitions happen within one scene — the background stays continuous
 - **`audio.audioUrl`** — always leave empty (`""`), the editor loads it from the track database
 - **`audio.beatMarkers`** — wrap each time value: `{ "time": 4.2 }` not just `4.2`
 - **`scenes[].id`** — use `"s1"`, `"s2"`, etc.
-- **`scenes[].templateId`** — must be one of: `bg-solid`, `bg-photo`, `bg-video`, `bg-gradient-linear`, `bg-gradient-radial`, `bg-confetti`, `bg-stars`, `bg-particles`, `bg-geometric`, `bg-aurora`, `counter`, `social-proof`, `product-launch`, `end-screen`, `stat-grid`, `feature-list`, `text-stack`, `split-compare`
-- **`scenes[].variables`** — keys must match the template's variable schema (see [rules/templates.md](rules/templates.md))
+- **`scenes[].templateId`** — call `list_templates` MCP tool to get current available templates. NEVER hardcode template IDs — the list changes as templates are added/removed.
+- **`scenes[].variables`** — keys must match the template's variable schema (returned by `list_templates`)
 - **`timing.beatStart` / `beatEnd`** — 0-based indices into the `beatMarkers` array. **`beatEnd` is inclusive** — a scene extends from `beatMarkers[beatStart]` to `beatMarkers[beatEnd + 1]`. So for 8 scenes on 8 beats, assign `beatStart:0,beatEnd:0` / `beatStart:1,beatEnd:1` / ... / `beatStart:7,beatEnd:7`. Give a scene 2 beats with `beatStart:3,beatEnd:4` (extends to beat 5). **Never overlap** — each beat index should be used by only one scene.
 - **`timing.durationWeight`** — `1.0` = normal. Use `1.3–1.5` for `counter`, `social-proof`, `product-launch`, `stat-grid`, `split-compare` (they need more time). **Check the duration budget in [rules/composition-rules.md](rules/composition-rules.md) — scenes that are too short for their animations look broken.**
 - **`transition` / `backgroundEffect`** — set per-scene to override `style.defaultTransition` / `style.defaultBackgroundEffect`
@@ -321,8 +321,9 @@ The final scene should use the `end-screen` template with a CTA.
 
 If the VanillaSky MCP server is configured, use the tools directly:
 
-- **`save_config`** — saves config, returns `{ id, url }`
+- **`list_templates`** — **CALL THIS FIRST** before composing scenes. Returns all available templates with variables, durations, usage tips. Optionally filter by category.
 - **`list_tracks`** — get available tracks with metadata
+- **`save_config`** — saves config, returns `{ id, url }`
 - **`scrape_url`** — scrape a website for brand info: `{ url }` → returns title, description, headlines, images, brandColors, favicon
 
 ### Option B: Bash Fallback

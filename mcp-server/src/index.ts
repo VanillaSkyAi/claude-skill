@@ -5,6 +5,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod";
 import { saveConfig } from "./tools/save-config.js";
 import { listTracks } from "./tools/list-tracks.js";
+import { listTemplates } from "./tools/list-templates.js";
 import { scrapeUrl } from "./tools/scrape-url.js";
 
 const server = new McpServer({
@@ -68,6 +69,32 @@ server.tool(
         {
           type: "text" as const,
           text: JSON.stringify(tracks, null, 2),
+        },
+      ],
+    };
+  },
+);
+
+// ─── list_templates ───────────────────────────────────────
+
+server.tool(
+  "list_templates",
+  "List available scene templates for VanillaSky videos. Returns template metadata including variables, duration hints, usage guidance, and copy tips. Optionally filter by category. Call this BEFORE composing scenes to get the current template list — never hardcode template IDs.",
+  {
+    category: z
+      .string()
+      .optional()
+      .describe(
+        "Filter by category (e.g. 'background'). Omit to get all templates.",
+      ),
+  },
+  async ({ category }) => {
+    const templates = listTemplates(category);
+    return {
+      content: [
+        {
+          type: "text" as const,
+          text: JSON.stringify(templates, null, 2),
         },
       ],
     };
