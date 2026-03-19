@@ -244,6 +244,25 @@ const TEMPLATES: Template[] = [
     whenToUse: "Completion rates, satisfaction scores, performance metrics. The circular fill is visually satisfying. Max 1 per video.",
     copyTip: "High percentages (75%+) feel positive. Label should explain what the number means.",
   },
+  {
+    id: "chart-pie",
+    label: "Pie Chart",
+    category: "chart",
+    description: "Animated donut chart with 2-5 segments filling sequentially. Each segment is a different shade of the chart color. Decorative — text tells the story.",
+    tags: ["pie", "donut", "breakdown", "share", "proportion"],
+    variables: [
+      { name: "texts", type: "string", required: true, default: "Market breakdown.", description: "Comma-separated text entries with optional |effect per entry" },
+      { name: "segments", type: "string", required: true, default: "Product:40,Marketing:25,Engineering:20,Other:15", description: "Comma-separated label:value pairs. Values are percentages that should sum to ~100." },
+      { name: "chartColor", type: "color", required: false, default: "#00e5a0", description: "Base color for segments (each gets a different opacity/shade). Green = growth, blue = trust, orange = energy." },
+      { name: "textColor", type: "color", required: false, default: "", description: "Override text color (leave empty for auto)" },
+    ],
+    minDuration: 2,
+    preferredDuration: 3,
+    usesGlobalTextEffect: true,
+    usesGlobalBackgroundEffect: false,
+    whenToUse: "Market share, budget allocation, audience breakdown — any time you need to show proportions. Segments fill sequentially for cinematic reveal. Max 1 per video.",
+    copyTip: "Text tells the story: 'Where the money goes.' Segments are decorative — use 2-4 for clarity, values should sum to ~100.",
+  },
 ];
 
 export function listTemplates(category?: string): Template[] {
