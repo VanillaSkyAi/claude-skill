@@ -131,39 +131,11 @@ Read these for detailed creative and technical patterns:
 - [rules/video-types.md](rules/video-types.md) — Presets: Ad, Trailer, Showreel, Social
 - [rules/audio-tracks.md](rules/audio-tracks.md) — Track catalog with energy curves and best-for tags
 
-## Templates (Quick Reference)
+## Templates
 
-18 React templates in two categories. Each scene references one by `templateId` and passes `variables`.
+**Call `list_templates` to get the current template list.** It returns each template's ID, variables, duration, usage tips, and copy guidance. Never hardcode template IDs — they change as templates are added and removed.
 
-### Background Templates (bg-*)
-
-All bg-* templates use the `texts` variable — comma-separated entries with optional `|effect` per entry. The background stays continuous while text entries transition within the scene.
-
-| Template | Use for | Key variables |
-|----------|---------|---------------|
-| `bg-solid` | Brand statements, title cards, clean text | `texts`, `textColor` |
-| `bg-photo` | Photo backgrounds, mood, lifestyle | `texts`, `mediaUrl`, `mediaKeyword`, `textColor` |
-| `bg-video` | Video backgrounds, hooks, action | `texts`, `mediaUrl`, `mediaKeyword`, `textColor` |
-| `bg-gradient-linear` | Stylish text, rotating gradients | `texts`, `textColor` |
-| `bg-gradient-radial` | Glowing text, breathing backgrounds | `texts`, `textColor` |
-| `bg-confetti` | Celebrations, launches, energy | `texts`, `textColor` |
-| `bg-stars` | Night sky, space, wonder | `texts`, `textColor` |
-| `bg-particles` | Soft bokeh, dreamy, ambient | `texts`, `textColor` |
-| `bg-geometric` | Tech, precision, modern | `texts`, `textColor` |
-| `bg-aurora` | Flowing color, premium, creative | `texts`, `textColor` |
-
-### Content Templates
-
-| Template | Use for | Key variables |
-|----------|---------|---------------|
-| `counter` | Statistics, metrics | `value`, `label`, `unit` |
-| `social-proof` | Testimonials, reviews | `quote`, `author`, `role`, `rating` |
-| `product-launch` | App/product showcases | `productName`, `tagline`, `features`, `deviceType`, `screenMediaUrl`, `screenMediaKeyword`, `ctaText` |
-| `end-screen` | Closing CTA | `ctaText`, `tagline`, `logoUrl` |
-| `stat-grid` | Dashboards, fact panels, 2-4 metrics | `stat1Label`, `stat1Value`, `stat1Detail`, `stat2Label`, `stat2Value`, ... |
-| `feature-list` | Feature reveals, checklists, bullet points | `items` (comma-separated), `title`, `style_variant` |
-| `text-stack` | Sequential statements, dramatic reveals | `lines` (comma-separated), `highlightIndex`, `alignment` |
-| `split-compare` | Before/after, A vs B comparisons | `leftLabel`, `rightLabel`, `leftMediaKeyword`, `rightMediaKeyword` |
+Templates are organized by category. Each scene in a video references one template by `templateId` and passes `variables`.
 
 ### The `texts` Variable Format
 
