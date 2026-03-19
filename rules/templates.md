@@ -1,20 +1,28 @@
 ---
 name: templates
-description: All 6 scene templates — variable schemas, duration hints, usage guidelines
+description: All 18 scene templates — variable schemas, duration hints, usage guidelines
 metadata:
   tags: templates, scenes, variables, schema
 ---
 
 # Scene Templates
 
-10 built-in templates. Each scene in a video references one template by `templateId` and passes `variables`.
+18 built-in templates in two categories: **background** (bg-*) and **content**. Each scene in a video references one template by `templateId` and passes `variables`.
 
 ## Quick Reference
 
 | ID | Label | Category | Duration | Global Effects |
 |----|-------|----------|----------|----------------|
-| `fullscreen-media` | Fullscreen Media | media | 1.5–3s | text, transition, bg |
-| `gradient-text` | Gradient Text | typography | 1.5–2.5s | text, transition, bg |
+| `bg-solid` | Solid Color | background | 1.5–3s | text, transition, bg |
+| `bg-photo` | Photo Background | background | 1.5–3s | text, transition, bg |
+| `bg-video` | Video Background | background | 1.5–3s | text, transition, bg |
+| `bg-gradient-linear` | Linear Gradient | background | 1.5–2.5s | text, transition, bg |
+| `bg-gradient-radial` | Radial Gradient | background | 1.5–2.5s | text, transition, bg |
+| `bg-confetti` | Confetti | background | 1.5–2.5s | text, transition, bg |
+| `bg-stars` | Starfield | background | 1.5–2.5s | text, transition, bg |
+| `bg-particles` | Particles | background | 1.5–2.5s | text, transition, bg |
+| `bg-geometric` | Geometric Grid | background | 1.5–2.5s | text, transition, bg |
+| `bg-aurora` | Aurora | background | 1.5–2.5s | text, transition, bg |
 | `counter` | Counter | data-viz | 2–3s | transition only |
 | `social-proof` | Social Proof | social-proof | 2.5–3.5s | transition only |
 | `product-launch` | Product Launch | product | 3–4s | transition only |
@@ -26,41 +34,212 @@ metadata:
 
 ---
 
-## fullscreen-media
+## The `texts` Variable (All bg-* Templates)
 
-Full-screen background video or image with centered text overlay. Best for establishing shots, mood setting, hero moments, and simple messaging. The most versatile scene type.
+All background templates share the `texts` variable format:
 
-**Variables:**
+```
+"First line|zoom-in,Second line|slam,Third line"
+```
 
-| Name | Type | Required | Default | Description |
-|------|------|----------|---------|-------------|
-| `headline` | string | yes | "Your headline here." | Main text overlay |
-| `subtitle` | string | no | "" | Secondary text below headline |
-| `mediaUrl` | media | no | — | Video or image URL for background |
-| `mediaKeyword` | string | no | "" | Pexels search keyword (editor auto-fills mediaUrl on load) |
+**Rules:**
+- Comma separates entries — each gets equal time within the scene
+- Pipe (`|`) optionally overrides the text effect for that entry
+- Without pipe: uses the scene's global text effect
+- 1 entry = hero size, 2 = headline size, 3+ = slightly smaller
+- Max 8 entries
 
-- **Min duration:** 1.5s | **Preferred:** 3s
-- **Global effects:** text effect, transition, background effect
-- **When to use:** Default for most scenes. Real footage grabs attention. Use for hooks, lifestyle shots, product-in-context, action footage.
-- **Copy tip:** 1–5 words, power verbs, end with period. "Get moving." / "Ship faster."
+**Examples:**
+- Single text: `"Get moving."` — one entry, displayed big (hero size)
+- Two texts: `"Get moving.,Push harder."` — two sequential entries (headline size)
+- With effects: `"Get moving.|slam,Push harder.|zoom-in"` — per-entry effects
+- Three texts: `"Built.,Tested.,Shipped."` — three entries, slightly smaller
+
+The text transitions happen within one scene — the background stays continuous. This lets you build dramatic sequences (reveal, build, payoff) without cutting the visual.
 
 ---
 
-## gradient-text
+## bg-solid
 
-Animated gradient background with large centered text. Great for title cards, chapter markers, key statements, and transitions between sections. Uses brand colors.
+Solid color background with accent glow and centered text overlay. Clean, minimal, brand-focused. Uses the brand kit's `bg` color as the background and `accent` for the glow effect.
 
 **Variables:**
 
 | Name | Type | Required | Default | Description |
 |------|------|----------|---------|-------------|
-| `headline` | string | yes | "Your message." | Main text |
-| `subtitle` | string | no | "" | Secondary text |
+| `texts` | string | yes | "Your message." | Comma-separated text entries (see format above) |
+| `textColor` | color | no | "#ffffff" | Text color override |
 
 - **Min duration:** 1.5s | **Preferred:** 2.5s
 - **Global effects:** text effect, transition, background effect
-- **When to use:** Brand moments — logo reveal, thesis statements, chapter breaks. Max 1-2 per video.
-- **Copy tip:** Can handle 5–15 words. Good for thesis statements. "Every cup tells a story." / "Built for teams that ship."
+- **When to use:** Brand statements, title cards, chapter breaks, thesis statements. The simplest bg template — when you want text with no visual distractions. Max 2 per video.
+- **Copy tip:** 1–15 words per entry. Great for thesis statements: `"Every cup tells a story."` or punchy hooks: `"Built different."`
+
+---
+
+## bg-photo
+
+Photo background with Ken Burns effect and centered text overlay. The most versatile background template — real photography sets mood and context while text delivers the message.
+
+**Variables:**
+
+| Name | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `texts` | string | yes | "Your headline here." | Comma-separated text entries (see format above) |
+| `mediaUrl` | media | no | — | Photo URL for background |
+| `mediaKeyword` | string | no | "" | Pexels search keyword (editor auto-fills mediaUrl on load) |
+| `textColor` | color | no | "#ffffff" | Text color override |
+
+- **Min duration:** 1.5s | **Preferred:** 3s
+- **Global effects:** text effect, transition, background effect
+- **When to use:** Lifestyle shots, mood setting, product-in-context, establishing shots. Photo backgrounds feel premium and editorial.
+- **Copy tip:** 1–5 words per entry, power verbs, end with period. `"Get moving."` / `"Ship faster."`
+
+---
+
+## bg-video
+
+Video background with zoom effect and centered text overlay. Real footage grabs attention — this is the hook template. Use for action shots, lifestyle footage, and any scene where motion sells the message.
+
+**Variables:**
+
+| Name | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `texts` | string | yes | "Your headline here." | Comma-separated text entries (see format above) |
+| `mediaUrl` | media | no | — | Video URL for background |
+| `mediaKeyword` | string | no | "" | Pexels search keyword (editor auto-fills mediaUrl on load) |
+| `textColor` | color | no | "#ffffff" | Text color override |
+
+- **Min duration:** 1.5s | **Preferred:** 3s
+- **Global effects:** text effect, transition, background effect
+- **When to use:** Hooks (scene 1), action footage, energy moments, lifestyle. Video backgrounds are the most attention-grabbing — use for your most important scenes.
+- **Copy tip:** 1–5 words per entry. Let the footage do the talking — text should complement, not compete. `"Push harder."` over `"Our app helps you push harder."`
+
+---
+
+## bg-gradient-linear
+
+Rotating linear gradient background with centered text. Stylish, modern — the gradient slowly rotates during the scene for subtle visual interest. Uses brand colors.
+
+**Variables:**
+
+| Name | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `texts` | string | yes | "Your message." | Comma-separated text entries (see format above) |
+| `textColor` | color | no | "#ffffff" | Text color override |
+
+- **Min duration:** 1.5s | **Preferred:** 2.5s
+- **Global effects:** text effect, transition, background effect
+- **When to use:** Brand moments, thesis statements, chapter breaks. A more dynamic alternative to `bg-solid`. Max 1–2 per video.
+- **Copy tip:** 5–15 words. Good for longer statements: `"Built for teams that ship."` / `"The future of video, today."`
+
+---
+
+## bg-gradient-radial
+
+Breathing radial glow background with centered text. A pulsing, centered light effect that feels organic and warm. Great for emotional or reflective moments.
+
+**Variables:**
+
+| Name | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `texts` | string | yes | "Your message." | Comma-separated text entries (see format above) |
+| `textColor` | color | no | "#ffffff" | Text color override |
+
+- **Min duration:** 1.5s | **Preferred:** 2.5s
+- **Global effects:** text effect, transition, background effect
+- **When to use:** Emotional moments, brand reveals, reflective pauses. The breathing glow adds warmth without competing with text. Max 1 per video.
+- **Copy tip:** 5–15 words. Works well for impactful statements: `"This changes everything."` / `"Your story, amplified."`
+
+---
+
+## bg-confetti
+
+Falling colorful particles background with centered text. Celebratory, energetic — confetti rains down while text is displayed. Great for launches, milestones, and positive moments.
+
+**Variables:**
+
+| Name | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `texts` | string | yes | "Your message." | Comma-separated text entries (see format above) |
+| `textColor` | color | no | "#ffffff" | Text color override |
+
+- **Min duration:** 1.5s | **Preferred:** 2.5s
+- **Global effects:** text effect, transition, background effect
+- **When to use:** Celebrations, product launches, milestone announcements, positive energy. Max 1 per video — confetti loses impact when overused.
+- **Copy tip:** Upbeat, celebratory tone: `"We did it!"` / `"Now available."` / `"Launch day."`
+
+---
+
+## bg-stars
+
+Twinkling starfield background with centered text. A night-sky effect with gently twinkling stars. Creates a sense of wonder, ambition, and vastness.
+
+**Variables:**
+
+| Name | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `texts` | string | yes | "Your message." | Comma-separated text entries (see format above) |
+| `textColor` | color | no | "#ffffff" | Text color override |
+
+- **Min duration:** 1.5s | **Preferred:** 2.5s
+- **Global effects:** text effect, transition, background effect
+- **When to use:** Aspirational moments, big vision statements, space/tech themes, nighttime aesthetics. Max 1 per video.
+- **Copy tip:** Ambitious, visionary tone: `"Reach further."` / `"Beyond limits."` / `"The sky is not the limit."`
+
+---
+
+## bg-particles
+
+Soft bokeh circles floating in the background with centered text. Dreamy, ambient, gentle — soft, out-of-focus light circles drift across the scene.
+
+**Variables:**
+
+| Name | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `texts` | string | yes | "Your message." | Comma-separated text entries (see format above) |
+| `textColor` | color | no | "#ffffff" | Text color override |
+
+- **Min duration:** 1.5s | **Preferred:** 2.5s
+- **Global effects:** text effect, transition, background effect
+- **When to use:** Soft moments, beauty/lifestyle brands, premium feel, calm energy. A gentler alternative to `bg-stars`. Max 1 per video.
+- **Copy tip:** Elegant, soft tone: `"Simply beautiful."` / `"Crafted with care."` / `"Feel the difference."`
+
+---
+
+## bg-geometric
+
+Animated grid lines background with centered text. Clean, precise, technical — geometric lines and shapes form a subtle grid pattern that animates behind the text.
+
+**Variables:**
+
+| Name | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `texts` | string | yes | "Your message." | Comma-separated text entries (see format above) |
+| `textColor` | color | no | "#ffffff" | Text color override |
+
+- **Min duration:** 1.5s | **Preferred:** 2.5s
+- **Global effects:** text effect, transition, background effect
+- **When to use:** Tech products, developer tools, precision/engineering themes, SaaS. The grid aesthetic screams "technical" — use when the brand is techy. Max 1 per video.
+- **Copy tip:** Precise, technical tone: `"Engineered to perform."` / `"Zero config."` / `"Built for developers."`
+
+---
+
+## bg-aurora
+
+Flowing color bands background with centered text. Organic, colorful waves of light flow across the scene — like the northern lights. Premium, creative, attention-grabbing.
+
+**Variables:**
+
+| Name | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `texts` | string | yes | "Your message." | Comma-separated text entries (see format above) |
+| `textColor` | color | no | "#ffffff" | Text color override |
+
+- **Min duration:** 1.5s | **Preferred:** 2.5s
+- **Global effects:** text effect, transition, background effect
+- **When to use:** Premium brands, creative agencies, design tools, artistic moments. The most visually striking animated background — use as a hero moment. Max 1 per video.
+- **Copy tip:** Creative, premium tone: `"Create without limits."` / `"Design, reimagined."` / `"Pure artistry."`
 
 ---
 
@@ -239,8 +418,15 @@ Two-column side-by-side comparison with labels and media. Columns slide in from 
 
 | Content need | Best template | Why |
 |-------------|---------------|-----|
-| Visual hook / action footage | `fullscreen-media` | Real footage grabs attention |
-| Brand statement / title card | `gradient-text` | Focus on typography |
+| Visual hook / video footage | `bg-video` | Real video footage grabs attention |
+| Photo background / editorial | `bg-photo` | Photo backgrounds feel premium |
+| Brand statement / title card | `bg-solid` or `bg-gradient-linear` | Focus on typography, clean background |
+| Emotional / reflective moment | `bg-gradient-radial` | Breathing glow adds warmth |
+| Celebration / launch moment | `bg-confetti` | Celebratory energy |
+| Aspirational / big vision | `bg-stars` | Sense of wonder and vastness |
+| Soft / dreamy / premium | `bg-particles` | Gentle bokeh circles |
+| Tech / developer / precision | `bg-geometric` | Grid aesthetic feels technical |
+| Creative / artistic / premium | `bg-aurora` | Flowing color bands, visually striking |
 | Impressive statistic | `counter` | Animated counting is eye-catching |
 | Multiple stats at once | `stat-grid` | Dashboard-style metric cards |
 | Customer quote / review | `social-proof` | Professional testimonial card |
@@ -249,5 +435,5 @@ Two-column side-by-side comparison with labels and media. Columns slide in from 
 | Multi-line dramatic reveal | `text-stack` | Sequential text with highlight |
 | Before/after comparison | `split-compare` | Side-by-side with media |
 | Closing CTA | `end-screen` | Clean brand impact |
-| Lifestyle / mood / context | `fullscreen-media` | Stock video sets the tone |
-| Transition between sections | `gradient-text` | Text-focused pause |
+| Lifestyle / mood / context | `bg-photo` or `bg-video` | Stock media sets the tone |
+| Transition between sections | `bg-solid` or `bg-gradient-linear` | Text-focused pause |

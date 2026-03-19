@@ -13,15 +13,15 @@ Every video follows a 4-act structure, regardless of length:
 
 | Act | Scenes | Purpose | Typical templates | Energy |
 |-----|--------|---------|-------------------|--------|
-| Hook | 1–2 | Grab attention | fullscreen-media | High |
-| Build | 2–3 | Establish context | fullscreen-media, gradient-text, product-launch | Rising |
-| Climax | 1–2 | Peak moment | counter, social-proof, fullscreen-media | Peak |
-| CTA | 1–2 | Call to action | fullscreen-media, end-screen | Resolving |
+| Hook | 1–2 | Grab attention | bg-video, bg-photo | High |
+| Build | 2–3 | Establish context | bg-photo, bg-video, bg-solid, product-launch | Rising |
+| Climax | 1–2 | Peak moment | counter, social-proof, bg-video | Peak |
+| CTA | 1–2 | Call to action | bg-photo, end-screen | Resolving |
 
 ## Template Mix (Non-Negotiable)
 
-- **At least 50% `fullscreen-media`** — real footage makes videos feel professional
-- **Max 1–2 `gradient-text`** per video — branded moments only
+- **At least 50% background templates (bg-*)** — they carry the visual storytelling
+- **Max 2 non-media bg templates** per video (bg-solid, bg-gradient-linear, bg-gradient-radial, bg-confetti, bg-stars, bg-particles, bg-geometric, bg-aurora) — branded/animated moments only
 - **Max 1 `counter`** per video — only for genuinely impressive statistics
 - **Max 1 `social-proof`** per video — one powerful testimonial
 - **Max 1 `product-launch`** per video — one product showcase moment
@@ -30,28 +30,28 @@ Every video follows a 4-act structure, regardless of length:
 - **Max 1 `text-stack`** per video — one dramatic text sequence
 - **Max 1 `split-compare`** per video — one comparison moment
 - **Always end with `end-screen`** — clean CTA and brand closure
-- **Never start with `gradient-text`, `counter`, `stat-grid`, or `social-proof`** — scene 1 must be `fullscreen-media`
-- **Never use the same template 3× in a row** — alternate for visual variety
+- **Scene 1 must be a bg-* template** — start with a visual background, never a content template
+- **Never use the same template 3x in a row** — alternate for visual variety
 
 **Typical mixes:**
 | Scenes | Mix |
 |--------|-----|
-| 5 | 3 fullscreen-media + 1 gradient-text + end-screen |
-| 7 | 4 fullscreen-media + 1 gradient-text + 1 counter + end-screen |
-| 8 | 3 fullscreen-media + 1 gradient-text + 1 stat-grid + 1 feature-list + 1 fullscreen-media + end-screen |
-| 10 | 4 fullscreen-media + 1 gradient-text + 1 stat-grid + 1 feature-list + 1 text-stack + 1 social-proof + end-screen |
+| 5 | 3 bg-video/bg-photo + 1 bg-solid + end-screen |
+| 7 | 4 bg-video/bg-photo + 1 bg-gradient-linear + 1 counter + end-screen |
+| 8 | 3 bg-video/bg-photo + 1 bg-aurora + 1 stat-grid + 1 feature-list + 1 bg-photo + end-screen |
+| 10 | 4 bg-video/bg-photo + 1 bg-gradient-linear + 1 stat-grid + 1 feature-list + 1 text-stack + 1 social-proof + end-screen |
 
 ## Scene Flow (Adjacent Scenes)
 
 - **Alternate shot scale:** Don't put two wide/aerial shots or two close-ups back to back — vary the distance
-- **Palate cleanser:** Use `gradient-text` between two similar `fullscreen-media` scenes to break visual monotony
-- **Return to footage after data:** After `counter` or `social-proof`, the next scene should be `fullscreen-media`
+- **Palate cleanser:** Use a non-media bg template (bg-solid, bg-gradient-linear, etc.) between two similar bg-photo/bg-video scenes to break visual monotony
+- **Return to footage after data:** After `counter` or `social-proof`, the next scene should be a bg-photo or bg-video
 - **Vary camera movement:** If one scene uses `drift-left`, the next should be `static`, `slow-zoom-in`, or drift the other way
 - **Match cuts:** When adjacent scenes share a visual element (color, shape, motion direction), use `crossfade` to connect them smoothly
 
 ## Pexels Keyword Strategy
 
-Write descriptive, visual keywords (2–4 words) for `mediaKeyword`. Think cinematically — choose a shot type, then describe the subject.
+Write descriptive, visual keywords (2–4 words) for `mediaKeyword` on `bg-photo` and `bg-video` templates. Think cinematically — choose a shot type, then describe the subject.
 
 ### Cinematic Shot Types
 
@@ -76,15 +76,23 @@ Write descriptive, visual keywords (2–4 words) for `mediaKeyword`. Think cinem
 
 ## Copy Best Practices
 
-### Headlines
+### The `texts` Variable (bg-* Templates)
 
-- **fullscreen-media:** 1–5 words. Power verbs, active voice, end with period.
-  - Good: "Get moving." / "Ship faster." / "Built different."
-  - Bad: "Our amazing new product helps you" — too long, too weak
+All bg-* templates use the `texts` variable. Write entries as comma-separated strings with optional `|effect` per entry:
 
-- **gradient-text:** 5–15 words. Thesis statements, brand messages.
-  - Good: "Every cup tells a story." / "Built for teams that ship."
-  - Bad: "Welcome to our brand video" — generic
+- **Single text:** `"Get moving."` — one entry, hero size
+- **Two texts:** `"Get moving.,Push harder."` — two sequential entries, headline size
+- **With effects:** `"Get moving.|slam,Push harder.|zoom-in"` — per-entry overrides
+- **Three+ texts:** `"Built.,Tested.,Shipped."` — slightly smaller, dramatic sequence
+
+**Guidelines:**
+- 1–5 words per entry for bg-video/bg-photo (let media do the talking)
+- 5–15 words per entry for bg-solid/bg-gradient-* (text is the focus)
+- Power verbs, active voice, end with period
+- Good: `"Ship faster."` / `"Every cup tells a story."`
+- Bad: `"Our amazing new product helps you"` — too long, too weak
+
+### Content Template Copy
 
 - **counter:** Number should be impressive. Label 2–4 words.
   - Good: `value: 50000, label: "Active users", unit: "+"`
@@ -104,12 +112,12 @@ Write descriptive, visual keywords (2–4 words) for `mediaKeyword`. Think cinem
 
 ### Hook Formulas
 
-Use these patterns for scene 1 headlines or gradient-text statements:
+Use these patterns for scene 1 text entries or bg-solid/bg-gradient statements:
 
 | Formula | Example |
 |---------|---------|
 | "The average X loses Y every Z." | "The average team loses 5 hours every week." |
-| "What if you could [benefit]?" | "What if you could ship 10× faster?" |
+| "What if you could [benefit]?" | "What if you could ship 10x faster?" |
 | "Stop [pain point]." | "Stop losing customers." |
 | "[Number] [noun] do this differently." | "10,000 teams do this differently." |
 | "Meet [product name]." | "Meet Flowstate." |
@@ -119,7 +127,7 @@ Use these patterns for scene 1 headlines or gradient-text statements:
 
 ### Visual Hooks (Scene 1 Footage)
 
-The headline hooks above, but the *footage* also grabs attention. Pair a text hook with a visual hook:
+The text hooks above, but the *footage* also grabs attention. Pair a text hook with a visual hook:
 
 | Visual hook | Keyword style | Why it grabs |
 |-------------|---------------|--------------|
@@ -152,8 +160,16 @@ Before composing, calculate the time budget to prevent scenes from being too sho
 
 | Template | Minimum | Preferred | Notes |
 |----------|---------|-----------|-------|
-| `fullscreen-media` | 1.5s | 3s | Can go shorter for fast cuts |
-| `gradient-text` | 1.5s | 2.5s | Text needs time to read |
+| `bg-solid` | 1.5s | 2.5s | Text needs time to read |
+| `bg-photo` | 1.5s | 3s | Can go shorter for fast cuts |
+| `bg-video` | 1.5s | 3s | Can go shorter for fast cuts |
+| `bg-gradient-linear` | 1.5s | 2.5s | Text needs time to read |
+| `bg-gradient-radial` | 1.5s | 2.5s | Text needs time to read |
+| `bg-confetti` | 1.5s | 2.5s | Particles need time to register |
+| `bg-stars` | 1.5s | 2.5s | Stars need time to twinkle |
+| `bg-particles` | 1.5s | 2.5s | Bokeh needs time to register |
+| `bg-geometric` | 1.5s | 2.5s | Grid needs time to animate |
+| `bg-aurora` | 1.5s | 2.5s | Color bands need time to flow |
 | `counter` | 2s | 3s | Count-up animation needs time |
 | `social-proof` | 2.5s | 3.5s | Quote + author + stars stagger |
 | `product-launch` | 3s | 4s | Device + badges + CTA entrance |
@@ -166,8 +182,8 @@ Before composing, calculate the time budget to prevent scenes from being too sho
 **Budget check:** Sum all preferred durations. If total exceeds track duration, reduce scene count — don't compress complex templates below their minimum.
 
 **Example:** Shadow Countdown (27.6s) with 8 scenes:
-- 4× fullscreen-media (3s) + 1× gradient-text (2.5s) + 1× counter (3s) + 1× social-proof (3.5s) + 1× end-screen (3s) = **27s** — fits perfectly
-- Adding a product-launch (4s) would push to 28s — drop a fullscreen-media instead
+- 4x bg-video (3s) + 1x bg-solid (2.5s) + 1x counter (3s) + 1x social-proof (3.5s) + 1x end-screen (3s) = **27s** — fits perfectly
+- Adding a product-launch (4s) would push to 28s — drop a bg-video instead
 
 **Max scene counts per track:**
 
@@ -194,13 +210,13 @@ Always present the plan as a table before building the config:
 
 | # | Template | Key variables | Why this template | Copy / Content |
 |---|----------|--------------|-------------------|----------------|
-| 1 | fullscreen-media | keyword: "fitness workout gym" | Visual hook — real footage grabs attention | "Get moving." |
-| 2 | fullscreen-media | keyword: "runner sunrise trail" | Action footage sells the lifestyle | "Push harder." |
-| 3 | gradient-text | — | Brand statement — needs clean typography | "FitPulse. Your workout, amplified." |
+| 1 | bg-video | keyword: "fitness workout gym" | Visual hook — real footage grabs attention | texts: "Get moving." |
+| 2 | bg-photo | keyword: "runner sunrise trail" | Action footage sells the lifestyle | texts: "Push harder." |
+| 3 | bg-solid | — | Brand statement — clean typography | texts: "FitPulse.,Your workout, amplified." |
 | 4 | counter | value: 10000, unit: "+" | Impressive scale metric | label: "Active users" |
-| 5 | fullscreen-media | keyword: "smartwatch close up" | Tech angle — shows the product in use | "Track everything." |
+| 5 | bg-photo | keyword: "smartwatch close up" | Tech angle — shows the product in use | texts: "Track everything." |
 | 6 | social-proof | author: "Sarah Chen" | Trust signal from real user | quote: "Best fitness app I've ever used." |
-| 7 | fullscreen-media | keyword: "group fitness class" | Community energy | "Join thousands." |
+| 7 | bg-video | keyword: "group fitness class" | Community energy | texts: "Join thousands." |
 | 8 | end-screen | — | CTA + brand | "Start free today." / fitpulse.app |
 
-Be transparent about why each template was chosen. If you're choosing counter over another fullscreen-media, explain what makes the number impressive enough to warrant it.
+Be transparent about why each template was chosen. If you're choosing counter over another bg-video, explain what makes the number impressive enough to warrant it.

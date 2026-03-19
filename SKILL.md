@@ -34,9 +34,9 @@ Ask about:
 | `brandColors.primary` | `style.brandKit.accent` |
 | `brandColors.accent` | `style.brandKit.bg` (or use a dark version) |
 | `title` | Scene copy inspiration, `meta.name` |
-| `description` | Scene copy, subtitle text |
-| `headlines` | Scene headlines — pick the best ones |
-| `ogImage` | `fullscreen-media.mediaUrl` or `product-launch.screenMediaUrl` |
+| `description` | Scene copy, text entries |
+| `headlines` | Scene text entries — pick the best ones |
+| `ogImage` | `bg-photo.mediaUrl` or `product-launch.screenMediaUrl` |
 | `images` | Product screenshots for `product-launch.screenMediaUrl` |
 | `bodyText` | Copy inspiration, feature extraction |
 | `favicon` | Could mention as logo reference (usually too small to use directly) |
@@ -54,7 +54,7 @@ If no URL available, ask naturally:
 - "Do you have **brand colors**?" → `style.brandKit.bg` + `.accent`
 - "**Font preference**?" → `style.font` (or suggest based on mood)
 - "Got a **logo**?" → for `end-screen` logoUrl
-- "Any **existing media** — product screenshots, app screenshots?" → for `product-launch` screenMediaUrl or `fullscreen-media` mediaUrl
+- "Any **existing media** — product screenshots, app screenshots?" → for `product-launch` screenMediaUrl or `bg-photo`/`bg-video` mediaUrl
 
 If they don't have these, that's fine — defaults look professional. They can always customize in the editor later.
 
@@ -100,11 +100,11 @@ Present a transparent table showing each scene's template, content, and reasonin
 
 | # | Template | Key variables | Why this template | Copy / Content |
 |---|----------|--------------|-------------------|----------------|
-| 1 | fullscreen-media | keyword: "coffee shop ambiance" | Visual hook — real footage | "Ritual starts here." |
-| 2 | gradient-text | — | Brand statement — typography focus | "Every cup, a story." |
-| 3 | fullscreen-media | keyword: "barista latte art" | Craftsmanship footage | "Crafted with care." |
+| 1 | bg-video | keyword: "coffee shop ambiance" | Visual hook — real footage | texts: "Ritual starts here." |
+| 2 | bg-solid | — | Brand statement — clean typography | texts: "Every cup, a story." |
+| 3 | bg-photo | keyword: "barista latte art" | Craftsmanship footage | texts: "Crafted with care." |
 | 4 | counter | value: 50000, unit: "+" | Impressive scale | label: "Cups served" |
-| 5 | fullscreen-media | keyword: "coffee beans close up" | Premium product shot | "Premium beans." |
+| 5 | bg-photo | keyword: "coffee beans close up" | Premium product shot | texts: "Premium beans." |
 | 6 | end-screen | — | CTA + brand | "Order now." / ritualroasters.com |
 
 Be transparent about template choices. Explain why a `counter` is worth it (the number is impressive) or why `social-proof` fits (strong testimonial available).
@@ -125,7 +125,7 @@ Save the config and return the editor link. The user can preview, customize, and
 
 Read these for detailed creative and technical patterns:
 
-- [rules/templates.md](rules/templates.md) — All 10 templates: variable schemas, duration hints, usage guidelines
+- [rules/templates.md](rules/templates.md) — All 18 templates: variable schemas, duration hints, usage guidelines
 - [rules/effects-and-style.md](rules/effects-and-style.md) — Text effects, background effects, transitions, fonts, brand kit
 - [rules/composition-rules.md](rules/composition-rules.md) — Narrative arc, template mix, pacing, copy best practices
 - [rules/video-types.md](rules/video-types.md) — Presets: Ad, Trailer, Showreel, Social
@@ -133,12 +133,29 @@ Read these for detailed creative and technical patterns:
 
 ## Templates (Quick Reference)
 
-10 React templates. Each scene references one by `templateId` and passes `variables`.
+18 React templates in two categories. Each scene references one by `templateId` and passes `variables`.
+
+### Background Templates (bg-*)
+
+All bg-* templates use the `texts` variable — comma-separated entries with optional `|effect` per entry. The background stays continuous while text entries transition within the scene.
 
 | Template | Use for | Key variables |
 |----------|---------|---------------|
-| `fullscreen-media` | Footage scenes, hooks, mood | `headline`, `subtitle`, `mediaKeyword` |
-| `gradient-text` | Brand statements, title cards | `headline`, `subtitle` |
+| `bg-solid` | Brand statements, title cards, clean text | `texts`, `textColor` |
+| `bg-photo` | Photo backgrounds, mood, lifestyle | `texts`, `mediaUrl`, `mediaKeyword`, `textColor` |
+| `bg-video` | Video backgrounds, hooks, action | `texts`, `mediaUrl`, `mediaKeyword`, `textColor` |
+| `bg-gradient-linear` | Stylish text, rotating gradients | `texts`, `textColor` |
+| `bg-gradient-radial` | Glowing text, breathing backgrounds | `texts`, `textColor` |
+| `bg-confetti` | Celebrations, launches, energy | `texts`, `textColor` |
+| `bg-stars` | Night sky, space, wonder | `texts`, `textColor` |
+| `bg-particles` | Soft bokeh, dreamy, ambient | `texts`, `textColor` |
+| `bg-geometric` | Tech, precision, modern | `texts`, `textColor` |
+| `bg-aurora` | Flowing color, premium, creative | `texts`, `textColor` |
+
+### Content Templates
+
+| Template | Use for | Key variables |
+|----------|---------|---------------|
 | `counter` | Statistics, metrics | `value`, `label`, `unit` |
 | `social-proof` | Testimonials, reviews | `quote`, `author`, `role`, `rating` |
 | `product-launch` | App/product showcases | `productName`, `tagline`, `features`, `deviceType`, `screenMediaUrl`, `screenMediaKeyword`, `ctaText` |
@@ -147,6 +164,25 @@ Read these for detailed creative and technical patterns:
 | `feature-list` | Feature reveals, checklists, bullet points | `items` (comma-separated), `title`, `style_variant` |
 | `text-stack` | Sequential statements, dramatic reveals | `lines` (comma-separated), `highlightIndex`, `alignment` |
 | `split-compare` | Before/after, A vs B comparisons | `leftLabel`, `rightLabel`, `leftMediaKeyword`, `rightMediaKeyword` |
+
+### The `texts` Variable Format
+
+All bg-* templates use this format:
+```
+"First line|zoom-in,Second line|slam,Third line"
+```
+- Comma separates entries — each gets equal time within the scene
+- Pipe (`|`) optionally overrides the text effect for that entry
+- Without pipe: uses the scene's global text effect
+- 1 entry = hero size, 2 = headline size, 3+ = slightly smaller
+- Max 8 entries
+
+**Examples:**
+- Single text: `"Get moving."` — one entry, displayed big
+- Two texts: `"Get moving.,Push harder."` — two sequential entries
+- With effects: `"Get moving.|slam,Push harder.|zoom-in"` — per-entry effects
+
+The text transitions happen within one scene — the background stays continuous.
 
 ## VideoConfig Schema
 
@@ -166,10 +202,9 @@ Read these for detailed creative and technical patterns:
   "scenes": [
     {
       "id": "s1",
-      "templateId": "fullscreen-media",
+      "templateId": "bg-photo",
       "variables": {
-        "headline": "Get moving.",
-        "subtitle": "",
+        "texts": "Get moving.",
         "mediaUrl": "",
         "mediaKeyword": "fitness workout gym"
       },
@@ -222,19 +257,19 @@ Read these for detailed creative and technical patterns:
 - **`audio.audioUrl`** — always leave empty (`""`), the editor loads it from the track database
 - **`audio.beatMarkers`** — wrap each time value: `{ "time": 4.2 }` not just `4.2`
 - **`scenes[].id`** — use `"s1"`, `"s2"`, etc.
-- **`scenes[].templateId`** — must be one of: `fullscreen-media`, `gradient-text`, `counter`, `social-proof`, `product-launch`, `end-screen`, `stat-grid`, `feature-list`, `text-stack`, `split-compare`
+- **`scenes[].templateId`** — must be one of: `bg-solid`, `bg-photo`, `bg-video`, `bg-gradient-linear`, `bg-gradient-radial`, `bg-confetti`, `bg-stars`, `bg-particles`, `bg-geometric`, `bg-aurora`, `counter`, `social-proof`, `product-launch`, `end-screen`, `stat-grid`, `feature-list`, `text-stack`, `split-compare`
 - **`scenes[].variables`** — keys must match the template's variable schema (see [rules/templates.md](rules/templates.md))
 - **`timing.beatStart` / `beatEnd`** — 0-based indices into the `beatMarkers` array. **`beatEnd` is inclusive** — a scene extends from `beatMarkers[beatStart]` to `beatMarkers[beatEnd + 1]`. So for 8 scenes on 8 beats, assign `beatStart:0,beatEnd:0` / `beatStart:1,beatEnd:1` / ... / `beatStart:7,beatEnd:7`. Give a scene 2 beats with `beatStart:3,beatEnd:4` (extends to beat 5). **Never overlap** — each beat index should be used by only one scene.
 - **`timing.durationWeight`** — `1.0` = normal. Use `1.3–1.5` for `counter`, `social-proof`, `product-launch`, `stat-grid`, `split-compare` (they need more time). **Check the duration budget in [rules/composition-rules.md](rules/composition-rules.md) — scenes that are too short for their animations look broken.**
 - **`transition` / `backgroundEffect`** — set per-scene to override `style.defaultTransition` / `style.defaultBackgroundEffect`
-- **`textEffect`** — only meaningful for `fullscreen-media` and `gradient-text` (they use global text effect). Set per-scene to override.
+- **`textEffect`** — only meaningful for bg-* templates (they use global text effect). Set per-scene to override.
 - **`style.font`** — use the full CSS value: `"'Inter', sans-serif"` not `"Inter"` (see [rules/effects-and-style.md](rules/effects-and-style.md) for all options)
 - **`orientation`** — `"portrait"` (1080×1920, default) or `"landscape"` (1920×1080)
 - **`meta.mood`** — array of mood tags matching the track's mood
 
 ### Media Handling
 
-- For `fullscreen-media`: set `mediaKeyword` with a descriptive Pexels search keyword (2–4 words). Leave `mediaUrl` empty — the editor auto-fills the top Pexels result on load.
+- For `bg-photo` / `bg-video`: set `mediaKeyword` with a descriptive Pexels search keyword (2–4 words). Leave `mediaUrl` empty — the editor auto-fills the top Pexels result on load.
 - For `product-launch`: set `screenMediaKeyword` if user doesn't have a screenshot. Or set `screenMediaUrl` directly if they provide one.
 - For `end-screen`: set `logoUrl` if user provided a logo.
 - If the user provides media files/URLs, use them directly in the relevant `mediaUrl` / `screenMediaUrl` / `logoUrl` fields.
@@ -260,7 +295,7 @@ s5: beat 4     s6: beat 5     s7: beat 6     s8: beat 7
 **Example (WRONG):** s2 takes 2 beats, s6 and s7 collide
 ```
 s1: beat 0     s2: beats 1-2  s3: beat 3     s4: beat 4
-s5: beat 5     s6: beat 6     s7: beat 6 ← OVERLAP!  s8: beat 7
+s5: beat 5     s6: beat 6     s7: beat 6 <- OVERLAP!  s8: beat 7
 ```
 
 ### 2. Scene count vs beat count
@@ -342,13 +377,13 @@ The save endpoint returns a short link like `https://vanillasky.ai/create?config
 
 | # | Template | Key variables | Why | Copy |
 |---|----------|--------------|-----|------|
-| 1 | fullscreen-media | keyword: "fitness workout gym" | Visual hook — real footage grabs attention | "Get moving." |
-| 2 | fullscreen-media | keyword: "runner sunrise trail" | Action footage sells the lifestyle | "Push harder." |
-| 3 | fullscreen-media | keyword: "smartwatch close up" | Shows the tech angle | "Track everything." |
+| 1 | bg-video | keyword: "fitness workout gym" | Visual hook — real footage grabs attention | texts: "Get moving." |
+| 2 | bg-video | keyword: "runner sunrise trail" | Action footage sells the lifestyle | texts: "Push harder." |
+| 3 | bg-photo | keyword: "smartwatch close up" | Shows the tech angle | texts: "Track everything." |
 | 4 | product-launch | features: "Heart Rate,Calories,Steps,Sleep", deviceType: "phone" | 4 features — device mockup with badges | productName: "FitPulse" |
 | 5 | counter | value: 10000, unit: "+" | Impressive scale metric | label: "Active users" |
-| 6 | fullscreen-media | keyword: "healthy meal preparation" | Lifestyle footage, breathing room | "Fuel your body." |
-| 7 | fullscreen-media | keyword: "group fitness class energy" | Community energy | "Join thousands." |
+| 6 | bg-photo | keyword: "healthy meal preparation" | Lifestyle footage, breathing room | texts: "Fuel your body." |
+| 7 | bg-video | keyword: "group fitness class energy" | Community energy | texts: "Join thousands." |
 | 8 | end-screen | — | CTA + brand | "Start free today." / fitpulse.app |
 
 Brand: dark blue `#1a1a3e` + electric green `#00ff88`. Font: Bebas Neue (bold, energetic). Text effect: `slam`. Background: `slow-zoom-in`.

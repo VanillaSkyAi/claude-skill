@@ -27,9 +27,9 @@ Starting recipes, not molds. Detect the video type from context and use as a sta
 | Transitions | `crossfade` (70%), `flash` for hook |
 
 **Typical structure:**
-1. `fullscreen-media` — Hook. Striking visual + punchy headline. Must grab in 1–2 seconds.
-2. `fullscreen-media` — Problem/context. Show the pain point or lifestyle.
-3. `product-launch` or `fullscreen-media` — Solution. Show the product or its benefit.
+1. `bg-video` — Hook. Striking visual + punchy text. Must grab in 1–2 seconds.
+2. `bg-photo` — Problem/context. Show the pain point or lifestyle.
+3. `product-launch` or `bg-video` — Solution. Show the product or its benefit.
 4. `counter` or `social-proof` — Proof. One impressive number OR one testimonial.
 5. `end-screen` — CTA. Clear action + brand.
 
@@ -55,20 +55,20 @@ Starting recipes, not molds. Detect the video type from context and use as a sta
 **Typical structure (4-act arc):**
 
 *Act 1 — Hook (1–2 scenes):*
-1. `fullscreen-media` — Striking visual. Set the mood.
-2. `fullscreen-media` — Establish context.
+1. `bg-video` — Striking visual. Set the mood.
+2. `bg-photo` — Establish context.
 
 *Act 2 — Build (2–3 scenes):*
-3. `gradient-text` — Brand statement or thesis.
-4. `fullscreen-media` — Supporting footage.
-5. `fullscreen-media` or `product-launch` — Product/feature showcase.
+3. `bg-solid` or `bg-gradient-linear` — Brand statement or thesis.
+4. `bg-photo` — Supporting footage.
+5. `bg-video` or `product-launch` — Product/feature showcase.
 
 *Act 3 — Climax (1–2 scenes):*
 6. `counter` — Impressive metric.
-7. `fullscreen-media` — Peak emotional footage.
+7. `bg-video` — Peak emotional footage.
 
 *Act 4 — CTA (1–2 scenes):*
-8. `fullscreen-media` — Resolving footage.
+8. `bg-photo` — Resolving footage.
 9. `end-screen` — CTA + brand.
 
 **Copy pattern:** Mood → Context → Statement → Features → Proof → Emotion → Action
@@ -91,8 +91,8 @@ Starting recipes, not molds. Detect the video type from context and use as a sta
 | Transitions | `crossfade` (80%), `slide-left` for progression |
 
 **Typical structure:**
-1. `gradient-text` — Opening statement. "What we build." / "Our work."
-2–7. `fullscreen-media` (×4–6) — Portfolio pieces. Varied footage showcasing different work.
+1. `bg-gradient-linear` — Opening statement. texts: "What we build." / "Our work."
+2–7. `bg-photo` or `bg-video` (x4–6) — Portfolio pieces. Varied footage showcasing different work.
 8. `counter` — Scale metric. "200+ projects delivered."
 9. `social-proof` — Client testimonial.
 10. `end-screen` — Contact/CTA.
@@ -117,18 +117,18 @@ Starting recipes, not molds. Detect the video type from context and use as a sta
 | Transitions | `crossfade`, `flash` |
 
 **Typical structure:**
-1. `fullscreen-media` — Hook. Must grab attention in first 1–2 seconds. Bold text, striking visual.
-2. `fullscreen-media` — Context / problem.
-3. `fullscreen-media` or `product-launch` — Solution / reveal.
+1. `bg-video` — Hook. Must grab attention in first 1–2 seconds. Bold text, striking visual.
+2. `bg-video` — Context / problem.
+3. `bg-video` or `product-launch` — Solution / reveal.
 4. `end-screen` — CTA.
 
 **Copy pattern:** Hook → Problem → Solution → CTA (maximum 4 words per scene)
 
 **Special rules for social:**
-- Headline text should be LARGE — short words, maximum impact
-- No subtitle needed — one message per scene
+- Text should be LARGE — short words, maximum impact
+- Use single-entry `texts` — one message per scene
 - Use vertical-safe stock footage keywords: "person close up", "hands smartphone"
-- Skip gradient-text — too slow for social pacing
+- Skip non-media bg templates — too slow for social pacing
 
 ---
 
@@ -168,11 +168,11 @@ If ambiguous, ask: "This could work as a quick social ad or a longer cinematic t
 | Transitions | `crossfade` (80%), `dip-to-black` for section breaks |
 
 **Typical structure:**
-1. `fullscreen-media` — Mood-setting footage. No text or just one word.
-2. `fullscreen-media` — People, craft, or environment.
-3. `gradient-text` — Core values statement.
-4. `fullscreen-media` — Impact / the work in action.
-5. `fullscreen-media` — Community or human connection.
+1. `bg-video` — Mood-setting footage. No text or just one word.
+2. `bg-photo` — People, craft, or environment.
+3. `bg-solid` or `bg-gradient-radial` — Core values statement.
+4. `bg-video` — Impact / the work in action.
+5. `bg-photo` — Community or human connection.
 6. `social-proof` — Authentic quote from customer or team member.
 7. `end-screen` — Brand name + tagline.
 
@@ -181,7 +181,7 @@ If ambiguous, ask: "This could work as a quick social ad or a longer cinematic t
 **Special rules:**
 - More footage, fewer data scenes — emotion over metrics
 - Longer scene durations — don't rush (durationWeight: 1.2–1.5 on footage)
-- Subtitles > headlines — understated text lets footage do the talking
+- Use multi-entry `texts` sparingly — let footage do the talking
 
 ---
 
@@ -201,9 +201,9 @@ If ambiguous, ask: "This could work as a quick social ad or a longer cinematic t
 | Transitions | `crossfade`, `flash` for the reveal moment |
 
 **Typical structure:**
-1. `fullscreen-media` — Teaser. Mysterious or exciting footage. "Something's coming."
-2. `gradient-text` — The reveal. Product name or event name, big and bold.
-3. `fullscreen-media` — Context / what to expect.
+1. `bg-video` — Teaser. Mysterious or exciting footage. texts: "Something's coming."
+2. `bg-confetti` or `bg-aurora` — The reveal. Product name or event name, big and bold.
+3. `bg-photo` — Context / what to expect.
 4. `counter` — The date, countdown number, or key metric.
 5. `end-screen` — CTA with date. "March 25 / Save your spot."
 
