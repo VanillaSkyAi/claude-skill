@@ -125,16 +125,15 @@ Save the config and return the editor link. The user can preview, customize, and
 
 Read these for detailed creative and technical patterns:
 
-- [rules/templates.md](rules/templates.md) — All 6 templates: variable schemas, duration hints, usage guidelines
+- [rules/templates.md](rules/templates.md) — All 10 templates: variable schemas, duration hints, usage guidelines
 - [rules/effects-and-style.md](rules/effects-and-style.md) — Text effects, background effects, transitions, fonts, brand kit
 - [rules/composition-rules.md](rules/composition-rules.md) — Narrative arc, template mix, pacing, copy best practices
-- [rules/custom-animations.md](rules/custom-animations.md) — Creative patterns, anti-patterns, and code examples for custom animation scenes
 - [rules/video-types.md](rules/video-types.md) — Presets: Ad, Trailer, Showreel, Social
 - [rules/audio-tracks.md](rules/audio-tracks.md) — Track catalog with energy curves and best-for tags
 
 ## Templates (Quick Reference)
 
-6 React templates. Each scene references one by `templateId` and passes `variables`.
+10 React templates. Each scene references one by `templateId` and passes `variables`.
 
 | Template | Use for | Key variables |
 |----------|---------|---------------|
@@ -144,6 +143,10 @@ Read these for detailed creative and technical patterns:
 | `social-proof` | Testimonials, reviews | `quote`, `author`, `role`, `rating` |
 | `product-launch` | App/product showcases | `productName`, `tagline`, `features`, `deviceType`, `screenMediaUrl`, `screenMediaKeyword`, `ctaText` |
 | `end-screen` | Closing CTA | `ctaText`, `tagline`, `logoUrl` |
+| `stat-grid` | Dashboards, fact panels, 2-4 metrics | `stat1Label`, `stat1Value`, `stat1Detail`, `stat2Label`, `stat2Value`, ... |
+| `feature-list` | Feature reveals, checklists, bullet points | `items` (comma-separated), `title`, `style_variant` |
+| `text-stack` | Sequential statements, dramatic reveals | `lines` (comma-separated), `highlightIndex`, `alignment` |
+| `split-compare` | Before/after, A vs B comparisons | `leftLabel`, `rightLabel`, `leftMediaKeyword`, `rightMediaKeyword` |
 
 ## VideoConfig Schema
 
@@ -219,10 +222,10 @@ Read these for detailed creative and technical patterns:
 - **`audio.audioUrl`** — always leave empty (`""`), the editor loads it from the track database
 - **`audio.beatMarkers`** — wrap each time value: `{ "time": 4.2 }` not just `4.2`
 - **`scenes[].id`** — use `"s1"`, `"s2"`, etc.
-- **`scenes[].templateId`** — must be one of: `fullscreen-media`, `gradient-text`, `counter`, `social-proof`, `product-launch`, `end-screen`
+- **`scenes[].templateId`** — must be one of: `fullscreen-media`, `gradient-text`, `counter`, `social-proof`, `product-launch`, `end-screen`, `stat-grid`, `feature-list`, `text-stack`, `split-compare`
 - **`scenes[].variables`** — keys must match the template's variable schema (see [rules/templates.md](rules/templates.md))
 - **`timing.beatStart` / `beatEnd`** — 0-based indices into the `beatMarkers` array. **`beatEnd` is inclusive** — a scene extends from `beatMarkers[beatStart]` to `beatMarkers[beatEnd + 1]`. So for 8 scenes on 8 beats, assign `beatStart:0,beatEnd:0` / `beatStart:1,beatEnd:1` / ... / `beatStart:7,beatEnd:7`. Give a scene 2 beats with `beatStart:3,beatEnd:4` (extends to beat 5). **Never overlap** — each beat index should be used by only one scene.
-- **`timing.durationWeight`** — `1.0` = normal. Use `1.3–1.5` for `counter`, `social-proof`, `product-launch` (they need more time). **Check the duration budget in [rules/composition-rules.md](rules/composition-rules.md) — scenes that are too short for their animations look broken.**
+- **`timing.durationWeight`** — `1.0` = normal. Use `1.3–1.5` for `counter`, `social-proof`, `product-launch`, `stat-grid`, `split-compare` (they need more time). **Check the duration budget in [rules/composition-rules.md](rules/composition-rules.md) — scenes that are too short for their animations look broken.**
 - **`transition` / `backgroundEffect`** — set per-scene to override `style.defaultTransition` / `style.defaultBackgroundEffect`
 - **`textEffect`** — only meaningful for `fullscreen-media` and `gradient-text` (they use global text effect). Set per-scene to override.
 - **`style.font`** — use the full CSS value: `"'Inter', sans-serif"` not `"Inter"` (see [rules/effects-and-style.md](rules/effects-and-style.md) for all options)
