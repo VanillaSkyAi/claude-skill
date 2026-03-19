@@ -113,15 +113,6 @@ Input:  { config: { /* VideoConfig JSON */ } }
 Output: { id: "a1b2c3d4", url: "https://vanillasky.ai/create?config=a1b2c3d4" }
 ```
 
-### `search_pexels`
-
-Search Pexels for stock videos or photos. Usually not needed — setting `mediaKeyword` in the config auto-fills on load. Use this only to verify a keyword returns good results.
-
-```
-Input:  { query: "coffee shop ambiance", type: "video", per_page: 5, orientation: "portrait" }
-Output: { results: [{ id: 123, src: "https://videos.pexels.com/...", thumbnail: "..." }], totalResults: 42 }
-```
-
 ### `list_tracks`
 
 List available music tracks with mood, duration, beat markers, and best-for tags. Optionally filter by mood.

@@ -284,7 +284,6 @@ The final scene should use the `end-screen` template with a CTA.
 If the VanillaSky MCP server is configured, use the tools directly:
 
 - **`save_config`** — saves config, returns `{ id, url }`
-- **`search_pexels`** — search stock footage: `{ query, type: "video"|"photo", per_page, orientation }`
 - **`list_tracks`** — get available tracks with metadata
 - **`scrape_url`** — scrape a website for brand info: `{ url }` → returns title, description, headlines, images, brandColors, favicon
 
@@ -307,22 +306,6 @@ const resp = await fetch('https://vjcfvsooygzrwinscobk.supabase.co/functions/v1/
 if (!resp.ok) { const err = await resp.json(); console.error('Error:', err.error); process.exit(1); }
 const { id } = await resp.json();
 console.log('https://vanillasky.ai/create?config=' + id);
-"
-```
-
-**Search Pexels (optional — usually keywords are enough):**
-```bash
-node -e "
-const resp = await fetch('https://vjcfvsooygzrwinscobk.supabase.co/functions/v1/search-pexels', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZqY2Z2c29veWd6cndpbnNjb2JrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2NTQzMzQsImV4cCI6MjA4ODIzMDMzNH0.9JirSFdP3D1pyn90YNUnqyG_709HZUMAGQ5Us9O57d0'
-  },
-  body: JSON.stringify({ query: 'coffee shop ambiance', type: 'video', per_page: 5 })
-});
-const data = await resp.json();
-console.log(JSON.stringify(data.results?.map(r => ({ id: r.id, src: r.src })), null, 2));
 "
 ```
 
