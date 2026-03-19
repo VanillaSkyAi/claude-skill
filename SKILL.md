@@ -315,18 +315,101 @@ Each scene's `variables` keys must match its template's schema. Required fields 
 ### 5. Last scene is end-screen
 The final scene should use the `end-screen` template with a CTA.
 
-## Saving and Sharing
+## MCP Tools
 
-### Option A: MCP Tools (if available)
+VanillaSky provides 4 MCP tools. Use them in this order during video creation:
 
-If the VanillaSky MCP server is configured, use the tools directly:
+### 1. `scrape_url` — Research the brand (optional, do first if URL available)
 
-- **`list_templates`** — **CALL THIS FIRST** before composing scenes. Returns all available templates with variables, durations, usage tips. Optionally filter by category.
-- **`list_tracks`** — get available tracks with metadata
-- **`save_config`** — saves config, returns `{ id, url }`
-- **`scrape_url`** — scrape a website for brand info: `{ url }` → returns title, description, headlines, images, brandColors, favicon
+Scrapes a website and extracts brand colors, headlines, description, images, and favicon. Saves the user from manually providing all this info.
 
-### Option B: Bash Fallback
+**Params:** `{ url: "https://example.com" }`
+
+**Returns:**
+```json
+{
+  "title": "Acme Inc",
+  "description": "The best widgets in the world",
+  "brandColors": { "primary": "#3b82f6", "accent": "#f59e0b" },
+  "headlines": ["Ship faster", "Built for teams", "10K+ users"],
+  "images": [{ "src": "https://...", "alt": "Product screenshot" }],
+  "ogImage": "https://...",
+  "favicon": "https://..."
+}
+```
+
+**Use for:** Pre-filling brand kit colors, finding product screenshots for media scenes, extracting copy inspiration from their own marketing.
+
+### 2. `list_templates` — Discover available templates (REQUIRED before composing)
+
+Returns all available scene templates with their full metadata. **Always call this before building a video** — never hardcode template IDs, they change as templates are added and removed.
+
+**Params:** `{ category?: "background" }` (optional filter)
+
+**Returns:**
+```json
+[
+  {
+    "id": "bg-photo",
+    "label": "Photo Background",
+    "category": "background",
+    "description": "Full-bleed photo background with vignette overlay and text.",
+    "tags": ["photo", "image", "hero", "establishing"],
+    "variables": [
+      { "name": "texts", "type": "string", "required": true, "default": "Make an impact.", "description": "Comma-separated text entries" },
+      { "name": "mediaKeyword", "type": "string", "required": false, "default": "", "description": "Pexels search keyword" }
+    ],
+    "minDuration": 1.5,
+    "preferredDuration": 3,
+    "whenToUse": "Lifestyle shots, mood setting, establishing shots.",
+    "copyTip": "1-5 words per entry, power verbs."
+  }
+]
+```
+
+**Use for:** Picking the right template for each scene. Match `description`, `tags`, and `whenToUse` to the scene's purpose. Use `variables` to know exactly what data each template needs. Use `copyTip` to write better text.
+
+### 3. `list_tracks` — Choose music (REQUIRED)
+
+Returns available music tracks with mood, duration, vibe, beat markers, and best-for tags.
+
+**Params:** `{ mood?: "cinematic" }` (optional filter)
+
+**Returns:**
+```json
+[
+  {
+    "id": "7995f8e2-cd04-4cd0-b498-6672c5b34529",
+    "name": "Shadow Countdown",
+    "mood": ["Epic", "Cinematic", "Thriller"],
+    "duration": 27.6,
+    "vibe": "Dark, suspenseful intro with rising tension",
+    "bestFor": "Product launches, brand reveals, cinematic trailers",
+    "tempoFeel": "Slow build → rapid escalation",
+    "beatMarkers": [1.2, 4.7, 8.1, 16.6, 18.7, 20.4, 21.9, 24.9]
+  }
+]
+```
+
+**Use for:** Selecting a track that matches the video's mood. The `beatMarkers` array is used directly in the VideoConfig `audio.beatMarkers` field (wrap each as `{ "time": value }`). The number of beats determines max scene count.
+
+### 4. `save_config` — Save and share (final step)
+
+Saves the complete VideoConfig and returns a shareable link that opens the video in VanillaSky's editor — ready to preview, customize, and export.
+
+**Params:** `{ config: { ...VideoConfig } }`
+
+**Returns:**
+```json
+{
+  "id": "a1b2c3d4",
+  "url": "https://vanillasky.ai/create?config=a1b2c3d4"
+}
+```
+
+**Use for:** The final step. Share the URL with the user. They can preview, tweak scenes, change music, and export an MP4 — all in-browser.
+
+### Bash Fallback
 
 If MCP tools are not available, use fetch commands:
 
