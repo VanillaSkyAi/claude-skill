@@ -285,6 +285,40 @@ return utils.h('div', { style: {
 );
 ```
 
+## Security Blocklist — Code Restrictions
+
+The save-config endpoint validates `reactCode` against a security blocklist. **These will cause saves to fail:**
+
+- **No unicode escapes:** `\u{1F680}`, `\u2713`, `\u221E`, `\x41` — use literal characters or ASCII alternatives instead (`V` for checkmark, `*` for star, `Inf.` for infinity)
+- **No `document`, `window`, `globalThis`** — no DOM access
+- **No `fetch`, `XMLHttpRequest`, `WebSocket`** — no network
+- **No `eval`, `Function()`, `import`** — no code injection
+- **No `setTimeout`, `setInterval`** — no timers (use progress-driven animation)
+- **No `localStorage`, `sessionStorage`, `cookie`** — no storage
+- **No `atob`, `btoa`, `String.fromCharCode`** — no encoding/obfuscation
+
+If you need emoji or special characters, include them as literal UTF-8 characters in the string, never as escape sequences.
+
+## Sizing Guidelines — Fill the Frame
+
+Custom animations must fill the frame, not float tiny in the center. Common mistakes:
+
+**Portrait (1080×1920):** The frame is TALL. Content sized only for 1080px width leaves ~60% vertical empty space.
+- Grid cards: use `380*s` px or wider, not `200*s`
+- Hero text: `64-80*s` px, not `42*s`
+- Use `props.width * 0.8` for container widths, not fixed pixel values
+- Bar charts: use `props.height * 0.45` for max bar height
+- Spread content vertically with larger gaps: `(28-40)*s` px between items
+
+**Landscape (1920×1080):** Content sized for 1080px height is fine, but make sure horizontal layouts use enough width.
+- Grid: `340*s` px columns for 2-column layouts
+- Timeline nodes: space across `props.width * 0.75`
+
+**General rules:**
+- Content should fill at least 60% of the frame area
+- Use `props.width * fraction` for width-relative sizing, not just `s` factor
+- Test mentally: at 1/3 preview scale, will text still be readable?
+
 ## Quality Checklist
 
 Run these checks mentally before finalizing any custom animation:
@@ -297,6 +331,7 @@ Run these checks mentally before finalizing any custom animation:
 | **Timing test** | Does motion feel natural, not robotic? | Replace interpolate with spring, add stagger delays |
 | **Fill test** | Does content fill the frame, not float tiny in center? | Use `props.width`/`props.height`, scale with `s` factor |
 | **Exit test** | Do elements exit before the hard cut? | Add `exitOp` at 85-92% progress |
+| **Blocklist test** | Any unicode escapes or blocked APIs? | Replace with literal characters or ASCII alternatives |
 
 ## Type Scale Reference
 

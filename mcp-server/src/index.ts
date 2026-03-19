@@ -6,6 +6,7 @@ import { z } from "zod";
 import { saveConfig } from "./tools/save-config.js";
 import { searchPexels } from "./tools/search-pexels.js";
 import { listTracks } from "./tools/list-tracks.js";
+import { scrapeUrl } from "./tools/scrape-url.js";
 
 const server = new McpServer({
   name: "vanillasky",
@@ -123,6 +124,39 @@ server.tool(
         },
       ],
     };
+  },
+);
+
+// ─── scrape_url ───────────────────────────────────────────────
+
+server.tool(
+  "scrape_url",
+  "Scrape a website to extract brand colors, headlines, description, images, and favicon. Use this when the user mentions a website or product URL — it provides brand info, copy inspiration, and product screenshots for the video.",
+  {
+    url: z.string().describe("The website URL to scrape (must start with http:// or https://)"),
+  },
+  async ({ url }) => {
+    try {
+      const result = await scrapeUrl(url);
+      return {
+        content: [
+          {
+            type: "text" as const,
+            text: JSON.stringify(result, null, 2),
+          },
+        ],
+      };
+    } catch (err) {
+      return {
+        content: [
+          {
+            type: "text" as const,
+            text: `Error scraping URL: ${err instanceof Error ? err.message : String(err)}`,
+          },
+        ],
+        isError: true,
+      };
+    }
   },
 );
 

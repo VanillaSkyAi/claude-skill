@@ -15,7 +15,7 @@ Create professional beat-synced videos by describing what you want. You compose 
 
 ## Workflow
 
-### 1. Understand the Brief
+### 1. Understand the Brief + Auto-Research
 
 Ask about:
 - **Product/brand** — what is it, what does it do
@@ -23,9 +23,34 @@ Ask about:
 - **Key message** — the one thing viewers should remember
 - **Tone/mood** — cinematic, energetic, calm, edgy, premium
 
-### 2. Brand Kit (optional — offer, don't interrogate)
+**If the user mentions a website or URL, scrape it first.** Use MCP `scrape_url` tool or bash fallback (see below). This extracts brand colors, headlines, description, images, and favicon — saving the user from having to provide all this manually.
 
-Ask naturally as part of the brief conversation:
+**Also proactively scrape when you can infer a URL** — if someone says "make a video for Stripe", try scraping `https://stripe.com`. If they mention "my app FitPulse", ask "Do you have a website I can pull brand info from?"
+
+**What scraping gives you:**
+
+| Scraped field | Use in config |
+|---------------|---------------|
+| `brandColors.primary` | `style.brandKit.accent` |
+| `brandColors.accent` | `style.brandKit.bg` (or use a dark version) |
+| `title` | Scene copy inspiration, `meta.name` |
+| `description` | Scene copy, subtitle text |
+| `headlines` | Scene headlines — pick the best ones |
+| `ogImage` | `fullscreen-media.mediaUrl` or `product-launch.screenMediaUrl` |
+| `images` | Product screenshots for `product-launch.screenMediaUrl` |
+| `bodyText` | Copy inspiration, feature extraction |
+| `favicon` | Could mention as logo reference (usually too small to use directly) |
+
+**Don't blindly copy** — use scraped data as inspiration. Rewrite headlines to be punchier (1-5 words for scenes). Extract key features for product-launch badges. Use their actual brand colors.
+
+### 2. Brand Kit (fill from scrape or ask)
+
+If you scraped a website, pre-fill what you found:
+- **Brand colors** from `brandColors.primary` / `.accent` → `style.brandKit`
+- **Product images** from `ogImage` / `images` → `product-launch.screenMediaUrl`
+- Confirm with the user: "I found your brand colors (#3b82f6 blue + dark bg) and product screenshot from your website — look right?"
+
+If no URL available, ask naturally:
 - "Do you have **brand colors**?" → `style.brandKit.bg` + `.accent`
 - "**Font preference**?" → `style.font` (or suggest based on mood)
 - "Got a **logo**?" → for `end-screen` logoUrl
@@ -261,6 +286,7 @@ If the VanillaSky MCP server is configured, use the tools directly:
 - **`save_config`** — saves config, returns `{ id, url }`
 - **`search_pexels`** — search stock footage: `{ query, type: "video"|"photo", per_page, orientation }`
 - **`list_tracks`** — get available tracks with metadata
+- **`scrape_url`** — scrape a website for brand info: `{ url }` → returns title, description, headlines, images, brandColors, favicon
 
 ### Option B: Bash Fallback
 
@@ -297,6 +323,22 @@ const resp = await fetch('https://vjcfvsooygzrwinscobk.supabase.co/functions/v1/
 });
 const data = await resp.json();
 console.log(JSON.stringify(data.results?.map(r => ({ id: r.id, src: r.src })), null, 2));
+"
+```
+
+**Scrape a website (for brand research):**
+```bash
+node -e "
+const resp = await fetch('https://vjcfvsooygzrwinscobk.supabase.co/functions/v1/scrape-url', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZqY2Z2c29veWd6cndpbnNjb2JrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2NTQzMzQsImV4cCI6MjA4ODIzMDMzNH0.9JirSFdP3D1pyn90YNUnqyG_709HZUMAGQ5Us9O57d0'
+  },
+  body: JSON.stringify({ url: 'https://example.com' })
+});
+const data = await resp.json();
+console.log(JSON.stringify({ title: data.title, description: data.description, brandColors: data.brandColors, headlines: data.headlines?.slice(0, 5), images: data.images?.slice(0, 3).map(i => i.src) }, null, 2));
 "
 ```
 
