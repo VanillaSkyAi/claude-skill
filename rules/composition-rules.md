@@ -25,8 +25,12 @@ Every video follows a 4-act structure, regardless of length:
 - **Max 1 `counter`** per video — only for genuinely impressive statistics
 - **Max 1 `social-proof`** per video — one powerful testimonial
 - **Max 1 `product-launch`** per video — one product showcase moment
+- **Max 1 `stat-grid`** per video — one dashboard moment (don't use alongside `counter`)
+- **Max 1 `feature-list`** per video — one feature reveal
+- **Max 1 `text-stack`** per video — one dramatic text sequence
+- **Max 1 `split-compare`** per video — one comparison moment
 - **Always end with `end-screen`** — clean CTA and brand closure
-- **Never start with `gradient-text`, `counter`, or `social-proof`** — scene 1 must be `fullscreen-media`
+- **Never start with `gradient-text`, `counter`, `stat-grid`, or `social-proof`** — scene 1 must be `fullscreen-media`
 - **Never use the same template 3× in a row** — alternate for visual variety
 
 **Typical mixes:**
@@ -34,8 +38,8 @@ Every video follows a 4-act structure, regardless of length:
 |--------|-----|
 | 5 | 3 fullscreen-media + 1 gradient-text + end-screen |
 | 7 | 4 fullscreen-media + 1 gradient-text + 1 counter + end-screen |
-| 8 | 4 fullscreen-media + 1 gradient-text + 1 counter + 1 social-proof + end-screen |
-| 10 | 5 fullscreen-media + 1 gradient-text + 1 counter + 1 product-launch + 1 social-proof + end-screen |
+| 8 | 3 fullscreen-media + 1 gradient-text + 1 stat-grid + 1 feature-list + 1 fullscreen-media + end-screen |
+| 10 | 4 fullscreen-media + 1 gradient-text + 1 stat-grid + 1 feature-list + 1 text-stack + 1 social-proof + end-screen |
 
 ## Scene Flow (Adjacent Scenes)
 
@@ -154,6 +158,10 @@ Before composing, calculate the time budget to prevent scenes from being too sho
 | `social-proof` | 2.5s | 3.5s | Quote + author + stars stagger |
 | `product-launch` | 3s | 4s | Device + badges + CTA entrance |
 | `end-screen` | 2s | 3s | Logo + CTA + tagline stagger |
+| `stat-grid` | 2.5s | 3.5s | 2–4 cards need stagger time |
+| `feature-list` | 2s | 3s | Items stagger in sequentially |
+| `text-stack` | 2s | 3s | Lines reveal one by one |
+| `split-compare` | 2.5s | 3.5s | Two columns + divider entrance |
 
 **Budget check:** Sum all preferred durations. If total exceeds track duration, reduce scene count — don't compress complex templates below their minimum.
 
