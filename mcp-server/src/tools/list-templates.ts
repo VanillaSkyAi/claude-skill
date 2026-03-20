@@ -366,6 +366,22 @@ const TEMPLATES: Template[] = [
     whenToUse: "Customer testimonials, social proof, user quotes, reviews. The card format adds credibility. Max 1-2 per video.",
     copyTip: "Message should sound authentic (15-30 words). Use real names. High engagement numbers add credibility: '2.4K likes'.",
   },
+  {
+    id: "social-chat",
+    label: "Chat Conversation",
+    category: "social",
+    description: "Messenger-style conversation with typing indicator. Messages appear one by one with animated typing dots before each reply. iMessage/Messenger style on white background.",
+    tags: ["chat", "messenger", "conversation", "imessage", "text", "bubbles"],
+    variables: [
+      { name: "messages", type: "string", required: true, default: "L:Hey, what's up?,R:I'm good, how are you?,L:This is so cool!,R:Can't wait to try it!,L:Cheers!", description: "Comma-separated messages. L: = received (grey, left), R: = sent (blue, right)." },
+    ],
+    minDuration: 3,
+    preferredDuration: 5,
+    usesGlobalTextEffect: false,
+    usesGlobalBackgroundEffect: false,
+    whenToUse: "Show a conversation about your product. Great for testimonials, support interactions, or feature demos through chat. Max 1 per video.",
+    copyTip: "Keep messages short and natural. 5-8 messages works best. Alternate L/R for realistic flow. End with a positive reaction.",
+  },
 ];
 
 export function listTemplates(category?: string): Template[] {
