@@ -343,6 +343,29 @@ const TEMPLATES: Template[] = [
     whenToUse: "Show multiple app screens, features, or views in one scene. The sliding transition is smooth and cinematic. Max 1 per video.",
     copyTip: "Upload 3 different views of your product. Text: 'Explore every feature.' / 'One app, endless possibilities.'",
   },
+  // ─── Social templates ──────────────────────────────────────
+  {
+    id: "social-tweet",
+    label: "Tweet",
+    category: "social",
+    description: "Animated social media post card with author avatar, name, handle, message text, and engagement metrics (likes, retweets). Slides in with staggered content.",
+    tags: ["tweet", "social", "post", "testimonial", "quote", "review"],
+    variables: [
+      { name: "texts", type: "string", required: true, default: "What people are saying.", description: "Context text above the card" },
+      { name: "authorName", type: "string", required: true, default: "Sarah Chen", description: "Author display name" },
+      { name: "authorHandle", type: "string", required: false, default: "@sarahchen", description: "Username/handle" },
+      { name: "message", type: "string", required: true, default: "This product changed everything for our team.", description: "The tweet/post content" },
+      { name: "likes", type: "string", required: false, default: "2.4K", description: "Like count" },
+      { name: "retweets", type: "string", required: false, default: "847", description: "Retweet count" },
+      { name: "textColor", type: "color", required: false, default: "", description: "Override context text color" },
+    ],
+    minDuration: 2.5,
+    preferredDuration: 3.5,
+    usesGlobalTextEffect: true,
+    usesGlobalBackgroundEffect: false,
+    whenToUse: "Customer testimonials, social proof, user quotes, reviews. The card format adds credibility. Max 1-2 per video.",
+    copyTip: "Message should sound authentic (15-30 words). Use real names. High engagement numbers add credibility: '2.4K likes'.",
+  },
 ];
 
 export function listTemplates(category?: string): Template[] {
