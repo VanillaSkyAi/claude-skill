@@ -374,7 +374,7 @@ const TEMPLATES: Template[] = [
     tags: ["notification", "push", "alert", "ios", "mobile", "message"],
     variables: [
       { name: "appName", type: "string", required: true, default: "MESSAGES", description: "App name in header (uppercase)" },
-      { name: "sender", type: "string", required: true, default: "Jitter Team", description: "Bold sender name" },
+      { name: "sender", type: "string", required: true, default: "VanillaSky Team", description: "Bold sender name" },
       { name: "message", type: "string", required: true, default: "Remix and make it shine!", description: "Notification message" },
       { name: "textColor", type: "color", required: false, default: "", description: "Override text color" },
     ],
