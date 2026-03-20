@@ -373,7 +373,7 @@ const TEMPLATES: Template[] = [
     description: "Messenger-style conversation with typing indicator. Messages appear one by one with animated typing dots before each reply. iMessage/Messenger style on white background.",
     tags: ["chat", "messenger", "conversation", "imessage", "text", "bubbles"],
     variables: [
-      { name: "messages", type: "string", required: true, default: "L:Hey, what's up?,R:I'm good, how are you?,L:This is so cool!,R:Can't wait to try it!,L:Cheers!", description: "Comma-separated messages. L: = received (grey, left), R: = sent (blue, right)." },
+      { name: "messages", type: "string", required: true, default: "L:Hey, what's up?|R:I'm good, how are you?|L:This is so cool!|R:Can't wait to try it!|L:Cheers!", description: "Pipe-separated messages. L: = received (grey, left), R: = sent (blue, right). Use | between messages." },
     ],
     minDuration: 3,
     preferredDuration: 5,
