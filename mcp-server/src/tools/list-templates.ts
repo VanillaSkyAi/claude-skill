@@ -323,6 +323,26 @@ const TEMPLATES: Template[] = [
     whenToUse: "Web app demos, dashboard showcases, SaaS products. Upload a screenshot of the web interface. Max 1 per video.",
     copyTip: "Dashboard/web products shine here: 'Your data, beautifully.' / 'Built for teams.'",
   },
+  {
+    id: "showcase-tablet-slides",
+    label: "Tablet Slideshow",
+    category: "showcase",
+    description: "iPad frame with 3 screens sliding left to right inside. Shows multiple app views or features in one scene.",
+    tags: ["tablet", "ipad", "slideshow", "carousel", "screens", "swipe"],
+    variables: [
+      { name: "texts", type: "string", required: true, default: "Swipe through.", description: "Comma-separated text entries" },
+      { name: "screen1Url", type: "media", required: false, default: "", description: "First screenshot (shown first)" },
+      { name: "screen2Url", type: "media", required: false, default: "", description: "Second screenshot" },
+      { name: "screen3Url", type: "media", required: false, default: "", description: "Third screenshot (shown last)" },
+      { name: "textColor", type: "color", required: false, default: "", description: "Override text color" },
+    ],
+    minDuration: 3,
+    preferredDuration: 4,
+    usesGlobalTextEffect: true,
+    usesGlobalBackgroundEffect: false,
+    whenToUse: "Show multiple app screens, features, or views in one scene. The sliding transition is smooth and cinematic. Max 1 per video.",
+    copyTip: "Upload 3 different views of your product. Text: 'Explore every feature.' / 'One app, endless possibilities.'",
+  },
 ];
 
 export function listTemplates(category?: string): Template[] {
