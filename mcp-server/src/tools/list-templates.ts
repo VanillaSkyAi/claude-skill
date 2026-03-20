@@ -252,8 +252,9 @@ const TEMPLATES: Template[] = [
     tags: ["pie", "donut", "breakdown", "share", "proportion"],
     variables: [
       { name: "texts", type: "string", required: true, default: "Market breakdown.", description: "Comma-separated text entries with optional |effect per entry" },
-      { name: "segments", type: "string", required: true, default: "Product:40,Marketing:25,Engineering:20,Other:15", description: "Comma-separated label:value pairs. Values are percentages that should sum to ~100." },
-      { name: "chartColor", type: "color", required: false, default: "#00e5a0", description: "Base color for segments (each gets a different opacity/shade). Green = growth, blue = trust, orange = energy." },
+      { name: "segments", type: "string", required: true, default: "Product:40,Marketing:25,Engineering:20,Other:15", description: "Comma-separated label:value pairs. Values should sum to ~100." },
+      { name: "highlightIndex", type: "number", required: false, default: 0, description: "Which slice pops out to emphasize (0 = first). Set -1 for no highlight." },
+      { name: "chartColor", type: "color", required: false, default: "#00e5a0", description: "Base color for segments (each gets a different opacity/shade)." },
       { name: "textColor", type: "color", required: false, default: "", description: "Override text color (leave empty for auto)" },
     ],
     minDuration: 2,
