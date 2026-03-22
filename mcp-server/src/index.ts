@@ -63,7 +63,7 @@ server.tool(
       ),
   },
   async ({ mood }) => {
-    const tracks = listTracks(mood);
+    const tracks = await listTracks(mood);
     return {
       content: [
         {

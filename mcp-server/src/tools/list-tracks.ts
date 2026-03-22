@@ -1,71 +1,68 @@
+const SUPABASE_URL = "https://vjcfvsooygzrwinscobk.supabase.co";
+const SUPABASE_ANON_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZqY2Z2c29veWd6cndpbnNjb2JrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2NTQzMzQsImV4cCI6MjA4ODIzMDMzNH0.9JirSFdP3D1pyn90YNUnqyG_709HZUMAGQ5Us9O57d0";
+
+export interface SceneSlot {
+  start: number;
+  end: number;
+  duration: number;
+  role: "intro" | "build" | "hero" | "accelerate" | "climax" | "outro";
+}
+
 export interface Track {
   id: string;
   name: string;
-  mood: string[];
   duration: number;
+  format: "short" | "standard" | "long";
+  mood: string[];
   vibe: string;
   bestFor: string;
   tempoFeel: string;
+  energyCurve: string;
+  energyLevel: string;
+  sceneSlots: SceneSlot[];
   beatMarkers: number[];
 }
 
-const TRACKS: Track[] = [
-  {
-    id: "7995f8e2-cd04-4cd0-b498-6672c5b34529",
-    name: "Shadow Countdown",
-    mood: ["Epic", "Cinematic", "Thriller"],
-    duration: 27.6,
-    vibe: "Dark, suspenseful intro with rising tension — like a movie trailer reveal",
-    bestFor: "Product launches, brand reveals, cinematic trailers",
-    tempoFeel: "Slow build → rapid escalation",
-    beatMarkers: [1.2, 4.7, 8.1, 16.6, 18.7, 20.4, 21.9, 24.9],
-  },
-  {
-    id: "a5cf8cbd-9606-4246-8408-61bc7e5d2794",
-    name: "HipHop Sequence",
-    mood: ["Hiphop", "Beat"],
-    duration: 27.4,
-    vibe: "Urban, confident, swagger — bass-heavy with rhythmic pulse",
-    bestFor: "Fitness, lifestyle, streetwear, social media ads",
-    tempoFeel: "Steady groove, punchy",
-    beatMarkers: [4.2, 7.6, 10.2, 12.7, 15.1, 17.4, 19.2, 22.8],
-  },
-  {
-    id: "645b3256-5416-48cf-8f9d-39a2dbd9e167",
-    name: "Momentum Theme",
-    mood: ["Energetic", "Rhythmic", "Bold"],
-    duration: 37.4,
-    vibe: "Corporate-energetic — forward motion, achievement, progress",
-    bestFor: "Showreels, startup pitches, SaaS demos, longer formats",
-    tempoFeel: "Driving, upbeat",
-    beatMarkers: [2, 5.6, 11.7, 14.6, 20, 22.7, 26.5, 30],
-  },
-  {
-    id: "d899f250-3371-4e0e-a1b4-93bd868b07bc",
-    name: "Shadows at the Gate",
-    mood: ["Thriller", "Cinematic"],
-    duration: 31.4,
-    vibe: "Dark atmosphere, mystery, high stakes — noir thriller feel",
-    bestFor: "Security products, fintech, dramatic brand stories",
-    tempoFeel: "Atmospheric → explosive",
-    beatMarkers: [0.2, 3.8, 7.3, 10, 18.2, 20.3, 24.1, 29.1],
-  },
-  {
-    id: "8e83c405-08cb-45fd-b119-604ce81dfccd",
-    name: "Pulse in the Dark",
-    mood: ["Trailer", "Thriller"],
-    duration: 25,
-    vibe: "Fast-paced, urgent, time is running out",
-    bestFor: "Social media ads, quick hooks, countdown-style videos",
-    tempoFeel: "Rapid-fire, dense beats",
-    beatMarkers: [3.7, 7.1, 9.9, 12.7, 15, 17.4, 19, 20.9],
-  },
-];
+export async function listTracks(mood?: string): Promise<Track[]> {
+  const url = `${SUPABASE_URL}/rest/v1/track_configs?public_skill_ready=eq.true&select=id,name,duration,format,mood,vibe,best_for,tempo_feel,energy_curve,energy_level,scene_slots,beat_markers`;
 
-export function listTracks(mood?: string): Track[] {
-  if (!mood) return TRACKS;
-  const lower = mood.toLowerCase();
-  return TRACKS.filter((t) =>
-    t.mood.some((m) => m.toLowerCase().includes(lower)),
-  );
+  const res = await fetch(url, {
+    headers: {
+      apikey: SUPABASE_ANON_KEY,
+      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch tracks: ${res.status}`);
+  }
+
+  const rows: any[] = await res.json();
+
+  let tracks: Track[] = rows
+    .filter((r) => r.scene_slots && r.beat_markers)
+    .map((r) => ({
+      id: r.id,
+      name: r.name,
+      duration: r.duration,
+      format: r.format || "standard",
+      mood: r.mood || [],
+      vibe: r.vibe || "",
+      bestFor: r.best_for || "",
+      tempoFeel: r.tempo_feel || "",
+      energyCurve: r.energy_curve || "",
+      energyLevel: r.energy_level || "medium",
+      sceneSlots: r.scene_slots,
+      beatMarkers: r.beat_markers,
+    }));
+
+  if (mood) {
+    const lower = mood.toLowerCase();
+    tracks = tracks.filter((t) =>
+      t.mood.some((m) => m.toLowerCase().includes(lower)),
+    );
+  }
+
+  return tracks;
 }
