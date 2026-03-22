@@ -84,30 +84,29 @@ See [rules/video-types.md](rules/video-types.md) for detailed presets. These are
 
 ### 5. Pick a Music Track
 
-Choose from the catalog based on mood and video type. See [rules/audio-tracks.md](rules/audio-tracks.md) for full descriptions.
+**Call `list_tracks` MCP tool** to get tracks with their scene slots. Selection is based on structural fit first, then mood:
 
-| Track | Duration | Mood | Best for |
-|-------|----------|------|----------|
-| Shadow Countdown | 27.6s | Epic, Cinematic | Brand reveals, cinematic trailers |
-| HipHop Sequence | 27.4s | Hiphop, Beat | Fitness, lifestyle, social ads |
-| Momentum Theme | 37.4s | Energetic, Bold | Showreels, pitches, SaaS |
-| Shadows at the Gate | 31.4s | Thriller, Cinematic | Security, fintech, dark themes |
-| Pulse in the Dark | 25s | Trailer, Thriller | Social ads, short trailers, urgency |
+1. **Count your scenes** — intro + content scenes + CTA
+2. **Match slot count** — pick a track where slot count ≈ scene count (±1)
+3. **Check mood** — does the vibe match the brand?
+4. **Check hero slot** — is it long enough for your most complex scene?
+
+See [rules/audio-tracks.md](rules/audio-tracks.md) for the slot system explained.
 
 ### 6. Propose a Scene Plan
 
-Present a transparent table showing each scene's template, content, and reasoning:
+Present a table showing how scenes map to the track's slots:
 
-| # | Template | Key variables | Why this template | Copy / Content |
-|---|----------|--------------|-------------------|----------------|
-| 1 | bg-video | keyword: "coffee shop ambiance" | Visual hook — real footage | texts: "Ritual starts here." |
-| 2 | bg-solid | — | Brand statement — clean typography | texts: "Every cup, a story." |
-| 3 | bg-photo | keyword: "barista latte art" | Craftsmanship footage | texts: "Crafted with care." |
-| 4 | counter | value: 50000, unit: "+" | Impressive scale | label: "Cups served" |
-| 5 | bg-photo | keyword: "coffee beans close up" | Premium product shot | texts: "Premium beans." |
-| 6 | end-screen | — | CTA + brand | "Order now." / ritualroasters.com |
+| # | Slot | Time | Duration | Template | Content |
+|---|------|------|----------|----------|---------|
+| 1 | intro | 0–4.7s | 4.7s | intro-epic-reveal | Brand name reveal |
+| 2 | build | 4.7–8.1s | 3.4s | bg-photo | Problem statement |
+| 3 | hero | 8.1–16.6s | 8.5s | showcase-tablet-slides | 3-screen app demo |
+| 4 | accelerate | 16.6–20.4s | 3.8s | chart-counter | "10K users" stat |
+| 5 | climax | 20.4–24.9s | 4.5s | social-review-stack | Customer reviews |
+| 6 | outro | 24.9–27.6s | 2.7s | bg-gradient-linear | CTA |
 
-Be transparent about template choices. Explain why a `counter` is worth it (the number is impressive) or why `social-proof` fits (strong testimonial available).
+Be transparent about template choices. Explain why a template fits its slot duration and narrative role.
 
 ### 7. User Confirms or Tweaks
 
@@ -180,29 +179,29 @@ The text transitions happen within one scene — the background stays continuous
         "mediaUrl": "",
         "mediaKeyword": "fitness workout gym"
       },
-      "timing": { "beatStart": 0, "beatEnd": 0, "durationWeight": 1.0 },
+      "timing": { "startTime": 0, "endTime": 4.2 },
       "transition": "crossfade",
       "backgroundEffect": "slow-zoom-in"
     },
     {
       "id": "s2",
-      "templateId": "counter",
+      "templateId": "chart-counter",
       "variables": {
         "value": 10000,
         "label": "Active users",
         "unit": "+"
       },
-      "timing": { "beatStart": 3, "beatEnd": 4, "durationWeight": 1.3 }
+      "timing": { "startTime": 12.7, "endTime": 17.4 }
     },
     {
       "id": "s3",
-      "templateId": "end-screen",
+      "templateId": "bg-gradient-linear",
       "variables": {
         "ctaText": "Start free today.",
         "tagline": "fitpulse.app",
         "logoUrl": ""
       },
-      "timing": { "beatStart": 7, "beatEnd": 7, "durationWeight": 1.0 }
+      "timing": { "startTime": 22.8, "endTime": 27.4 }
     }
   ],
   "style": {
@@ -231,8 +230,7 @@ The text transitions happen within one scene — the background stays continuous
 - **`scenes[].id`** — use `"s1"`, `"s2"`, etc.
 - **`scenes[].templateId`** — call `list_templates` MCP tool to get current available templates. NEVER hardcode template IDs — the list changes as templates are added/removed.
 - **`scenes[].variables`** — keys must match the template's variable schema (returned by `list_templates`)
-- **`timing.beatStart` / `beatEnd`** — 0-based indices into the `beatMarkers` array. **`beatEnd` is inclusive** — a scene extends from `beatMarkers[beatStart]` to `beatMarkers[beatEnd + 1]`. So for 8 scenes on 8 beats, assign `beatStart:0,beatEnd:0` / `beatStart:1,beatEnd:1` / ... / `beatStart:7,beatEnd:7`. Give a scene 2 beats with `beatStart:3,beatEnd:4` (extends to beat 5). **Never overlap** — each beat index should be used by only one scene.
-- **`timing.durationWeight`** — `1.0` = normal. Use `1.3–1.5` for `counter`, `social-proof`, `product-launch`, `stat-grid`, `split-compare` (they need more time). **Check the duration budget in [rules/composition-rules.md](rules/composition-rules.md) — scenes that are too short for their animations look broken.**
+- **`timing.startTime` / `endTime`** — scene start and end in seconds. These come directly from the track's scene slots — **never invent your own values**. Call `list_tracks`, pick a track, and use each slot's `start` and `end` as `startTime` and `endTime`. Every scene transition lands on a beat by construction.
 - **`transition` / `backgroundEffect`** — set per-scene to override `style.defaultTransition` / `style.defaultBackgroundEffect`
 - **`textEffect`** — only meaningful for bg-* templates (they use global text effect). Set per-scene to override.
 - **`style.font`** — use the full CSS value: `"'Inter', sans-serif"` not `"Inter"` (see [rules/effects-and-style.md](rules/effects-and-style.md) for all options)
@@ -250,42 +248,20 @@ The text transitions happen within one scene — the background stays continuous
 
 **Run these checks before saving the config. Fix any failures.**
 
-### 1. Beat overlap check
-Each beat index must belong to only one scene. A scene with `beatEnd: N` claims beats through index N (extends to `beatMarkers[N+1]`).
+### 1. Timing matches slots
+Every scene's `startTime` and `endTime` must match a slot boundary from the selected track's `sceneSlots`. Scenes must not overlap and must cover the full track duration.
 
-```
-For each scene, list its claimed beats: range(beatStart, beatEnd) inclusive.
-Verify no beat index appears in more than one scene.
-```
+### 2. Scene count matches slot count
+One scene per slot. If you merged slots, the merged scene should span the combined time range.
 
-**Example (correct):** 8 scenes, 8 beats
-```
-s1: beat 0     s2: beat 1     s3: beat 2     s4: beat 3
-s5: beat 4     s6: beat 5     s7: beat 6     s8: beat 7
-```
-
-**Example (WRONG):** s2 takes 2 beats, s6 and s7 collide
-```
-s1: beat 0     s2: beats 1-2  s3: beat 3     s4: beat 4
-s5: beat 5     s6: beat 6     s7: beat 6 <- OVERLAP!  s8: beat 7
-```
-
-### 2. Scene count vs beat count
-Total beat slots used must equal total beats available. If a scene uses 2 beats (`beatStart:1, beatEnd:2`), it consumes 2 slots, so you need one fewer scene.
-
-```
-beat_slots_used = sum of (beatEnd - beatStart + 1) for each scene
-beat_slots_used must equal len(beatMarkers)
-```
-
-### 3. Duration budget
-Sum preferred durations and compare to track duration. See [rules/composition-rules.md](rules/composition-rules.md) for minimum durations per template.
+### 3. Template fits slot duration
+Each scene's duration (`endTime - startTime`) must be ≥ the template's `minDuration`. Check via `list_templates`.
 
 ### 4. Template variables
 Each scene's `variables` keys must match its template's schema. Required fields must be set. See [rules/templates.md](rules/templates.md).
 
-### 5. Last scene is end-screen
-The final scene should use the `end-screen` template with a CTA.
+### 5. Last scene is CTA
+The final scene (outro slot) should be a CTA — typically a bg-* template with call-to-action text, or a dedicated end-screen template if available.
 
 ## MCP Tools
 
@@ -343,7 +319,7 @@ Returns all available scene templates with their full metadata. **Always call th
 
 ### 3. `list_tracks` — Choose music (REQUIRED)
 
-Returns available music tracks with mood, duration, vibe, beat markers, and best-for tags.
+Returns available music tracks with mood, scene slots, beat markers, and metadata.
 
 **Params:** `{ mood?: "cinematic" }` (optional filter)
 
@@ -353,17 +329,28 @@ Returns available music tracks with mood, duration, vibe, beat markers, and best
   {
     "id": "7995f8e2-cd04-4cd0-b498-6672c5b34529",
     "name": "Shadow Countdown",
-    "mood": ["Epic", "Cinematic", "Thriller"],
     "duration": 27.6,
+    "format": "standard",
+    "mood": ["Epic", "Cinematic", "Thriller"],
     "vibe": "Dark, suspenseful intro with rising tension",
     "bestFor": "Product launches, brand reveals, cinematic trailers",
     "tempoFeel": "Slow build → rapid escalation",
+    "energyCurve": "Builds from low to high, dramatic climax in final third",
+    "energyLevel": "high",
+    "sceneSlots": [
+      { "start": 0, "end": 4.7, "duration": 4.7, "role": "intro" },
+      { "start": 4.7, "end": 8.1, "duration": 3.4, "role": "build" },
+      { "start": 8.1, "end": 16.6, "duration": 8.5, "role": "hero" },
+      { "start": 16.6, "end": 20.4, "duration": 3.8, "role": "accelerate" },
+      { "start": 20.4, "end": 24.9, "duration": 4.5, "role": "climax" },
+      { "start": 24.9, "end": 27.6, "duration": 2.7, "role": "outro" }
+    ],
     "beatMarkers": [1.2, 4.7, 8.1, 16.6, 18.7, 20.4, 21.9, 24.9]
   }
 ]
 ```
 
-**Use for:** Selecting a track that matches the video's mood. The `beatMarkers` array is used directly in the VideoConfig `audio.beatMarkers` field (wrap each as `{ "time": value }`). The number of beats determines max scene count.
+**Use for:** Selecting a track by structural fit (slot count ≈ scene count) + mood match. The `sceneSlots` define each scene's `startTime`/`endTime`. The `beatMarkers` are used in the VideoConfig `audio.beatMarkers` field (wrap each as `{ "time": value }`).
 
 ### 4. `save_config` — Save and share (final step)
 
