@@ -1,96 +1,98 @@
 ---
 name: audio-tracks
-description: Music track catalog with rich descriptions, energy curves, and best-for tags
+description: Music track catalog with scene slots, energy curves, and selection guide
 metadata:
-  tags: audio, music, tracks, beats, mood
+  tags: audio, music, tracks, beats, slots, mood
 ---
 
 # Music Track Catalog
 
-5 tracks available. Pick the one that best matches the requested video mood and type.
+Tracks are selected based on **structural fit** (slot count matches your scene count) + **mood match**.
 
-## Shadow Countdown
+Call `list_tracks` MCP tool to get the full catalog with scene slots. Each track returns:
+- `sceneSlots[]` — pre-computed time ranges for each scene, with narrative roles
+- `beatMarkers[]` — raw beat times (needed for the audio config)
+- `mood`, `vibe`, `bestFor`, `energyCurve` — for matching to the brief
 
-- **ID:** `7995f8e2-cd04-4cd0-b498-6672c5b34529`
-- **Duration:** 27.6s | **Beats:** 8
-- **Mood:** Epic, Cinematic, Thriller
-- **Energy curve:** Builds from low to high, dramatic climax in final third
-- **Vibe:** Dark, suspenseful intro with rising tension — like a movie trailer reveal
-- **Best for:** Product launches that need gravitas, brand reveals, "unveiling" moments, cinematic trailers
-- **Tempo feel:** Slow build → rapid escalation
-- **Beat markers:** `[1.2, 4.7, 8.1, 16.6, 18.7, 20.4, 21.9, 24.9]`
+## How Scene Slots Work
 
-## HipHop Sequence
+Beat markers define where scene transitions happen. Segments shorter than 2s are merged with neighbors. Each slot has a **role**:
 
-- **ID:** `a5cf8cbd-9606-4246-8408-61bc7e5d2794`
-- **Duration:** 27.4s | **Beats:** 8
-- **Mood:** Hiphop, Beat
-- **Energy curve:** High from the start, consistent driving rhythm
-- **Vibe:** Urban, confident, swagger — bass-heavy with rhythmic pulse
-- **Best for:** Fitness, lifestyle, streetwear, apps targeting young audiences, social media ads
-- **Tempo feel:** Steady groove, punchy
-- **Beat markers:** `[4.2, 7.6, 10.2, 12.7, 15.1, 17.4, 19.2, 22.8]`
+| Role | Position | Purpose |
+|------|----------|---------|
+| intro | First slot | Hook, brand reveal, opening |
+| build | Before hero | Setup, context, problem statement |
+| hero | Longest middle slot | Key demo, main message, biggest moment |
+| accelerate | After hero | Features, social proof, momentum |
+| climax | Before outro | Impact, results, peak energy |
+| outro | Last slot | CTA, end screen, logo |
 
-## Momentum Theme
+## Track Selection Rules
 
-- **ID:** `645b3256-5416-48cf-8f9d-39a2dbd9e167`
-- **Duration:** 37.4s | **Beats:** 8
-- **Mood:** Energetic, Rhythmic, Bold
-- **Energy curve:** Starts strong, builds through middle, peaks at 70%
-- **Vibe:** Corporate-energetic — forward motion, achievement, progress
-- **Best for:** Showreels, startup pitches, SaaS demos, team culture videos, longer-format content
-- **Tempo feel:** Driving, upbeat, accommodates more scenes with longer duration
-- **Beat markers:** `[2, 5.6, 11.7, 14.6, 20, 22.7, 26.5, 30]`
+**Priority order:**
+1. **Slot count ≈ scene count** — A 5-scene story needs a track with ~5-6 slots, not 9
+2. **Mood/energy match** — Track vibe fits the brand and message
+3. **Hero slot fits key scene** — If the main demo needs 6s, hero slot must be ≥ 6s
 
-## Shadows at the Gate
+## Quick Reference
 
-- **ID:** `d899f250-3371-4e0e-a1b4-93bd868b07bc`
-- **Duration:** 31.4s | **Beats:** 8
-- **Mood:** Thriller, Cinematic
-- **Energy curve:** Slow opening, dramatic mid-section, powerful finale
-- **Vibe:** Dark atmosphere, mystery, high stakes — noir thriller feel
-- **Best for:** Security products, fintech, dramatic brand stories, "problem" narratives, dark-themed trailers
-- **Tempo feel:** Atmospheric → explosive
-- **Beat markers:** `[0.2, 3.8, 7.3, 10, 18.2, 20.3, 24.1, 29.1]`
+Call `list_tracks` for exact slot data. This table is for quick orientation:
 
-## Pulse in the Dark
+| Track | Duration | Slots | Format | Best for |
+|-------|----------|-------|--------|----------|
+| Shadow Countdown | 27.6s | 6 | standard | Product launches, brand reveals, cinematic |
+| HipHop Sequence | 27.4s | 7+ | standard | Fitness, lifestyle, streetwear, social ads |
+| Momentum Theme | 37.4s | 8 | long | Showreels, SaaS demos, startup pitches |
+| Shadows at the Gate | 31.4s | 8 | standard | Security, fintech, dark brand stories |
+| Pulse in the Dark | 25s | 8 | standard | Social ads, quick hooks, urgency |
 
-- **ID:** `8e83c405-08cb-45fd-b119-604ce81dfccd`
-- **Duration:** 25s | **Beats:** 8
-- **Mood:** Trailer, Thriller
-- **Energy curve:** Rapid build from beat 1, relentless acceleration
-- **Vibe:** Fast-paced, urgent, "time is running out"
-- **Best for:** Social media ads, quick hooks, countdown-style videos, urgency-driven content, short trailers
-- **Tempo feel:** Rapid-fire, dense beats — shortest track, most compact
-- **Beat markers:** `[3.7, 7.1, 9.9, 12.7, 15, 17.4, 19, 20.9]`
+## Timing Rule
 
-## Track Selection Guide
+Each scene fills exactly one slot. Set timing directly from slot boundaries:
 
-| Video type | First choice | Alternate |
-|-----------|-------------|-----------|
-| Product launch / brand reveal | Shadow Countdown | Shadows at the Gate |
-| Fitness / lifestyle / streetwear | HipHop Sequence | Pulse in the Dark |
-| Startup pitch / showreel / SaaS | Momentum Theme | Shadow Countdown |
-| Dark / security / fintech | Shadows at the Gate | Pulse in the Dark |
-| Social media ad (short) | Pulse in the Dark | HipHop Sequence |
-| Cinematic trailer | Shadow Countdown | Shadows at the Gate |
+```json
+{
+  "timing": { "startTime": 4.7, "endTime": 8.1 }
+}
+```
+
+Never invent your own timing values. Always use slot `start` and `end`.
+
+## Template Fit by Slot Duration
+
+| Slot duration | Templates available |
+|---------------|-------------------|
+| < 2.5s | Background templates only (bg-solid, bg-photo, etc. — 1.5s min) |
+| 2.5 – 4s | Most templates (charts, showcases, social, intros) |
+| 5s+ | All templates including social-chat (5s min) and social-whatsapp (5s min) |
+
+## Scene Count Defaults (Research-Backed)
+
+| Video type | Scenes | Duration | Pacing |
+|------------|--------|----------|--------|
+| Social teaser | 3-4 | 10-15s | 2-3s per scene |
+| Product ad | 5-6 | 20-30s | 3-4s per scene |
+| Brand trailer | 6-8 | 25-35s | 2-4s per scene |
+| Showreel | 7-9 | 30-40s | 3-4s per scene |
+
+First 3 seconds are critical — 47% of a video's value is delivered there.
 
 ## Audio Config Format
 
 ```json
 {
-  "trackId": "a5cf8cbd-9606-4246-8408-61bc7e5d2794",
+  "trackId": "track-uuid-here",
   "audioUrl": "",
-  "duration": 27.4,
+  "duration": 27.6,
   "beatDetection": { "sensitivity": 0.5 },
   "beatMarkers": [
-    { "time": 4.2 }, { "time": 7.6 }, { "time": 10.2 },
-    { "time": 12.7 }, { "time": 15.1 }, { "time": 17.4 },
-    { "time": 19.2 }, { "time": 22.8 }
+    { "time": 1.2 }, { "time": 4.7 }, { "time": 8.1 },
+    { "time": 16.6 }, { "time": 18.7 }, { "time": 20.4 },
+    { "time": 21.9 }, { "time": 24.9 }
   ]
 }
 ```
 
 - `audioUrl` — leave empty, the editor loads it from the track database
-- `beatMarkers` — wrap each time in `{ "time": value }`
+- `beatMarkers` — wrap each time in `{ "time": value }` — copy directly from track's `beatMarkers` array
 - `beatDetection.sensitivity` — always `0.5`

@@ -7,6 +7,42 @@ metadata:
 
 # Composition Rules
 
+## Composition Flow
+
+Follow these steps in order. Do not skip steps.
+
+### 1. Count scenes from the story
+- Intro (brand/hook) + content scenes + CTA = total
+- Default: 5-6 for product ads, 3-4 for social teasers, 7-9 for showreels
+
+### 2. Pick track by structural fit
+- Call `list_tracks` to get available tracks with slot counts
+- Match: slot count ≈ scene count (±1 is fine)
+- Then filter by mood/energy
+- Verify hero slot duration fits your most complex scene
+
+### 3. Map scenes to slots
+- Intro template → intro slot
+- Most important content → hero slot (longest duration, give it room)
+- CTA/end screen → outro slot
+- Remaining content → build/accelerate/climax slots by narrative position
+
+### 4. Check template fit
+- Each template's minDuration must be ≤ the slot's duration
+- If a template doesn't fit: pick a simpler one, or reduce content (fewer chart bars, fewer slides)
+- social-chat and social-whatsapp need 5s+ slots — only use in hero or long slots
+
+### 5. Set timing from slots
+- `startTime` = slot.start, `endTime` = slot.end
+- This is non-negotiable. Never calculate your own timing.
+
+### 6. Scene count adjustments
+- **Fewer scenes than slots**: merge adjacent build slots (combine two builds into one longer scene)
+- **More scenes than slots**: pick a different track with more slots, or cut a scene
+- Never split a slot into two scenes
+
+---
+
 ## Narrative Arc
 
 Every video follows a 4-act structure, regardless of length:
@@ -99,32 +135,39 @@ Background templates use `texts` — comma-separated entries with optional `|eff
 
 ## Pacing & Duration
 
-### Duration Budget
+### Slot-Based Timing
 
-Use `preferredDuration` from `list_templates` response. Sum all preferred durations — if total exceeds track duration, reduce scene count. Don't compress templates below their `minDuration`.
+Scene count and duration are determined by the track's scene slots (see `audio-tracks.md`). Each slot defines a scene's start and end time.
 
-### Max scenes per track
+- Check `list_tracks` for the exact slot structure of each track
+- The slot count IS the scene count — one scene per slot
+- Slot durations determine which templates can be used (must fit minDuration)
 
-| Track | Duration | Max scenes |
-|-------|----------|-----------|
-| Pulse in the Dark | 25s | 6–7 |
-| Shadow Countdown | 27.6s | 7–8 |
-| HipHop Sequence | 27.4s | 7–8 |
-| Shadows at the Gate | 31.4s | 8–9 |
-| Momentum Theme | 37.4s | 10–12 |
+### Pacing Guidelines
 
-### Timing Rules
+- **Intro slot**: Grab attention in the first 3 seconds — use high-impact templates
+- **Build slots**: Establish context — alternate visual intensity between scenes
+- **Hero slot**: The longest slot — use it for the key demo, showcase, or biggest stat
+- **Accelerate/climax slots**: Energy builds — shorter scenes, punchier text effects (`slam`, `flash`)
+- **Outro slot**: CTA — keep it clean and simple, don't rush it
 
-- Each scene gets 1–2 beats
-- High-energy beats → `slam`/`flash`/`zoom-through` text effects
-- Calm moments → `fade-in`/`crossfade`
-- Scenes get shorter as energy builds toward climax
-- Last 2 scenes should breathe — don't rush the CTA
+### Text Effect Matching
+
+- High-energy slots (accelerate, climax) → `slam`, `flash`, `zoom-through`
+- Calm slots (intro, build) → `fade-in`, `crossfade`
+- Hero slot → `typewriter` or `slam` depending on content
 
 ## Scene Plan Format
 
 Present the plan as a table before building the config:
 
-| # | Template | Key variables | Why this template | Copy |
-|---|----------|--------------|-------------------|------|
-| 1 | (from list_templates) | keyword/texts | Match to arc purpose | Scene text |
+| # | Slot | Time | Duration | Template | Content |
+|---|------|------|----------|----------|---------|
+| 1 | intro | 0–4.7s | 4.7s | intro-epic-reveal | Brand name reveal |
+| 2 | build | 4.7–8.1s | 3.4s | bg-photo | Problem statement |
+| 3 | hero | 8.1–16.6s | 8.5s | showcase-tablet-slides | 3-screen demo |
+| 4 | accelerate | 16.6–20.4s | 3.8s | chart-counter | "10K users" stat |
+| 5 | climax | 20.4–24.9s | 4.5s | social-review-stack | 3 testimonials |
+| 6 | outro | 24.9–27.6s | 2.7s | bg-gradient-linear | CTA |
+
+This shows the user exactly how scenes map to the music structure.
