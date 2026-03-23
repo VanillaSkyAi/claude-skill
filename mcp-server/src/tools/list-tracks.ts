@@ -14,18 +14,14 @@ export interface Track {
   name: string;
   duration: number;
   format: "short" | "standard" | "long";
-  mood: string[];
-  vibe: string;
-  bestFor: string;
-  tempoFeel: string;
-  energyCurve: string;
-  energyLevel: string;
+  description: string;
+  videoTypes: string[];
   sceneSlots: SceneSlot[];
   beatMarkers: number[];
 }
 
-export async function listTracks(mood?: string): Promise<Track[]> {
-  const url = `${SUPABASE_URL}/rest/v1/track_configs?public_skill_ready=eq.true&select=id,name,duration,format,mood,vibe,best_for,tempo_feel,energy_curve,energy_level,scene_slots,beat_markers`;
+export async function listTracks(): Promise<Track[]> {
+  const url = `${SUPABASE_URL}/rest/v1/track_configs?public_skill_ready=eq.true&select=id,name,duration,description,video_types,scene_slots,beat_markers`;
 
   const res = await fetch(url, {
     headers: {
@@ -40,29 +36,18 @@ export async function listTracks(mood?: string): Promise<Track[]> {
 
   const rows: any[] = await res.json();
 
-  let tracks: Track[] = rows
+  const tracks: Track[] = rows
     .filter((r) => r.scene_slots && r.beat_markers)
     .map((r) => ({
       id: r.id,
       name: r.name,
       duration: r.duration,
-      format: r.format || "standard",
-      mood: r.mood || [],
-      vibe: r.vibe || "",
-      bestFor: r.best_for || "",
-      tempoFeel: r.tempo_feel || "",
-      energyCurve: r.energy_curve || "",
-      energyLevel: r.energy_level || "medium",
+      format: r.duration < 18 ? "short" : r.duration > 32 ? "long" : "standard",
+      description: r.description || "",
+      videoTypes: r.video_types || [],
       sceneSlots: r.scene_slots,
       beatMarkers: r.beat_markers,
     }));
-
-  if (mood) {
-    const lower = mood.toLowerCase();
-    tracks = tracks.filter((t) =>
-      t.mood.some((m) => m.toLowerCase().includes(lower)),
-    );
-  }
 
   return tracks;
 }

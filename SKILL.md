@@ -84,11 +84,11 @@ See [rules/video-types.md](rules/video-types.md) for detailed presets. These are
 
 ### 5. Pick a Music Track
 
-**Call `list_tracks` MCP tool** to get tracks with their scene slots. Selection is based on structural fit first, then mood:
+**Call `list_tracks` MCP tool** to get tracks with their scene slots. Selection priority:
 
-1. **Count your scenes** — intro + content scenes + CTA
-2. **Match slot count** — pick a track where slot count ≈ scene count (±1)
-3. **Check mood** — does the vibe match the brand?
+1. **Video type match** — pick a track whose `videoTypes` includes your video type (ad, trailer, showreel, social)
+2. **Match slot count** — slot count ≈ scene count (±1)
+3. **Description feel** — does the track description fit the brand?
 4. **Check hero slot** — is it long enough for your most complex scene?
 
 See [rules/audio-tracks.md](rules/audio-tracks.md) for the slot system explained.
@@ -128,7 +128,7 @@ Read these for detailed creative and technical patterns:
 - [rules/effects-and-style.md](rules/effects-and-style.md) — Text effects, background effects, transitions, fonts, brand kit
 - [rules/composition-rules.md](rules/composition-rules.md) — Narrative arc, template mix, pacing, copy best practices
 - [rules/video-types.md](rules/video-types.md) — Presets: Ad, Trailer, Showreel, Social
-- [rules/audio-tracks.md](rules/audio-tracks.md) — Track catalog with energy curves and best-for tags
+- [rules/audio-tracks.md](rules/audio-tracks.md) — Track catalog with video types, scene slots, and selection guide
 
 ## Templates
 
@@ -235,7 +235,7 @@ The text transitions happen within one scene — the background stays continuous
 - **`textEffect`** — only meaningful for bg-* templates (they use global text effect). Set per-scene to override.
 - **`style.font`** — use the full CSS value: `"'Inter', sans-serif"` not `"Inter"` (see [rules/effects-and-style.md](rules/effects-and-style.md) for all options)
 - **`orientation`** — `"portrait"` (1080×1920, default) or `"landscape"` (1920×1080)
-- **`meta.mood`** — array of mood tags matching the track's mood
+- **`meta.mood`** — array of mood/tone tags for the video
 
 ### Media Handling
 
@@ -319,9 +319,9 @@ Returns all available scene templates with their full metadata. **Always call th
 
 ### 3. `list_tracks` — Choose music (REQUIRED)
 
-Returns available music tracks with mood, scene slots, beat markers, and metadata.
+Returns all public-skill-ready music tracks with scene slots, beat markers, and metadata.
 
-**Params:** `{ mood?: "cinematic" }` (optional filter)
+**Params:** none
 
 **Returns:**
 ```json
@@ -331,12 +331,8 @@ Returns available music tracks with mood, scene slots, beat markers, and metadat
     "name": "Shadow Countdown",
     "duration": 27.6,
     "format": "standard",
-    "mood": ["Epic", "Cinematic", "Thriller"],
-    "vibe": "Dark, suspenseful intro with rising tension",
-    "bestFor": "Product launches, brand reveals, cinematic trailers",
-    "tempoFeel": "Slow build → rapid escalation",
-    "energyCurve": "Builds from low to high, dramatic climax in final third",
-    "energyLevel": "high",
+    "description": "Dark, suspenseful intro with rising tension and dramatic climax",
+    "videoTypes": ["trailer", "ad"],
     "sceneSlots": [
       { "start": 0, "end": 4.7, "duration": 4.7, "role": "intro" },
       { "start": 4.7, "end": 8.1, "duration": 3.4, "role": "build" },
@@ -350,7 +346,7 @@ Returns available music tracks with mood, scene slots, beat markers, and metadat
 ]
 ```
 
-**Use for:** Selecting a track by structural fit (slot count ≈ scene count) + mood match. The `sceneSlots` define each scene's `startTime`/`endTime`. The `beatMarkers` are used in the VideoConfig `audio.beatMarkers` field (wrap each as `{ "time": value }`).
+**Use for:** Selecting a track by video type match + structural fit (slot count ≈ scene count). The `sceneSlots` define each scene's `startTime`/`endTime`. The `beatMarkers` are used in the VideoConfig `audio.beatMarkers` field (wrap each as `{ "time": value }`).
 
 ### 4. `save_config` — Save and share (final step)
 

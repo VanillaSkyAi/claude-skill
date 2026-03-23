@@ -53,17 +53,10 @@ server.tool(
 
 server.tool(
   "list_tracks",
-  "List available music tracks for VanillaSky videos. Returns track metadata including mood, duration, vibe, beat markers, and best-for tags. Optionally filter by mood.",
-  {
-    mood: z
-      .string()
-      .optional()
-      .describe(
-        "Filter by mood tag (e.g. 'cinematic', 'hiphop', 'energetic')",
-      ),
-  },
-  async ({ mood }) => {
-    const tracks = await listTracks(mood);
+  "List available music tracks for VanillaSky videos. Returns track metadata including duration, video types, description, scene slots, and beat markers.",
+  {},
+  async () => {
+    const tracks = await listTracks();
     return {
       content: [
         {

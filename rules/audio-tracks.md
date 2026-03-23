@@ -1,18 +1,19 @@
 ---
 name: audio-tracks
-description: Music track catalog with scene slots, energy curves, and selection guide
+description: Music track catalog with scene slots and selection guide
 metadata:
-  tags: audio, music, tracks, beats, slots, mood
+  tags: audio, music, tracks, beats, slots, video-types
 ---
 
 # Music Track Catalog
 
-Tracks are selected based on **structural fit** (slot count matches your scene count) + **mood match**.
+Tracks are selected based on **video type match** + **structural fit** (slot count matches your scene count).
 
 Call `list_tracks` MCP tool to get the full catalog with scene slots. Each track returns:
 - `sceneSlots[]` — pre-computed time ranges for each scene, with narrative roles
 - `beatMarkers[]` — raw beat times (needed for the audio config)
-- `mood`, `vibe`, `bestFor`, `energyCurve` — for matching to the brief
+- `videoTypes` — which video types the track works best for
+- `description` — feel and character of the track
 
 ## How Scene Slots Work
 
@@ -30,21 +31,22 @@ Beat markers define where scene transitions happen. Segments shorter than 2s are
 ## Track Selection Rules
 
 **Priority order:**
-1. **Slot count ≈ scene count** — A 5-scene story needs a track with ~5-6 slots, not 9
-2. **Mood/energy match** — Track vibe fits the brand and message
-3. **Hero slot fits key scene** — If the main demo needs 6s, hero slot must be ≥ 6s
+1. **Video type match** — Track's `videoTypes` includes the video type (ad, trailer, showreel, social)
+2. **Slot count ≈ scene count** — A 5-scene story needs a track with ~5-6 slots, not 9
+3. **Description feel** — Track description fits the brand and message
+4. **Hero slot fits key scene** — If the main demo needs 6s, hero slot must be ≥ 6s
 
 ## Quick Reference
 
 Call `list_tracks` for exact slot data. This table is for quick orientation:
 
-| Track | Duration | Slots | Format | Best for |
-|-------|----------|-------|--------|----------|
-| Shadow Countdown | 27.6s | 6 | standard | Product launches, brand reveals, cinematic |
-| HipHop Sequence | 27.4s | 7+ | standard | Fitness, lifestyle, streetwear, social ads |
-| Momentum Theme | 37.4s | 8 | long | Showreels, SaaS demos, startup pitches |
-| Shadows at the Gate | 31.4s | 8 | standard | Security, fintech, dark brand stories |
-| Pulse in the Dark | 25s | 8 | standard | Social ads, quick hooks, urgency |
+| Track | Duration | Slots | Format | Video types |
+|-------|----------|-------|--------|-------------|
+| Shadow Countdown | 27.6s | 6 | standard | trailer, ad |
+| HipHop Sequence | 27.4s | 7+ | standard | ad, social |
+| Momentum Theme | 37.4s | 8 | long | showreel, trailer |
+| Shadows at the Gate | 31.4s | 8 | standard | trailer, ad |
+| Pulse in the Dark | 25s | 8 | standard | social, ad |
 
 ## Timing Rule
 
