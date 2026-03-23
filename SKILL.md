@@ -48,6 +48,8 @@ Use detection cues from [rules/video-types.md](rules/video-types.md) to infer fr
 |---------------|---------------|
 | `brandColors.primary` | `style.brandKit.accent` |
 | `brandColors.accent` | `style.brandKit.bg` (or use a dark version) |
+| `fonts.primary` | Match to closest available font in `style.font` (see effects-and-style.md for full list) |
+| `fonts.headings` | Note for user — detected a different headings font |
 | `title` | Scene copy inspiration, `meta.name` |
 | `description` | Scene copy, text entries |
 | `headlines` | Scene text entries — pick the best ones |
@@ -57,7 +59,7 @@ Use detection cues from [rules/video-types.md](rules/video-types.md) to infer fr
 | `favicon` | Could mention as logo reference (usually too small to use directly) |
 
 **After scraping, confirm what you found:**
-> "I found your brand colors (#3b82f6 blue + dark bg) and a product screenshot from your site — look right?"
+> "I found your brand colors (#3b82f6 blue + dark bg), font (Inter), and a product screenshot from your site — look right?"
 
 **Don't blindly copy** — use scraped data as inspiration. Rewrite headlines to be punchier (1-5 words for scenes). Extract key features. Use their actual brand colors.
 
@@ -187,7 +189,7 @@ See [rules/schema.md](rules/schema.md) for a full annotated example.
 ### Media Handling
 
 - For `bg-photo` / `bg-video`: set `mediaKeyword` with a descriptive Pexels search keyword (2–4 words). Leave `mediaUrl` empty — the editor auto-fills the top Pexels result on load.
-- For showcase templates (`showcase-phone`, `showcase-tablet`, etc.): set `screenMediaKeyword` if user doesn't have a screenshot. Or set `screenMediaUrl` directly if they provide one.
+- For showcase templates (`showcase-phone`, `showcase-tablet`, etc.): set `screenMediaUrl` directly if the user provides a screenshot. If not, leave it empty — the template shows a professional placeholder with screen dimensions and an "Upload screenshot" prompt. Do NOT use Pexels stock for device screens.
 - If the user provides media files/URLs, use them directly in the relevant `mediaUrl` / `screenMediaUrl` / `logoUrl` fields.
 
 ## Pre-Save Validation Checklist
@@ -213,7 +215,7 @@ The final scene (outro slot) should be a CTA — typically a bg-solid or bg-grad
 
 Use in this order during video creation. No API keys needed — the MCP server handles everything.
 
-1. **`scrape_url`** (optional, do first if URL available) — `{ url }` → Returns `brandColors`, `headlines`, `description`, `images`, `ogImage`. Use for brand kit + copy inspiration.
+1. **`scrape_url`** (optional, do first if URL available) — `{ url }` → Returns `brandColors`, `fonts`, `headlines`, `description`, `images`, `ogImage`. Use for brand kit, font matching, and copy inspiration.
 2. **`list_templates`** (REQUIRED) — `{ category? }` → Returns all templates with `id`, `variables`, `minDuration`, `whenToUse`, `copyTip`. Never hardcode template IDs.
 3. **`list_tracks`** (REQUIRED) — Returns tracks with `sceneSlots` (use as `startTime`/`endTime`) and `beatMarkers` (wrap as `{ "time": value }`).
 4. **`save_config`** (final step) — `{ config }` → Returns `{ id, url, warnings? }`. Share the URL. Warnings flag duration issues but don't block the save.
@@ -233,7 +235,7 @@ Use in this order during video creation. No API keys needed — the MCP server h
 | 1 | bg-video | keyword: "fitness workout gym" | Visual hook — real footage grabs attention | texts: "Get moving." |
 | 2 | bg-video | keyword: "runner sunrise trail" | Action footage sells the lifestyle | texts: "Push harder." |
 | 3 | bg-photo | keyword: "smartwatch close up" | Shows the tech angle | texts: "Track everything." |
-| 4 | showcase-phone | screenMediaKeyword: "fitness app" | Device mockup with app screenshot | productName: "FitPulse" |
+| 4 | showcase-phone | screenMediaUrl: "" (placeholder) | Device mockup — user uploads screenshot | texts: "FitPulse" |
 | 5 | chart-counter | value: 10000, unit: "+" | Impressive scale metric | label: "Active users" |
 | 6 | bg-photo | keyword: "healthy meal preparation" | Lifestyle footage, breathing room | texts: "Fuel your body." |
 | 7 | bg-video | keyword: "group fitness class energy" | Community energy | texts: "Join thousands." |
