@@ -24,6 +24,7 @@ If the user's prompt doesn't make the video type clear, ask:
 > What kind of video do you want to create?
 > - **Ad** — hook fast, show value, drive action (15-30s)
 > - **Trailer** — build tension, tell a story, create desire (25-40s)
+> - **Explainer** — educate, simplify, make it clear (20-30s)
 > - **Social** — stop the scroll, TikTok/Reels (15-20s)
 > - **Showreel** — showcase your work or product (30-60s)
 > - **Brand Story** — who you are, what you stand for (25-40s)
@@ -50,8 +51,8 @@ Use detection cues from [rules/video-types.md](rules/video-types.md) to infer fr
 | `title` | Scene copy inspiration, `meta.name` |
 | `description` | Scene copy, text entries |
 | `headlines` | Scene text entries — pick the best ones |
-| `ogImage` | `bg-photo.mediaUrl` or `product-launch.screenMediaUrl` |
-| `images` | Product screenshots for `product-launch.screenMediaUrl` |
+| `ogImage` | `bg-photo.mediaUrl` or showcase template `screenMediaUrl` |
+| `images` | Product screenshots for showcase template `screenMediaUrl` |
 | `bodyText` | Copy inspiration, feature extraction |
 | `favicon` | Could mention as logo reference (usually too small to use directly) |
 
@@ -112,6 +113,8 @@ Present a table showing how scenes map to the track's slots:
 | 5 | climax | 20.4–24.9s | 4.5s | social-review-stack | Customer reviews |
 | 6 | outro | 24.9–27.6s | 2.7s | bg-gradient-linear | CTA |
 
+> Template IDs here are illustrative — always call `list_templates` for the current list.
+
 Be transparent about template choices. Explain why a template fits its slot duration and narrative role.
 
 ### 7. User Confirms or Tweaks
@@ -130,10 +133,11 @@ Save the config and return the editor link. The user can preview, customize, and
 
 Read these for detailed creative and technical patterns:
 
-- [rules/templates.md](rules/templates.md) — All 18 templates: variable schemas, duration hints, usage guidelines
+- [rules/templates.md](rules/templates.md) — Template discovery, variable schemas, duration hints, usage guidelines
 - [rules/effects-and-style.md](rules/effects-and-style.md) — Text effects, background effects, transitions, fonts, brand kit
 - [rules/composition-rules.md](rules/composition-rules.md) — Narrative arc, template mix, pacing, copy best practices
-- [rules/video-types.md](rules/video-types.md) — Presets: Ad, Trailer, Showreel, Social
+- [rules/video-types.md](rules/video-types.md) — Presets: Ad, Trailer, Explainer, Showreel, Social, Brand Story, Event
+- [rules/schema.md](rules/schema.md) — Full VideoConfig JSON example with annotations
 - [rules/audio-tracks.md](rules/audio-tracks.md) — Track catalog with video types, scene slots, and selection guide
 
 ## Templates
@@ -163,70 +167,7 @@ The text transitions happen within one scene — the background stays continuous
 
 ## VideoConfig Schema
 
-```json
-{
-  "orientation": "portrait",
-  "audio": {
-    "trackId": "a5cf8cbd-9606-4246-8408-61bc7e5d2794",
-    "audioUrl": "",
-    "duration": 27.4,
-    "beatDetection": { "sensitivity": 0.5 },
-    "beatMarkers": [
-      { "time": 4.2 }, { "time": 7.6 }, { "time": 10.2 }, { "time": 12.7 },
-      { "time": 15.1 }, { "time": 17.4 }, { "time": 19.2 }, { "time": 22.8 }
-    ]
-  },
-  "scenes": [
-    {
-      "id": "s1",
-      "templateId": "bg-photo",
-      "variables": {
-        "texts": "Get moving.",
-        "mediaUrl": "",
-        "mediaKeyword": "fitness workout gym"
-      },
-      "timing": { "startTime": 0, "endTime": 4.2 },
-      "transition": "crossfade",
-      "backgroundEffect": "slow-zoom-in"
-    },
-    {
-      "id": "s2",
-      "templateId": "chart-counter",
-      "variables": {
-        "value": 10000,
-        "label": "Active users",
-        "unit": "+"
-      },
-      "timing": { "startTime": 12.7, "endTime": 17.4 }
-    },
-    {
-      "id": "s3",
-      "templateId": "bg-gradient-linear",
-      "variables": {
-        "ctaText": "Start free today.",
-        "tagline": "fitpulse.app",
-        "logoUrl": ""
-      },
-      "timing": { "startTime": 22.8, "endTime": 27.4 }
-    }
-  ],
-  "style": {
-    "font": "'Inter', sans-serif",
-    "brandKit": {
-      "bg": "#1a1a2e",
-      "accent": "#e94560"
-    },
-    "defaultTextEffect": "fade-in",
-    "defaultTransition": "crossfade",
-    "defaultBackgroundEffect": "slow-zoom-in"
-  },
-  "meta": {
-    "name": "FitPulse Launch",
-    "prompt": "Create a launch video for a fitness app called FitPulse",
-    "mood": ["Energetic"]
-  }
-}
-```
+See [rules/schema.md](rules/schema.md) for a full annotated example.
 
 ### Schema Rules
 
@@ -238,7 +179,7 @@ The text transitions happen within one scene — the background stays continuous
 - **`scenes[].variables`** — keys must match the template's variable schema (returned by `list_templates`)
 - **`timing.startTime` / `endTime`** — scene start and end in seconds. These come directly from the track's scene slots — **never invent your own values**. Call `list_tracks`, pick a track, and use each slot's `start` and `end` as `startTime` and `endTime`. Every scene transition lands on a beat by construction.
 - **`transition` / `backgroundEffect`** — set per-scene to override `style.defaultTransition` / `style.defaultBackgroundEffect`
-- **`textEffect`** — only meaningful for bg-* templates (they use global text effect). Set per-scene to override.
+- **`textEffect`** — only meaningful for templates with `usesGlobalTextEffect: true` (bg-* and showcase-* templates). Set per-scene to override.
 - **`style.font`** — use the full CSS value: `"'Inter', sans-serif"` not `"Inter"` (see [rules/effects-and-style.md](rules/effects-and-style.md) for all options)
 - **`orientation`** — `"portrait"` (1080×1920, default) or `"landscape"` (1920×1080)
 - **`meta.mood`** — array of mood/tone tags for the video
@@ -246,8 +187,7 @@ The text transitions happen within one scene — the background stays continuous
 ### Media Handling
 
 - For `bg-photo` / `bg-video`: set `mediaKeyword` with a descriptive Pexels search keyword (2–4 words). Leave `mediaUrl` empty — the editor auto-fills the top Pexels result on load.
-- For `product-launch`: set `screenMediaKeyword` if user doesn't have a screenshot. Or set `screenMediaUrl` directly if they provide one.
-- For `end-screen`: set `logoUrl` if user provided a logo.
+- For showcase templates (`showcase-phone`, `showcase-tablet`, etc.): set `screenMediaKeyword` if user doesn't have a screenshot. Or set `screenMediaUrl` directly if they provide one.
 - If the user provides media files/URLs, use them directly in the relevant `mediaUrl` / `screenMediaUrl` / `logoUrl` fields.
 
 ## Pre-Save Validation Checklist
@@ -267,110 +207,16 @@ Each scene's duration (`endTime - startTime`) must be ≥ the template's `minDur
 Each scene's `variables` keys must match its template's schema. Required fields must be set. See [rules/templates.md](rules/templates.md).
 
 ### 5. Last scene is CTA
-The final scene (outro slot) should be a CTA — typically a bg-* template with call-to-action text, or a dedicated end-screen template if available.
+The final scene (outro slot) should be a CTA — typically a bg-solid or bg-gradient-linear template with call-to-action text.
 
 ## MCP Tools
 
-VanillaSky provides 4 MCP tools. Use them in this order during video creation:
+Use in this order during video creation. No API keys needed — the MCP server handles everything.
 
-### 1. `scrape_url` — Research the brand (optional, do first if URL available)
-
-Scrapes a website and extracts brand colors, headlines, description, images, and favicon. Saves the user from manually providing all this info.
-
-**Params:** `{ url: "https://example.com" }`
-
-**Returns:**
-```json
-{
-  "title": "Acme Inc",
-  "description": "The best widgets in the world",
-  "brandColors": { "primary": "#3b82f6", "accent": "#f59e0b" },
-  "headlines": ["Ship faster", "Built for teams", "10K+ users"],
-  "images": [{ "src": "https://...", "alt": "Product screenshot" }],
-  "ogImage": "https://...",
-  "favicon": "https://..."
-}
-```
-
-**Use for:** Pre-filling brand kit colors, finding product screenshots for media scenes, extracting copy inspiration from their own marketing.
-
-### 2. `list_templates` — Discover available templates (REQUIRED before composing)
-
-Returns all available scene templates with their full metadata. **Always call this before building a video** — never hardcode template IDs, they change as templates are added and removed.
-
-**Params:** `{ category?: "background" }` (optional filter)
-
-**Returns:**
-```json
-[
-  {
-    "id": "bg-photo",
-    "label": "Photo Background",
-    "category": "background",
-    "description": "Full-bleed photo background with vignette overlay and text.",
-    "tags": ["photo", "image", "hero", "establishing"],
-    "variables": [
-      { "name": "texts", "type": "string", "required": true, "default": "Make an impact.", "description": "Comma-separated text entries" },
-      { "name": "mediaKeyword", "type": "string", "required": false, "default": "", "description": "Pexels search keyword" }
-    ],
-    "minDuration": 1.5,
-    "preferredDuration": 3,
-    "whenToUse": "Lifestyle shots, mood setting, establishing shots.",
-    "copyTip": "1-5 words per entry, power verbs."
-  }
-]
-```
-
-**Use for:** Picking the right template for each scene. Match `description`, `tags`, and `whenToUse` to the scene's purpose. Use `variables` to know exactly what data each template needs. Use `copyTip` to write better text.
-
-### 3. `list_tracks` — Choose music (REQUIRED)
-
-Returns all public-skill-ready music tracks with scene slots, beat markers, and metadata.
-
-**Params:** none
-
-**Returns:**
-```json
-[
-  {
-    "id": "7995f8e2-cd04-4cd0-b498-6672c5b34529",
-    "name": "Shadow Countdown",
-    "duration": 27.6,
-    "format": "standard",
-    "description": "Dark, suspenseful intro with rising tension and dramatic climax",
-    "videoTypes": ["trailer", "ad"],
-    "sceneSlots": [
-      { "start": 0, "end": 4.7, "duration": 4.7, "role": "intro" },
-      { "start": 4.7, "end": 8.1, "duration": 3.4, "role": "build" },
-      { "start": 8.1, "end": 16.6, "duration": 8.5, "role": "hero" },
-      { "start": 16.6, "end": 20.4, "duration": 3.8, "role": "accelerate" },
-      { "start": 20.4, "end": 24.9, "duration": 4.5, "role": "climax" },
-      { "start": 24.9, "end": 27.6, "duration": 2.7, "role": "outro" }
-    ],
-    "beatMarkers": [1.2, 4.7, 8.1, 16.6, 18.7, 20.4, 21.9, 24.9]
-  }
-]
-```
-
-**Use for:** Selecting a track by video type match + structural fit (slot count ≈ scene count). The `sceneSlots` define each scene's `startTime`/`endTime`. The `beatMarkers` are used in the VideoConfig `audio.beatMarkers` field (wrap each as `{ "time": value }`).
-
-### 4. `save_config` — Save and share (final step)
-
-Saves the complete VideoConfig and returns a shareable link that opens the video in VanillaSky's editor — ready to preview, customize, and export.
-
-**Params:** `{ config: { ...VideoConfig } }`
-
-**Returns:**
-```json
-{
-  "id": "a1b2c3d4",
-  "url": "https://vanillasky.ai/create?config=a1b2c3d4"
-}
-```
-
-**Use for:** The final step. Share the URL with the user. They can preview, tweak scenes, change music, and export an MP4 — all in-browser.
-
-**Note:** The MCP server handles all API communication. No API keys or manual setup needed.
+1. **`scrape_url`** (optional, do first if URL available) — `{ url }` → Returns `brandColors`, `headlines`, `description`, `images`, `ogImage`. Use for brand kit + copy inspiration.
+2. **`list_templates`** (REQUIRED) — `{ category? }` → Returns all templates with `id`, `variables`, `minDuration`, `whenToUse`, `copyTip`. Never hardcode template IDs.
+3. **`list_tracks`** (REQUIRED) — Returns tracks with `sceneSlots` (use as `startTime`/`endTime`) and `beatMarkers` (wrap as `{ "time": value }`).
+4. **`save_config`** (final step) — `{ config }` → Returns `{ id, url, warnings? }`. Share the URL. Warnings flag duration issues but don't block the save.
 
 ## Example
 
@@ -387,11 +233,11 @@ Saves the complete VideoConfig and returns a shareable link that opens the video
 | 1 | bg-video | keyword: "fitness workout gym" | Visual hook — real footage grabs attention | texts: "Get moving." |
 | 2 | bg-video | keyword: "runner sunrise trail" | Action footage sells the lifestyle | texts: "Push harder." |
 | 3 | bg-photo | keyword: "smartwatch close up" | Shows the tech angle | texts: "Track everything." |
-| 4 | product-launch | features: "Heart Rate,Calories,Steps,Sleep", deviceType: "phone" | 4 features — device mockup with badges | productName: "FitPulse" |
-| 5 | counter | value: 10000, unit: "+" | Impressive scale metric | label: "Active users" |
+| 4 | showcase-phone | screenMediaKeyword: "fitness app" | Device mockup with app screenshot | productName: "FitPulse" |
+| 5 | chart-counter | value: 10000, unit: "+" | Impressive scale metric | label: "Active users" |
 | 6 | bg-photo | keyword: "healthy meal preparation" | Lifestyle footage, breathing room | texts: "Fuel your body." |
 | 7 | bg-video | keyword: "group fitness class energy" | Community energy | texts: "Join thousands." |
-| 8 | end-screen | — | CTA + brand | "Start free today." / fitpulse.app |
+| 8 | bg-solid | — | CTA + brand | texts: "Start free today.,fitpulse.app" |
 
 Brand: dark blue `#1a1a3e` + electric green `#00ff88`. Font: Bebas Neue (bold, energetic). Text effect: `slam`. Background: `slow-zoom-in`.
 

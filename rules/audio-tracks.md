@@ -42,11 +42,10 @@ Call `list_tracks` for exact slot data. This table is for quick orientation:
 
 | Track | Duration | Slots | Format | Video types |
 |-------|----------|-------|--------|-------------|
-| Shadow Countdown | 27.6s | 6 | standard | trailer, ad |
-| HipHop Sequence | 27.4s | 7+ | standard | ad, social |
-| Momentum Theme | 37.4s | 8 | long | showreel, trailer |
-| Shadows at the Gate | 31.4s | 8 | standard | trailer, ad |
-| Pulse in the Dark | 25s | 8 | standard | social, ad |
+| Intense trailer cinematic | 20s | 5 | standard | trailer, brand-story, event |
+| Grand Project Warrior | 30.1s | 6 | standard | trailer, brand-story, ad, event |
+| Grand project fear and fire | 16.6s | 5 | short | trailer, social, ad |
+| Grand project unbreakable | 17s | 4 | short | ad, brand-story, showreel |
 
 ## Timing Rule
 

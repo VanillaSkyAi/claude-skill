@@ -9,7 +9,7 @@ metadata:
 
 ## Text Effects
 
-10 built-in effects. Applied to templates with `usesGlobalTextEffect: true` (fullscreen-media, gradient-text). Set via `style.defaultTextEffect` or per-scene `textEffect`.
+10 built-in effects. Applied to templates with `usesGlobalTextEffect: true` (all bg-* templates and showcase-* templates). Set via `style.defaultTextEffect` or per-scene `textEffect`.
 
 | Effect | Character | Best for |
 |--------|-----------|----------|
@@ -43,7 +43,7 @@ metadata:
 
 ## Background Effects
 
-17 built-in effects. Applied to templates with `usesGlobalBackgroundEffect: true` (fullscreen-media, gradient-text only). Counter, social-proof, product-launch, and end-screen handle their own backgrounds.
+17 built-in effects. Applied to templates with `usesGlobalBackgroundEffect: true` (bg-photo and bg-video only). Other templates handle their own backgrounds.
 
 Set via `style.defaultBackgroundEffect` or per-scene `backgroundEffect`.
 

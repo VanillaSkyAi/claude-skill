@@ -163,11 +163,13 @@ Present the plan as a table before building the config:
 
 | # | Slot | Time | Duration | Template | Content |
 |---|------|------|----------|----------|---------|
-| 1 | intro | 0–4.7s | 4.7s | intro-epic-reveal | Brand name reveal |
+| 1 | intro | 0–4.7s | 4.7s | intro-cinematic-flash | Brand name reveal |
 | 2 | build | 4.7–8.1s | 3.4s | bg-photo | Problem statement |
 | 3 | hero | 8.1–16.6s | 8.5s | showcase-tablet-slides | 3-screen demo |
 | 4 | accelerate | 16.6–20.4s | 3.8s | chart-counter | "10K users" stat |
 | 5 | climax | 20.4–24.9s | 4.5s | social-review-stack | 3 testimonials |
 | 6 | outro | 24.9–27.6s | 2.7s | bg-gradient-linear | CTA |
+
+> Template IDs here are illustrative — always call `list_templates` for the current list.
 
 This shows the user exactly how scenes map to the music structure.

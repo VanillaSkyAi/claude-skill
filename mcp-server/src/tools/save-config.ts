@@ -3,6 +3,7 @@ import { SUPABASE_URL, SUPABASE_ANON_KEY } from "../config.js";
 export interface SaveConfigResult {
   id: string;
   url: string;
+  warnings?: string[];
 }
 
 export async function saveConfig(config: unknown): Promise<SaveConfigResult> {
@@ -12,6 +13,7 @@ export async function saveConfig(config: unknown): Promise<SaveConfigResult> {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        apikey: SUPABASE_ANON_KEY,
         Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
       },
       body: JSON.stringify({ config }),
@@ -19,13 +21,18 @@ export async function saveConfig(config: unknown): Promise<SaveConfigResult> {
   );
 
   if (!resp.ok) {
-    const err = await resp.json();
-    throw new Error(err.error || `Save failed: ${resp.status}`);
+    let message = `Save failed: ${resp.status}`;
+    try {
+      const err = await resp.json();
+      if (err.error) message = err.error;
+    } catch {}
+    throw new Error(message);
   }
 
-  const { id } = (await resp.json()) as { id: string };
+  const { id, warnings } = (await resp.json()) as { id: string; warnings?: string[] };
   return {
     id,
     url: `https://vanillasky.ai/create?config=${id}`,
+    ...(warnings && warnings.length > 0 && { warnings }),
   };
 }

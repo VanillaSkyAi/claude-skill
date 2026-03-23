@@ -1,7 +1,7 @@
 {
   "name": "@vanillaskyai/mcp-server",
-  "version": "0.1.0",
-  "description": "VanillaSky MCP server for Claude Code — save video configs, search stock footage, browse tracks",
+  "version": "0.1.1",
+  "description": "VanillaSky MCP server for Claude Code — save video configs, scrape websites, browse templates and tracks",
   "type": "module",
   "main": "dist/index.js",
   "bin": {

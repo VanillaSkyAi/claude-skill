@@ -19,6 +19,7 @@ export async function scrapeUrl(url: string): Promise<ScrapeResult> {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        apikey: SUPABASE_ANON_KEY,
         Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
       },
       body: JSON.stringify({ url }),
@@ -26,8 +27,12 @@ export async function scrapeUrl(url: string): Promise<ScrapeResult> {
   );
 
   if (!resp.ok) {
-    const err = await resp.json();
-    throw new Error(err.error || `Scrape failed: ${resp.status}`);
+    let message = `Scrape failed: ${resp.status}`;
+    try {
+      const err = await resp.json();
+      if (err.error) message = err.error;
+    } catch {}
+    throw new Error(message);
   }
 
   return (await resp.json()) as ScrapeResult;

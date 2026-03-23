@@ -24,6 +24,7 @@ server.tool(
       .passthrough()
       .describe("The complete VideoConfig JSON object"),
   },
+  { readOnlyHint: false, destructiveHint: false, openWorldHint: true },
   async ({ config }) => {
     try {
       const result = await saveConfig(config);
@@ -55,6 +56,7 @@ server.tool(
   "list_tracks",
   "List available music tracks for VanillaSky videos. Returns track metadata including duration, video types, description, scene slots, and beat markers.",
   {},
+  { readOnlyHint: true, destructiveHint: false, openWorldHint: true },
   async () => {
     const tracks = await listTracks();
     return {
@@ -81,8 +83,9 @@ server.tool(
         "Filter by category (e.g. 'background'). Omit to get all templates.",
       ),
   },
+  { readOnlyHint: true, destructiveHint: false, openWorldHint: true },
   async ({ category }) => {
-    const templates = listTemplates(category);
+    const templates = await listTemplates(category);
     return {
       content: [
         {
@@ -100,8 +103,9 @@ server.tool(
   "scrape_url",
   "Scrape a website to extract brand colors, headlines, description, images, and favicon. Use this when the user mentions a website or product URL — it provides brand info, copy inspiration, and product screenshots for the video.",
   {
-    url: z.string().describe("The website URL to scrape (must start with http:// or https://)"),
+    url: z.string().url().describe("The website URL to scrape (must start with http:// or https://)"),
   },
+  { readOnlyHint: true, destructiveHint: false, openWorldHint: true },
   async ({ url }) => {
     try {
       const result = await scrapeUrl(url);

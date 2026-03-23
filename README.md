@@ -22,20 +22,41 @@ cd ~/.claude/skills/vanillasky && git pull
 
 The MCP server gives Claude native tool access — discover templates, browse music, scrape websites for brand research, and save configs.
 
-Add to your Claude Code settings (`~/.claude/settings.json`):
+```bash
+claude mcp add vanillasky -s user -- npx -y @vanillaskyai/mcp-server
+```
+
+No API keys needed — the MCP server handles all communication with VanillaSky's public endpoints.
+
+### 3. Allow MCP tools (optional)
+
+To skip permission prompts when creating videos, allow the VanillaSky tools in your settings:
+
+```bash
+claude settings add permissions.allow "mcp__vanillasky__list_templates"
+claude settings add permissions.allow "mcp__vanillasky__list_tracks"
+claude settings add permissions.allow "mcp__vanillasky__save_config"
+claude settings add permissions.allow "mcp__vanillasky__scrape_url"
+```
+
+Or add them manually to `~/.claude/settings.json`:
 
 ```json
 {
-  "mcpServers": {
-    "vanillasky": {
-      "command": "npx",
-      "args": ["-y", "@vanillaskyai/mcp-server"]
-    }
+  "permissions": {
+    "allow": [
+      "mcp__vanillasky__list_templates",
+      "mcp__vanillasky__list_tracks",
+      "mcp__vanillasky__save_config",
+      "mcp__vanillasky__scrape_url"
+    ]
   }
 }
 ```
 
-No API keys needed — the MCP server handles all communication with VanillaSky's public endpoints.
+### 4. Restart Claude Code
+
+Start a new Claude Code session to pick up the MCP server. Existing sessions won't load it automatically.
 
 ## Usage
 
