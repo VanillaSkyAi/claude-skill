@@ -15,17 +15,31 @@ Create professional beat-synced videos by describing what you want. You compose 
 
 ## Workflow
 
-### 1. Understand the Brief + Auto-Research
+**Key principle:** This is a conversation, not a form. Many prompts answer multiple questions at once — if the user says "make a TikTok ad for fitpulse.app", that's the video type (Ad), format (portrait), and a URL to scrape in one sentence. Skip ahead. Only ask what you don't already know.
 
-Ask about:
-- **Product/brand** — what is it, what does it do
-- **Target audience** — who is this video for
-- **Key message** — the one thing viewers should remember
-- **Tone/mood** — cinematic, energetic, calm, edgy, premium
+### 1. What are we making?
 
-**If the user mentions a website or URL, scrape it first.** Use MCP `scrape_url` tool or bash fallback (see below). This extracts brand colors, headlines, description, images, and favicon — saving the user from having to provide all this manually.
+If the user's prompt doesn't make the video type clear, ask:
 
-**Also proactively scrape when you can infer a URL** — if someone says "make a video for Stripe", try scraping `https://stripe.com`. If they mention "my app FitPulse", ask "Do you have a website I can pull brand info from?"
+> What kind of video do you want to create?
+> - **Ad** — hook fast, show value, drive action (15-30s)
+> - **Trailer** — build tension, tell a story, create desire (25-40s)
+> - **Social** — stop the scroll, TikTok/Reels (15-20s)
+> - **Showreel** — showcase your work or product (30-60s)
+> - **Brand Story** — who you are, what you stand for (25-40s)
+> - **Event/Launch** — create urgency, reveal something new (15-25s)
+>
+> Or just describe what you need and I'll pick the best fit.
+
+Use detection cues from [rules/video-types.md](rules/video-types.md) to infer from context. If still ambiguous, default to **Trailer** — it's the most versatile.
+
+### 2. Content source — URL or manual?
+
+> Do you have a website I can pull brand info from? (colors, copy, screenshots)
+
+**If they mention or imply a URL**, scrape it immediately with `scrape_url`:
+- If someone says "make a video for Stripe", try scraping `https://stripe.com`
+- If they mention "my app FitPulse", ask "Do you have a website I can pull brand info from?"
 
 **What scraping gives you:**
 
@@ -41,46 +55,38 @@ Ask about:
 | `bodyText` | Copy inspiration, feature extraction |
 | `favicon` | Could mention as logo reference (usually too small to use directly) |
 
-**Don't blindly copy** — use scraped data as inspiration. Rewrite headlines to be punchier (1-5 words for scenes). Extract key features for product-launch badges. Use their actual brand colors.
+**After scraping, confirm what you found:**
+> "I found your brand colors (#3b82f6 blue + dark bg) and a product screenshot from your site — look right?"
 
-### 2. Brand Kit (fill from scrape or ask)
+**Don't blindly copy** — use scraped data as inspiration. Rewrite headlines to be punchier (1-5 words for scenes). Extract key features. Use their actual brand colors.
 
-If you scraped a website, pre-fill what you found:
-- **Brand colors** from `brandColors.primary` / `.accent` → `style.brandKit`
-- **Product images** from `ogImage` / `images` → `product-launch.screenMediaUrl`
-- Confirm with the user: "I found your brand colors (#3b82f6 blue + dark bg) and product screenshot from your website — look right?"
-
-If no URL available, ask naturally:
+**If no URL available**, ask naturally:
 - "Do you have **brand colors**?" → `style.brandKit.bg` + `.accent`
 - "**Font preference**?" → `style.font` (or suggest based on mood)
 - "Got a **logo**?" → for `end-screen` logoUrl
-- "Any **existing media** — product screenshots, app screenshots?" → for `product-launch` screenMediaUrl or `bg-photo`/`bg-video` mediaUrl
 
 If they don't have these, that's fine — defaults look professional. They can always customize in the editor later.
 
-### 3. Format — Vertical or Horizontal?
+### 3. Media — yours or ours?
 
-Ask in plain terms the user understands:
+> Do you have photos, videos, or product screenshots you'd like to use? Or should I select stock footage and animations for you?
+>
+> You can always swap anything later in the editor.
 
-- "Is this for **TikTok, Instagram Reels, or YouTube Shorts**? → **Vertical** (9:16 portrait, 1080×1920)"
-- "Or more for **YouTube, LinkedIn, or a website**? → **Horizontal** (16:9 landscape, 1920×1080)"
+- If they have media → use it in `mediaUrl` / `screenMediaUrl` fields
+- If not → use `mediaKeyword` for Pexels stock and lean on animated templates (intros, charts, social, app mockups)
+- Mix is fine — some scenes with their media, others with stock
 
-If they say "social" or mention a specific platform, infer:
-- TikTok / Reels / Shorts / Stories / Pinterest → `"portrait"`
-- YouTube / LinkedIn / Website / Presentation / TV → `"landscape"`
+### 4. Format — where will it live?
+
+> Where will this video be shared?
+> - **TikTok / Instagram Reels / YouTube Shorts** → vertical (9:16)
+> - **YouTube / LinkedIn / Website / Presentations** → horizontal (16:9)
+
+Infer from context when possible:
+- "social" / "TikTok" / "Reels" / "Shorts" / "Stories" → `"portrait"`
+- "YouTube" / "LinkedIn" / "website" / "presentation" → `"landscape"`
 - If unclear, default to `"portrait"` — most video today is vertical
-
-Set `orientation` in the config accordingly.
-
-### 4. Detect Video Type
-
-Infer from context or ask. Types shape the starting structure:
-- **Ad** (15–30s) — hook fast, show value, drive action
-- **Trailer** (25–40s) — build tension, tell a story, create desire
-- **Showreel** (30–60s) — showcase breadth, demonstrate capability
-- **Social media** (15–20s) — stop the scroll, one message, immediate action
-
-See [rules/video-types.md](rules/video-types.md) for detailed presets. These are starting points — adapt freely.
 
 ### 5. Pick a Music Track
 
@@ -99,7 +105,7 @@ Present a table showing how scenes map to the track's slots:
 
 | # | Slot | Time | Duration | Template | Content |
 |---|------|------|----------|----------|---------|
-| 1 | intro | 0–4.7s | 4.7s | intro-epic-reveal | Brand name reveal |
+| 1 | intro | 0–4.7s | 4.7s | intro-text-slam | Brand name reveal |
 | 2 | build | 4.7–8.1s | 3.4s | bg-photo | Problem statement |
 | 3 | hero | 8.1–16.6s | 8.5s | showcase-tablet-slides | 3-screen app demo |
 | 4 | accelerate | 16.6–20.4s | 3.8s | chart-counter | "10K users" stat |
@@ -364,45 +370,7 @@ Saves the complete VideoConfig and returns a shareable link that opens the video
 
 **Use for:** The final step. Share the URL with the user. They can preview, tweak scenes, change music, and export an MP4 — all in-browser.
 
-### Bash Fallback
-
-If MCP tools are not available, use fetch commands:
-
-**Save config:**
-```bash
-node -e "
-const config = <YOUR_CONFIG_JSON>;
-const resp = await fetch('https://vjcfvsooygzrwinscobk.supabase.co/functions/v1/save-config', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZqY2Z2c29veWd6cndpbnNjb2JrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2NTQzMzQsImV4cCI6MjA4ODIzMDMzNH0.9JirSFdP3D1pyn90YNUnqyG_709HZUMAGQ5Us9O57d0'
-  },
-  body: JSON.stringify({ config })
-});
-if (!resp.ok) { const err = await resp.json(); console.error('Error:', err.error); process.exit(1); }
-const { id } = await resp.json();
-console.log('https://vanillasky.ai/create?config=' + id);
-"
-```
-
-**Scrape a website (for brand research):**
-```bash
-node -e "
-const resp = await fetch('https://vjcfvsooygzrwinscobk.supabase.co/functions/v1/scrape-url', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZqY2Z2c29veWd6cndpbnNjb2JrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2NTQzMzQsImV4cCI6MjA4ODIzMDMzNH0.9JirSFdP3D1pyn90YNUnqyG_709HZUMAGQ5Us9O57d0'
-  },
-  body: JSON.stringify({ url: 'https://example.com' })
-});
-const data = await resp.json();
-console.log(JSON.stringify({ title: data.title, description: data.description, brandColors: data.brandColors, headlines: data.headlines?.slice(0, 5), images: data.images?.slice(0, 3).map(i => i.src) }, null, 2));
-"
-```
-
-The save endpoint returns a short link like `https://vanillasky.ai/create?config=a1b2c3d4` that opens the video in VanillaSky's editor, fully loaded and ready to preview.
+**Note:** The MCP server handles all API communication. No API keys or manual setup needed.
 
 ## Example
 

@@ -6,28 +6,21 @@ Create cinematic beat-synced videos from your terminal. Describe what you want, 
 
 ## Installation
 
-### Skill only (recommended)
-
-Copy this folder to your Claude Code skills directory:
+### 1. Install the skill
 
 ```bash
-cp -r public-skill ~/.claude/skills/vanillasky
+git clone https://github.com/vanillaskyai/claude-skill.git ~/.claude/skills/vanillasky
 ```
 
-Or clone and copy:
+To update later:
 
 ```bash
-git clone https://github.com/vanillasky/claude-skill.git
-cp -r claude-skill ~/.claude/skills/vanillasky
+cd ~/.claude/skills/vanillasky && git pull
 ```
 
-### With MCP server (enhanced experience)
+### 2. Add the MCP server
 
-The MCP server gives Claude native tool access — discover templates, browse music, scrape websites for brand research, and save configs. All through clean tool calls instead of bash commands.
-
-```bash
-npm install -g @vanillasky/mcp-server
-```
+The MCP server gives Claude native tool access — discover templates, browse music, scrape websites for brand research, and save configs.
 
 Add to your Claude Code settings (`~/.claude/settings.json`):
 
@@ -36,13 +29,13 @@ Add to your Claude Code settings (`~/.claude/settings.json`):
   "mcpServers": {
     "vanillasky": {
       "command": "npx",
-      "args": ["@vanillasky/mcp-server"]
+      "args": ["-y", "@vanillaskyai/mcp-server"]
     }
   }
 }
 ```
 
-The skill works without MCP too — it falls back to direct API calls via bash.
+No API keys needed — the MCP server handles all communication with VanillaSky's public endpoints.
 
 ## Usage
 
@@ -169,25 +162,22 @@ Output: { id: "a1b2c3d4", url: "https://vanillasky.ai/create?config=a1b2c3d4" }
 
 Templates are organized by category. Claude discovers the current list via the `list_templates` MCP tool.
 
-**Background templates** — text over animated backgrounds:
-| Template | What it does |
-|----------|-------------|
-| Solid Background | Pure flat color — cleanest, simplest |
-| Photo Background | Full-bleed photo with Ken Burns/zoom |
-| Video Background | Full-bleed video for action shots |
-| Linear Gradient | Flowing animated gradient between brand colors |
-| Accent Glow | Breathing radial glow, atmospheric |
-| Confetti | Fireworks-style confetti bursts |
-| Emoji Burst | Hearts, stars, unicorns, party poppers |
-| Particles | Floating accent-colored particles |
+| Category | Examples |
+|----------|----------|
+| **Intro** (7) | Globe, Glitch Matrix, Cinematic Flash, Spotlight, Countdown, Text Slam |
+| **Background** (8) | Solid, Photo, Video, Gradient, Glow, Confetti, Emoji, Particles |
+| **Chart** (5) | Counter, Bar, Line, Progress Ring, Pie |
+| **Showcase** (4) | Phone Mockup, Triple Phone, Tablet, Tablet Slideshow |
+| **Social** (8) | Tweet, Chat, WhatsApp, Google Search, Notification, Review Stack, Testimonial, Milestone |
+| **App** (12) | Grid, Banking, Chat List, E-commerce, Fitness, Lock Screen, Music Player, Weather, and more |
 
-More template categories (charts, social, showreel) are coming.
+44 templates and growing. Claude discovers the full list dynamically via `list_templates`.
 
 ## Requirements
 
 - [Claude Code](https://claude.ai/code) CLI
-- Node.js (for saving configs via API, unless using MCP)
-- No API keys needed — the skill uses VanillaSky's public endpoints
+- Node.js 18+ (for the MCP server)
+- No API keys needed — the MCP server uses VanillaSky's public endpoints
 
 ## License
 

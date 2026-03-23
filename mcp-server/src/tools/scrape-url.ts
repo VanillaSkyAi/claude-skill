@@ -1,6 +1,4 @@
-const SUPABASE_URL = "https://vjcfvsooygzrwinscobk.supabase.co";
-const SUPABASE_ANON_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZqY2Z2c29veWd6cndpbnNjb2JrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2NTQzMzQsImV4cCI6MjA4ODIzMDMzNH0.9JirSFdP3D1pyn90YNUnqyG_709HZUMAGQ5Us9O57d0";
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from "../config.js";
 
 export interface ScrapeResult {
   title: string;

@@ -1,5 +1,5 @@
 {
-  "name": "@vanillasky/mcp-server",
+  "name": "@vanillaskyai/mcp-server",
   "version": "0.1.0",
   "description": "VanillaSky MCP server for Claude Code — save video configs, search stock footage, browse tracks",
   "type": "module",
