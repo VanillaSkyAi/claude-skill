@@ -31,7 +31,7 @@ export async function scrapeUrl(url: string): Promise<ScrapeResult> {
     try {
       const err = await resp.json();
       if (err.error) message = err.error;
-    } catch {}
+    } catch { /* ignored */ }
     throw new Error(message);
   }
 

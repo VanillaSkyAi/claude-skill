@@ -32,7 +32,17 @@ export async function listTracks(): Promise<Track[]> {
     throw new Error(`Failed to fetch tracks: ${res.status}`);
   }
 
-  const rows: any[] = await res.json();
+  interface TrackRow {
+    id: string;
+    name: string;
+    duration: number;
+    description?: string;
+    video_types?: string[];
+    scene_slots?: SceneSlot[];
+    beat_markers?: number[];
+  }
+
+  const rows: TrackRow[] = await res.json();
 
   const tracks: Track[] = rows
     .filter((r) => r.scene_slots && r.beat_markers)

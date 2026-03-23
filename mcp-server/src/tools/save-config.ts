@@ -25,7 +25,7 @@ export async function saveConfig(config: unknown): Promise<SaveConfigResult> {
     try {
       const err = await resp.json();
       if (err.error) message = err.error;
-    } catch {}
+    } catch { /* ignored */ }
     throw new Error(message);
   }
 
