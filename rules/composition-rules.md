@@ -70,6 +70,20 @@ Every video follows a 4-act structure, regardless of length:
 - **Media templates (photo/video) are the backbone** — real footage feels professional
 - **Respect minDuration** from the template metadata — don't give a complex template too little time
 
+### chart-counter: only use for impressive numbers
+
+The counter animates from 0 to the target value. Small numbers (1-10) look anticlimactic — the counter barely moves. **Minimum value ~50 to look good, 1000+ is ideal.**
+
+| Stat | Bad (don't) | Good (do instead) |
+|------|-------------|-------------------|
+| "2x faster" | `chart-counter value: 2` | Use `bg-glow` with texts: `"2x faster\|slam"` |
+| "3 integrations" | `chart-counter value: 3` | Use `bg-solid` with texts listing them |
+| "$1M revenue" | — | `chart-counter value: 1000000, prefix: "$"` |
+| "10K users" | — | `chart-counter value: 10000, unit: "+"` |
+| "99.9% uptime" | — | `chart-progress-ring value: 99.9` |
+
+**Rule of thumb:** If the number is a multiplier (2x, 3x) or single digit, use a text-based template with `slam` effect instead. Save chart-counter for numbers that look impressive counting up.
+
 ## Scene Flow
 
 - **Alternate visual intensity** — follow a busy scene with a calmer one
