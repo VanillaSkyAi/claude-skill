@@ -20,9 +20,10 @@ Follow these steps in order. Do not skip steps.
 - Match: slot count ≈ scene count (±1 is fine)
 - Then filter by mood/energy
 - Verify hero slot duration fits your most complex scene
+- **Vary track selection** — don't default to the same track every time. If the video is calm/lifestyle, pick the most uplifting track. If it's aggressive/tech, pick the most intense. Rotate between available tracks across videos.
 
 ### 3. Map scenes to slots
-- Intro template → intro slot
+- Scene 1 → hook scene (see "Scene 1: skip the intro template" below)
 - Most important content → hero slot (longest duration, give it room)
 - CTA/end screen → outro slot
 - Remaining content → build/accelerate/climax slots by narrative position
@@ -73,6 +74,29 @@ Every video follows a 4-act structure, regardless of length:
 - At most 1 `bg-solid` scene (CTA only) — never use bg-solid for content scenes
 - At most 1 `chart-counter` — use other chart types (`chart-bar`, `chart-progress-ring`, `chart-pie`) for variety
 - At most 2 plain background scenes (`bg-solid`, `bg-glow`, `bg-gradient-linear`) total
+
+### Scene 1: skip the intro template (usually)
+
+**Intro templates (`intro-*`) are cinematic movie-style openers.** They're dramatic: countdowns, matrix rain, spotlight reveals, globe animations. Most videos don't need them.
+
+**Default scene 1: `bg-photo` or `bg-video` with a strong hook text.** A striking photo/video with punchy copy ("Stop losing customers." or "Built for teams that ship.") is more versatile and professional than a cinematic intro.
+
+**Only use intro templates when:**
+- The user explicitly asks for a "trailer" or "cinematic" feel
+- The video type is Event/Launch (countdown fits)
+- The brand is tech/gaming (glitch-matrix fits)
+- The user's prompt uses words like "epic", "dramatic", "reveal"
+
+**For most videos (product ads, social, brand stories, explainers):** Start with content, not ceremony. A `bg-photo` with `slow-zoom-in` + bold text is the best default opener.
+
+| Video type | Scene 1 |
+|-----------|---------|
+| Product ad | `bg-photo` with product/lifestyle shot + hook text |
+| Social/TikTok | `bg-video` with action footage + punchy text |
+| Brand story | `bg-photo` with atmospheric shot + brand statement |
+| Trailer/launch | `intro-cinematic-flash` or `intro-countdown` (cinematic fits here) |
+| Tech/gaming | `intro-glitch-matrix` (hacker aesthetic fits) |
+| Premium/luxury | `intro-spotlight` or `intro-vanilla-sky` (elegant reveal) |
 
 ### Prefer rich templates over plain backgrounds
 

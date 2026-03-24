@@ -78,6 +78,8 @@ Templates are not equal. Richer templates create more engaging videos.
 
 **Every video with 5+ scenes must include at least 1 Tier 1 template.** Plain bg-* scenes should never make up more than 40% of a video.
 
+**Intro templates (`intro-*`) are NOT a tier — they're optional cinematic openers.** Most videos should start with `bg-photo` or `bg-video` with strong hook text. Only use intro templates for trailers, launches, or when the user asks for a dramatic/cinematic feel. See composition-rules.md for details.
+
 ## Template rules
 
 - **Scene 1 must be an intro template or bg-photo** — start with visual impact
