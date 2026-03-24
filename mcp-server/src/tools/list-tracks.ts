@@ -15,7 +15,7 @@ export interface Track {
   description: string;
   videoTypes: string[];
   sceneSlots: SceneSlot[];
-  beatMarkers: number[];
+  beatMarkers: Array<{ time: number }>;
 }
 
 export async function listTracks(): Promise<Track[]> {
@@ -53,8 +53,8 @@ export async function listTracks(): Promise<Track[]> {
       format: r.duration < 18 ? "short" : r.duration > 32 ? "long" : "standard",
       description: r.description || "",
       videoTypes: r.video_types || [],
-      sceneSlots: r.scene_slots,
-      beatMarkers: r.beat_markers,
+      sceneSlots: r.scene_slots!,
+      beatMarkers: r.beat_markers!.map((t) => ({ time: t })),
     }));
 
   return tracks;

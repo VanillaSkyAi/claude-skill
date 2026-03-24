@@ -199,3 +199,5 @@ Optional. Set via `style.brandKit`. All templates read these values with fallbac
 - Accent should contrast strongly against bg
 - If the user provides hex colors, use them directly
 - If no brand kit, the defaults look professional
+
+**Light background warning:** Card-based templates (`social-testimonial`, `social-tweet`, `social-notification`, `social-review-stack`, `social-chat`, `social-whatsapp`, `social-google-search`, all `app-*`, all `showcase-*`) render white/light cards. If your brandKit bg is light (e.g., `#fdf2f8`), the card will be nearly invisible against the background and text inside may be unreadable. **Always use a dark brandKit bg (`#0a0a0a` to `#1a1a2e`) when using card-based templates.** If the brand requires a light palette, only use background templates (`bg-*`) and chart templates — not card-based ones.

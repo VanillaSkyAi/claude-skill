@@ -32,14 +32,16 @@ Follow these steps in order. Do not skip steps.
 - If a template doesn't fit: pick a simpler one, or reduce content (fewer chart bars, fewer slides)
 - social-chat and social-whatsapp need 5s+ slots — only use in hero or long slots
 
-### 5. Set timing from slots
-- `startTime` = slot.start, `endTime` = slot.end
-- This is non-negotiable. Never calculate your own timing.
+### 5. Set timing weights
+- Use `durationWeight` to control relative scene duration (default: 1.0)
+- Hero/complex scenes: `durationWeight: 1.2–1.5` (gets more time)
+- Simple CTA scenes: `durationWeight: 0.8–1.0` (never below 0.8 if scene has multiple text entries)
+- **Do NOT set `startTime`/`endTime` or `beatStart`/`beatEnd`** — the server computes these automatically using proportional layout with beat snapping
 
 ### 6. Scene count adjustments
-- **Fewer scenes than slots**: merge adjacent build slots (combine two builds into one longer scene)
+- **Fewer scenes than slots**: that's fine — scenes will get proportionally more time each
 - **More scenes than slots**: pick a different track with more slots, or cut a scene
-- Never split a slot into two scenes
+- Aim for slot count ≈ scene count (±2 is fine)
 
 ---
 
@@ -69,6 +71,8 @@ Every video follows a 4-act structure, regardless of length:
 - **Animated backgrounds max 2 per video** (confetti, emoji, particles, etc.) — they lose impact when overused
 - **Media templates (photo/video) are the backbone** — real footage feels professional
 - **Respect minDuration** from the template metadata — don't give a complex template too little time
+- **CTA/outro scenes need breathing room** — give them `durationWeight: 1.0` or higher, never below 0.8. If a CTA has multiple text entries (e.g., "Try it free|website.com"), it needs enough time for both to appear. A 1.5s CTA feels rushed and unprofessional.
+- **Card templates need dark backgrounds** — `social-testimonial`, `social-tweet`, `social-review-stack`, `social-chat`, `social-whatsapp`, `social-notification`, `social-google-search`, all `app-*`, and all `showcase-*` render white/light cards. Always pair these with a dark brandKit bg (`#0a0a0a` to `#1a1a2e`). Light brand palettes should only use `bg-*` and chart templates.
 
 ### chart-counter: only use for impressive numbers
 
@@ -88,8 +92,22 @@ The counter animates from 0 to the target value. Small numbers (1-10) look antic
 
 - **Alternate visual intensity** — follow a busy scene with a calmer one
 - **Use simple backgrounds as palette cleansers** between media-heavy scenes
-- **Vary camera movement** — if one scene zooms in, the next should drift or stay static
 - **Match cuts** — when adjacent scenes share a visual element, use `crossfade`
+
+### Background effects are mandatory for photo/video scenes
+
+**Always set `style.defaultBackgroundEffect`** — never leave it empty. `slow-zoom-in` is a safe default. Static photos look lifeless and amateurish.
+
+**Alternate camera movement on consecutive photo scenes.** When you have 2+ `bg-photo` scenes in a row, vary the `backgroundEffect` per scene to create visual rhythm:
+
+| Scene | Effect | Movement |
+|-------|--------|----------|
+| Photo 1 | `slow-zoom-in` | Pushing in |
+| Photo 2 | `ken-burns-left` | Pan + zoom |
+| Photo 3 | `slow-zoom-out` | Pulling back |
+| Photo 4 | `ken-burns-right` | Pan + zoom (opposite) |
+
+**Never use the same background effect on adjacent photo scenes.** This creates a monotone, slideshow feel. Professional video editors instinctively alternate — the skill should too.
 
 ## Pexels Keyword Strategy
 
