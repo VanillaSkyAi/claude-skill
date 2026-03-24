@@ -64,29 +64,62 @@ Every video follows a 4-act structure, regardless of length:
 - `tags` — do the keywords match the scene's mood/content?
 - `preferredDuration` — does the template fit the available beat time?
 
-### General rules
+### Template variety is non-negotiable
 
-- **Scene 1 must grab attention** — pick a template with visual impact (media, animation)
-- **Don't use the same template 3x in a row** — alternate for variety
-- **Animated backgrounds max 2 per video** (confetti, emoji, particles, etc.) — they lose impact when overused
-- **Media templates (photo/video) are the backbone** — real footage feels professional
-- **Respect minDuration** from the template metadata — don't give a complex template too little time
-- **CTA/outro scenes need breathing room** — give them `durationWeight: 1.0` or higher, never below 0.8. If a CTA has multiple text entries (e.g., "Try it free|website.com"), it needs enough time for both to appear. A 1.5s CTA feels rushed and unprofessional.
-- **Card templates need dark backgrounds** — `social-testimonial`, `social-tweet`, `social-review-stack`, `social-chat`, `social-whatsapp`, `social-notification`, `social-google-search`, all `app-*`, and all `showcase-*` render white/light cards. Always pair these with a dark brandKit bg (`#0a0a0a` to `#1a1a2e`). Light brand palettes should only use `bg-*` and chart templates.
+**The #1 cause of boring videos is over-relying on text-on-background templates.** Templates like `bg-solid`, `bg-glow`, `bg-gradient-linear`, and `bg-particles` are just colored rectangles with text. They're palette cleansers — never the main content.
 
-### chart-counter: only use for impressive numbers
+**Mandatory template mix for a 5+ scene video:**
+- At least 1 **interactive/UI template** (`app-*`, `showcase-*`, or `social-*`) — these are visually rich and feel dynamic
+- At most 1 `bg-solid` scene (CTA only) — never use bg-solid for content scenes
+- At most 1 `chart-counter` — use other chart types (`chart-bar`, `chart-progress-ring`, `chart-pie`) for variety
+- At most 2 plain background scenes (`bg-solid`, `bg-glow`, `bg-gradient-linear`) total
 
-The counter animates from 0 to the target value. Small numbers (1-10) look anticlimactic — the counter barely moves. **Minimum value ~50 to look good, 1000+ is ideal.**
+### Prefer rich templates over plain backgrounds
 
-| Stat | Bad (don't) | Good (do instead) |
-|------|-------------|-------------------|
-| "2x faster" | `chart-counter value: 2` | Use `bg-glow` with texts: `"2x faster\|slam"` |
-| "3 integrations" | `chart-counter value: 3` | Use `bg-solid` with texts listing them |
-| "$1M revenue" | — | `chart-counter value: 1000000, prefix: "$"` |
-| "10K users" | — | `chart-counter value: 10000, unit: "+"` |
-| "99.9% uptime" | — | `chart-progress-ring value: 99.9` |
+Before reaching for a generic `bg-*` template, ask: **is there a richer template that shows this better?**
 
-**Rule of thumb:** If the number is a multiplier (2x, 3x) or single digit, use a text-based template with `slam` effect instead. Save chart-counter for numbers that look impressive counting up.
+| Content | Don't use | Use instead |
+|---------|-----------|-------------|
+| App/product features | `bg-solid` with feature list | `showcase-phone` or `showcase-tablet` with screenshot |
+| Price | `chart-counter` | `app-ecommerce` with full product card |
+| Comparison (A vs B) | `chart-counter` twice | `chart-bar` with side-by-side bars |
+| Customer quotes | `bg-gradient-linear` with quote text | `social-testimonial` or `social-review-stack` |
+| Chat/support demo | `bg-solid` with text | `social-chat` or `social-whatsapp` with conversation |
+| Search result | `bg-photo` | `social-google-search` with query + result |
+| Restaurant/local biz | `bg-photo` with rating text | `app-search-bar` with restaurant card |
+| Notifications/alerts | `bg-solid` with text | `social-notification` with app-style card |
+| Stats dashboard | Multiple `chart-counter` scenes | `app-fitness`, `app-banking`, or `app-weather` |
+| Milestone/follower count | `chart-counter` | `social-milestone` with badge + confetti |
+| Multiple reviews | 3× `social-testimonial` | `social-review-stack` (shows 3 at once) |
+| Multi-screen app demo | 3× `showcase-phone` | `showcase-phone-triple` (3 phones at once) |
+
+### chart-counter: max 1 per video
+
+`chart-counter` is for ONE hero stat — the most impressive number in the video. **Never use it for 2+ scenes.** For other data:
+
+| Data type | Template |
+|-----------|----------|
+| One big impressive number (10K+) | `chart-counter` |
+| Percentage / completion | `chart-progress-ring` |
+| Comparison (A vs B vs C) | `chart-bar` |
+| Trend over time | `chart-line` |
+| Distribution / breakdown | `chart-pie` |
+| Small numbers (< 50) | Don't chart — use text with `slam` effect |
+
+### CTA scenes: not just bg-solid
+
+The last scene doesn't have to be `bg-solid`. Better options:
+
+| CTA style | Template | When |
+|-----------|----------|------|
+| Clean + simple | `bg-solid` | Short CTA, 1 line |
+| Energetic + glowing | `bg-glow` | After high-energy videos |
+| Gradient + movement | `bg-gradient-linear` | Premium/elegant brands |
+| Confetti celebration | `bg-confetti` | After milestone/achievement videos |
+
+### Card templates need dark backgrounds
+
+`social-testimonial`, `social-tweet`, `social-review-stack`, `social-chat`, `social-whatsapp`, `social-notification`, `social-google-search`, all `app-*`, and all `showcase-*` render white/light cards. Always pair these with a dark brandKit bg (`#0a0a0a` to `#1a1a2e`). Light brand palettes should only use `bg-*` and chart templates.
 
 ## Scene Flow
 
@@ -183,11 +216,28 @@ Scene count and duration are determined by the track's scene slots (see `audio-t
 - **Accelerate/climax slots**: Energy builds — shorter scenes, punchier text effects (`slam`, `flash`)
 - **Outro slot**: CTA — keep it clean and simple, don't rush it
 
-### Text Effect Matching
+### Text Effect Variety
 
-- High-energy slots (accelerate, climax) → `slam`, `flash`, `zoom-through`
-- Calm slots (intro, build) → `fade-in`, `crossfade`
-- Hero slot → `typewriter` or `slam` depending on content
+Don't use the same text effect for every scene. Set a calm `defaultTextEffect` (e.g., `fade-in`), then override on 2-3 key moments:
+
+| Scene role | Override with |
+|------------|--------------|
+| Hook / first text | `slam` or `zoom-through` — grabs attention |
+| Big stat reveal | `slam` — makes the number land with impact |
+| Beat drop moment | `flash` or `cut-in` — syncs with music energy |
+| Calm/emotional scene | Keep the default `fade-in` — don't override |
+
+### Transition Variety
+
+Don't use `crossfade` for every transition. Use 2-3 types per video:
+
+| Moment | Transition |
+|--------|-----------|
+| Default (most scenes) | `crossfade` (~60% of transitions) |
+| Before a big reveal or stat | `dip-to-black` — dramatic pause |
+| High-energy beat drop | `flash` — white flash sync |
+| Fast-paced sequence | `cut` — hard cuts feel aggressive |
+| Sequential steps/screens | `slide-left` — directional flow |
 
 ## Scene Plan Format
 

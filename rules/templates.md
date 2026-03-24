@@ -57,9 +57,31 @@ Match the scene's PURPOSE to the template's `whenToUse` and `tags`:
 | Product showcase | "photo", "image" |
 | Fun / social media | "emoji", "fun", "social" |
 
+## Template tiers — prefer higher tiers
+
+Templates are not equal. Richer templates create more engaging videos.
+
+**Tier 1 — Hero templates (use for key scenes):**
+- `app-*` templates — animated phone UIs with real-looking interfaces
+- `showcase-phone`, `showcase-phone-triple`, `showcase-tablet`, `showcase-tablet-slides` — device mockups
+- `social-chat`, `social-whatsapp` — conversation templates (5-10s, storytelling)
+- `social-google-search` — typewriter search with animated result
+
+**Tier 2 — Supporting templates (social proof, data):**
+- `social-tweet`, `social-review-stack`, `social-testimonial`, `social-milestone`, `social-notification`
+- `chart-bar`, `chart-line`, `chart-progress-ring`, `chart-pie`, `chart-counter`
+
+**Tier 3 — Background templates (palette cleansers only):**
+- `bg-photo`, `bg-video` — good with strong media
+- `bg-glow`, `bg-gradient-linear`, `bg-particles`, `bg-confetti`, `bg-emoji` — atmospheric
+- `bg-solid` — CTA only, never for content
+
+**Every video with 5+ scenes must include at least 1 Tier 1 template.** Plain bg-* scenes should never make up more than 40% of a video.
+
 ## Template rules
 
-- **Scene 1 must be a background template** — start with a visual
+- **Scene 1 must be an intro template or bg-photo** — start with visual impact
 - **Don't use the same template 3x in a row** — vary for visual interest
 - **Respect minDuration** — templates with complex animations need enough time
 - **Check preferredDuration** — this is the sweet spot for pacing
+- **Give Tier 1 templates more time** — set `durationWeight: 1.2–1.5` for app/showcase/chat templates
