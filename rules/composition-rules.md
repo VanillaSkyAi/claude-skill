@@ -136,11 +136,11 @@ The last scene doesn't have to be `bg-solid`. Better options:
 | Scene | Effect | Movement |
 |-------|--------|----------|
 | Photo 1 | `slow-zoom-in` | Pushing in |
-| Photo 2 | `ken-burns-left` | Pan + zoom |
+| Photo 2 | `ken-burns` | Pan + zoom (direction auto-alternates) |
 | Photo 3 | `slow-zoom-out` | Pulling back |
-| Photo 4 | `ken-burns-right` | Pan + zoom (opposite) |
+| Photo 4 | `drift` | Gentle pan (direction auto-alternates) |
 
-**Never use the same background effect on adjacent photo scenes.** This creates a monotone, slideshow feel. Professional video editors instinctively alternate — the skill should too.
+**Never use the same background effect on adjacent photo scenes.** This creates a monotone, slideshow feel. Rotate between `slow-zoom-in`, `ken-burns`, `slow-zoom-out`, and `drift`.
 
 ## Pexels Keyword Strategy
 

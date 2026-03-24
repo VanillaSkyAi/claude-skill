@@ -43,34 +43,28 @@ metadata:
 
 ## Background Effects
 
-17 built-in effects. Applied to templates with `usesGlobalBackgroundEffect: true` (bg-photo and bg-video only). Other templates handle their own backgrounds.
+9 built-in effects. Applied to templates with `usesGlobalBackgroundEffect: true` (bg-photo and bg-video only). Other templates handle their own backgrounds.
 
 Set via `style.defaultBackgroundEffect` or per-scene `backgroundEffect`.
+
+**IMPORTANT: Use EXACTLY these effect names — no directional variants.** `ken-burns` and `drift` auto-alternate direction by scene index (right → left → up → down). Do NOT use `ken-burns-right`, `ken-burns-left`, `drift-left`, etc. — those don't exist and will silently fail to static.
 
 | Effect | Description | Best for |
 |--------|-------------|----------|
 | `static` | No motion | Text-focused scenes |
 | `slow-zoom-in` | Gradually zooms to 1.12x | Default — works everywhere |
 | `slow-zoom-out` | Starts at 1.12x, zooms back | Alternate with zoom-in |
-| `ken-burns-right` | Zoom + pan left-to-right | Photos, landscapes, cinematic |
-| `ken-burns-left` | Zoom + pan right-to-left | Photos, landscapes |
-| `ken-burns-up` | Zoom + pan bottom-to-top | Vertical subjects |
-| `ken-burns-down` | Zoom + pan top-to-bottom | Reveals |
-| `drift-left` | Pans right to left | Calm, panoramic |
-| `drift-right` | Pans left to right | Calm, panoramic |
-| `drift-up` | Pans down to up | Upward motion, growth |
-| `drift-down` | Pans up to down | Introspective |
-| `drift-diagonal` | Bottom-left to top-right | Dynamic pan |
+| `ken-burns` | Zoom + pan (direction auto-alternates per scene) | Photos, landscapes, cinematic |
+| `drift` | Gentle pan (direction auto-alternates per scene) | Calm, panoramic |
 | `pulse` | Beat-reactive scale | Energetic, rhythmic scenes |
 | `breathe` | Sinusoidal gentle float | Ambient, calm |
 | `slow-tilt` | Subtle Dutch angle drift | Tension, unease |
-| `zoom-rotate` | Spiral zoom-in with rotation | Dramatic, disorienting |
 | `camera-shake` | Rapid handheld-style shake | High energy, action |
 
 **Rules:**
 - Pick one primary effect and stick with it (e.g., `slow-zoom-in` for most scenes)
 - Deviate only for contrast (e.g., `pulse` for one high-energy climax scene)
-- `ken-burns-*` works best on images/photos — adds life to stills
+- `ken-burns` works best on images/photos — adds life to stills
 - `camera-shake` is intense — use sparingly (max 1 scene)
 - `pulse` is beat-synced — only use with energetic tracks
 
