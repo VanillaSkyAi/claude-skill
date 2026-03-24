@@ -78,9 +78,13 @@ Every video follows a 4-act structure, regardless of length:
 
 Before reaching for a generic `bg-*` template, ask: **is there a richer template that shows this better?**
 
+### Showcase templates: use even without screenshots
+
+`showcase-phone`, `showcase-phone-triple`, `showcase-tablet`, and `showcase-tablet-slides` show professional device mockups with dimension placeholders when no screenshot is provided. **This is intentional and good** — the placeholders prompt users to upload their own screenshots in the editor, which drives engagement and personalization. Always include at least one showcase template for any app, SaaS, or product video — even when the user hasn't provided screenshots.
+
 | Content | Don't use | Use instead |
 |---------|-----------|-------------|
-| App/product features | `bg-solid` with feature list | `showcase-phone` or `showcase-tablet` with screenshot |
+| App/product features | `bg-solid` with feature list | `showcase-phone` or `showcase-tablet` (with or without screenshot) |
 | Price | `chart-counter` | `app-ecommerce` with full product card |
 | Comparison (A vs B) | `chart-counter` twice | `chart-bar` with side-by-side bars |
 | Customer quotes | `bg-gradient-linear` with quote text | `social-testimonial` or `social-review-stack` |
