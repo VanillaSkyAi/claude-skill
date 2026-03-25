@@ -7,6 +7,7 @@ import { saveConfig } from "./tools/save-config.js";
 import { listTracks } from "./tools/list-tracks.js";
 import { listTemplates } from "./tools/list-templates.js";
 import { scrapeUrl } from "./tools/scrape-url.js";
+import { uploadMedia } from "./tools/upload-media.js";
 
 const server = new McpServer({
   name: "vanillasky",
@@ -123,6 +124,40 @@ server.tool(
           {
             type: "text" as const,
             text: `Error scraping URL: ${err instanceof Error ? err.message : String(err)}`,
+          },
+        ],
+        isError: true,
+      };
+    }
+  },
+);
+
+// ─── upload_media ────────────────────────────────────────────
+
+server.tool(
+  "upload_media",
+  "Upload a local image or video file to VanillaSky cloud storage. Returns a public URL you can use directly in VideoConfig mediaUrl fields. Supports: jpg, png, webp, gif, bmp, mp4, webm, mov. Max 20MB.",
+  {
+    filePath: z.string().describe("Absolute path to the local file to upload"),
+  },
+  { readOnlyHint: false, destructiveHint: false, openWorldHint: true },
+  async ({ filePath }) => {
+    try {
+      const result = await uploadMedia(filePath);
+      return {
+        content: [
+          {
+            type: "text" as const,
+            text: JSON.stringify(result, null, 2),
+          },
+        ],
+      };
+    } catch (err) {
+      return {
+        content: [
+          {
+            type: "text" as const,
+            text: `Error uploading media: ${err instanceof Error ? err.message : String(err)}`,
           },
         ],
         isError: true,

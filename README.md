@@ -37,6 +37,7 @@ claude settings add permissions.allow "mcp__vanillasky__list_templates"
 claude settings add permissions.allow "mcp__vanillasky__list_tracks"
 claude settings add permissions.allow "mcp__vanillasky__save_config"
 claude settings add permissions.allow "mcp__vanillasky__scrape_url"
+claude settings add permissions.allow "mcp__vanillasky__upload_media"
 ```
 
 Or add them manually to `~/.claude/settings.json`:
@@ -48,7 +49,8 @@ Or add them manually to `~/.claude/settings.json`:
       "mcp__vanillasky__list_templates",
       "mcp__vanillasky__list_tracks",
       "mcp__vanillasky__save_config",
-      "mcp__vanillasky__scrape_url"
+      "mcp__vanillasky__scrape_url",
+      "mcp__vanillasky__upload_media"
     ]
   }
 }
@@ -80,20 +82,27 @@ Drop a URL and Claude will scrape it for brand colors, copy, and screenshots:
 > Make a launch video for https://linear.app — keep their brand style
 ```
 
+Share your own photos or screenshots — Claude uploads them and includes them in the video:
+
+```
+> Create a thank-you video for our company dinner — here are some photos from the evening
+```
+
 ## How It Works
 
 1. You describe what you want
 2. Claude scrapes your website (if provided) to extract brand colors, headlines, images
-3. Claude discovers available templates and picks the best ones for each scene
-4. Claude picks a music track that matches the mood
-5. Claude proposes a scene plan — you see exactly what each scene shows and why
-6. You confirm or adjust
-7. Claude builds the video config, saves it, and gives you a link
-8. Click the link — VanillaSky opens with your video loaded, ready to preview and export
+3. If you share photos or videos, Claude uploads them to cloud storage for use in the video
+4. Claude discovers available templates and picks the best ones for each scene
+5. Claude picks a music track that matches the mood
+6. Claude proposes a scene plan — you see exactly what each scene shows and why
+7. You confirm or adjust
+8. Claude builds the video config, saves it, and gives you a link
+9. Click the link — VanillaSky opens with your video loaded, ready to preview and export
 
 ## MCP Tools
 
-When the MCP server is installed, Claude has access to 4 tools:
+When the MCP server is installed, Claude has access to 5 tools:
 
 ### `list_templates`
 
@@ -125,19 +134,24 @@ This keeps Claude in sync with the latest templates — no hardcoded IDs, no sta
 
 ### `list_tracks`
 
-Browse available music tracks with mood, duration, beat markers, and best-for tags.
+Browse available music tracks with duration, description, scene slots, beat markers, and video types.
 
 ```
-Input:  { mood: "cinematic" }  // optional filter
+Input:  {}  // no parameters needed
 Output: [
   {
     id: "7995f8e2-...",
     name: "Shadow Countdown",
-    mood: ["Epic", "Cinematic", "Thriller"],
     duration: 27.6,
-    vibe: "Dark, suspenseful intro with rising tension",
-    bestFor: "Product launches, brand reveals, cinematic trailers",
-    beatMarkers: [1.2, 4.7, 8.1, 16.6, 18.7, 20.4, 21.9, 24.9]
+    format: "standard",
+    description: "Dark, suspenseful intro with rising tension",
+    videoTypes: ["trailer", "brand-story"],
+    sceneSlots: [
+      { start: 0, end: 4.7, duration: 4.7, role: "intro" },
+      { start: 4.7, end: 8.1, duration: 3.4, role: "build" },
+      ...
+    ],
+    beatMarkers: [{ time: 1.2 }, { time: 4.7 }, { time: 8.1 }, ...]
   },
   ...
 ]
@@ -160,6 +174,22 @@ Output: {
 }
 ```
 
+### `upload_media`
+
+Upload a local image or video file to VanillaSky's cloud storage. Returns a public URL you can use directly in VideoConfig `mediaUrl` fields. This is how users include their own photos, screenshots, or video clips in videos.
+
+```
+Input:  { filePath: "/Users/you/Downloads/product-screenshot.png" }
+Output: {
+  publicUrl: "https://...supabase.co/storage/v1/object/public/user-media/a1b2c3d4.png",
+  fileName: "a1b2c3d4.png",
+  mimeType: "image/png",
+  sizeBytes: 245120
+}
+```
+
+Supported formats: jpg, png, webp, gif, bmp, mp4, webm, mov. Max 20MB per file.
+
 ### `save_config`
 
 Save the final VideoConfig and get a shareable link. The link opens VanillaSky's editor with the video fully loaded — ready to preview, customize, and export as MP4.
@@ -173,6 +203,7 @@ Output: { id: "a1b2c3d4", url: "https://vanillasky.ai/create?config=a1b2c3d4" }
 
 - **Beat-synced scenes** from animated templates, timed to music
 - **Animated backgrounds** — solid, gradients, photo/video, confetti, emoji, particles, glow effects
+- **Your own photos and videos** uploaded to cloud storage and embedded in scenes
 - **Stock footage** auto-selected from Pexels based on descriptive keywords
 - **Sequential text transitions** within scenes — multiple text moments on one background
 - **Brand colors, fonts, and effects** extracted from your website or set manually

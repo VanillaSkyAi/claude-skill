@@ -76,9 +76,10 @@ If they don't have these, that's fine — defaults look professional. They can a
 >
 > You can always swap anything later in the editor.
 
-- If they have media → use it in `mediaUrl` / `screenMediaUrl` fields
+- If they have media → upload it with `upload_media` to get public URLs, then use those in `mediaUrl` / `screenMediaUrl` fields
 - If not → use `mediaKeyword` for Pexels stock and lean on animated templates (intros, charts, social, app mockups)
 - Mix is fine — some scenes with their media, others with stock
+- If they share local file paths or paste images, upload each one with `upload_media` before building the config
 
 ### 4. Format — where will it live?
 
@@ -188,9 +189,10 @@ See [rules/schema.md](rules/schema.md) for a full annotated example.
 
 ### Media Handling
 
-- For `bg-photo` / `bg-video`: set `mediaKeyword` with a descriptive Pexels search keyword (2–4 words). Leave `mediaUrl` empty — the editor auto-fills the top Pexels result on load.
-- For showcase templates (`showcase-phone`, `showcase-tablet`, etc.): set `screenMediaUrl` directly if the user provides a screenshot. If not, leave it empty — the template shows a professional placeholder with screen dimensions and an "Upload screenshot" prompt. Do NOT use Pexels stock for device screens.
-- If the user provides media files/URLs, use them directly in the relevant `mediaUrl` / `screenMediaUrl` / `logoUrl` fields.
+- **User provides local files**: Call `upload_media` with the file path first. It uploads to cloud storage and returns a public URL. Use that URL in `mediaUrl` / `screenMediaUrl` / `logoUrl` fields.
+- **No user media**: For `bg-photo` / `bg-video`, set `mediaKeyword` with a descriptive Pexels search keyword (2–4 words). Leave `mediaUrl` empty — the editor auto-fills the top Pexels result on load.
+- For showcase templates (`showcase-phone`, `showcase-tablet`, etc.): set `screenMediaUrl` directly if the user provides a screenshot (upload it first with `upload_media`). If not, leave it empty — the template shows a professional placeholder.
+- **User provides URLs**: Use them directly in the relevant fields — no upload needed.
 
 ## Pre-Save Validation Checklist
 
@@ -216,9 +218,10 @@ The final scene (outro slot) should be a CTA — typically a bg-solid or bg-grad
 Use in this order during video creation. No API keys needed — the MCP server handles everything.
 
 1. **`scrape_url`** (optional, do first if URL available) — `{ url }` → Returns `brandColors`, `fonts`, `headlines`, `description`, `images`, `ogImage`. Use for brand kit, font matching, and copy inspiration.
-2. **`list_templates`** (REQUIRED) — `{ category? }` → Returns all templates with `id`, `variables`, `minDuration`, `whenToUse`, `copyTip`. Never hardcode template IDs.
-3. **`list_tracks`** (REQUIRED) — Returns tracks with `sceneSlots` (use as `startTime`/`endTime`) and `beatMarkers` (wrap as `{ "time": value }`).
-4. **`save_config`** (final step) — `{ config }` → Returns `{ id, url, warnings? }`. Share the URL. Warnings flag duration issues but don't block the save.
+2. **`upload_media`** (if user provides local files) — `{ filePath }` → Uploads to cloud storage, returns `{ publicUrl, fileName, mimeType, sizeBytes }`. Call once per file. Use the `publicUrl` in `mediaUrl` / `screenMediaUrl` fields. Supports: jpg, png, webp, gif, mp4, webm, mov. Max 20MB.
+3. **`list_templates`** (REQUIRED) — `{ category? }` → Returns all templates with `id`, `variables`, `minDuration`, `whenToUse`, `copyTip`. Never hardcode template IDs.
+4. **`list_tracks`** (REQUIRED) — Returns tracks with `sceneSlots` (use as `startTime`/`endTime`) and `beatMarkers` (wrap as `{ "time": value }`).
+5. **`save_config`** (final step) — `{ config }` → Returns `{ id, url, warnings? }`. Share the URL. Warnings flag duration issues but don't block the save.
 
 ## Example
 
