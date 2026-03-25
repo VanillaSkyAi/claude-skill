@@ -22,9 +22,9 @@ metadata:
 
 Never hardcode template IDs — the list changes as templates are added and removed.
 
-## The `texts` variable (background templates)
+## The `texts` variable (background + app templates)
 
-All background templates (bg-*) share the `texts` variable format:
+All background templates (bg-*) and all app templates (app-*) share the `texts` variable format. **Always set `texts` explicitly** — don't rely on defaults, as empty `texts` shows no text overlay:
 
 ```
 "First line|zoom-in,Second line|slam,Third line"
