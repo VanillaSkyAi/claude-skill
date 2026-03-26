@@ -75,28 +75,33 @@ Every video follows a 4-act structure, regardless of length:
 - At most 1 `chart-counter` — use other chart types (`chart-bar`, `chart-progress-ring`, `chart-pie`) for variety
 - At most 2 plain background scenes (`bg-solid`, `bg-glow`, `bg-gradient-linear`) total
 
-### Scene 1: skip the intro template (usually)
+### Brand-reveal templates: use sparingly
 
-**Intro templates (`intro-*`) are cinematic movie-style openers.** They're dramatic: countdowns, matrix rain, spotlight reveals, globe animations. Most videos don't need them.
+**Brand-reveal templates (`intro-*`) are stylistic title cards** — countdowns, spotlight reveals, cinematic flashes. They're not mandatory openers. Most videos are better off leading with real content.
 
-**Default scene 1: `bg-photo` or `bg-video` with a strong hook text.** A striking photo/video with punchy copy ("Stop losing customers." or "Built for teams that ship.") is more versatile and professional than a cinematic intro.
+**These templates work as openers OR closers.** A brand name reveal can be just as effective at the end of a video as at the beginning. Don't default to putting them first.
 
-**Only use intro templates when:**
+**When to use brand-reveal templates:**
+- The user has no logo, photos, or video — a stylistic title card fills the gap
 - The user explicitly asks for a "trailer" or "cinematic" feel
 - The video type is Event/Launch (countdown fits)
-- The brand is tech/gaming (glitch-matrix fits)
 - The user's prompt uses words like "epic", "dramatic", "reveal"
 
-**For most videos (product ads, social, brand stories, explainers):** Start with content, not ceremony. A `bg-photo` with `slow-zoom-in` + bold text is the best default opener.
+**When NOT to use them:**
+- The user has photos or video — lead with their content instead
+- The user has a logo — use a dedicated logo template instead (when available)
+- Personal/casual videos (birthday, thank-you, social) — too dramatic
+
+**Default scene 1: `bg-photo` or `bg-video` with a strong hook text.** Real content beats ceremony. A striking photo with punchy copy is more engaging than any animation.
 
 | Video type | Scene 1 |
 |-----------|---------|
 | Product ad | `bg-photo` with product/lifestyle shot + hook text |
 | Social/TikTok | `bg-video` with action footage + punchy text |
 | Brand story | `bg-photo` with atmospheric shot + brand statement |
-| Trailer/launch | `intro-cinematic-flash` or `intro-countdown` (cinematic fits here) |
-| Tech/gaming | `intro-glitch-matrix` (hacker aesthetic fits) |
-| Premium/luxury | `intro-spotlight` or `intro-vanilla-sky` (elegant reveal) |
+| Personal (birthday, thank-you) | `bg-photo` with user's own photo |
+| Trailer/launch (no media) | `intro-cinematic-flash` or `intro-countdown` |
+| Premium/luxury (no media) | `intro-spotlight` or `intro-vanilla-sky` |
 
 ### Prefer rich templates over plain backgrounds
 

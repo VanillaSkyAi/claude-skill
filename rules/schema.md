@@ -75,7 +75,12 @@ Pass `beatMarkers` as flat numbers from `list_tracks` — the server normalizes 
   "meta": {
     "name": "FitPulse Launch",
     "prompt": "Create a launch video for a fitness app called FitPulse",
-    "mood": ["Energetic"]
+    "mood": ["Energetic"],
+    "videoType": "ad",
+    "trackRationale": "High-energy track with 6 slots matching the fast-paced ad format",
+    "templateRationale": "bg-video for hero opener, showcase-phone for app demo, counter for stats, end-screen for CTA",
+    "source": "skill",
+    "createdAt": "2026-03-26"
   }
 }
 ```

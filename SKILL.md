@@ -186,6 +186,12 @@ See [rules/schema.md](rules/schema.md) for a full annotated example.
 - **`style.font`** — use the full CSS value: `"'Inter', sans-serif"` not `"Inter"` (see [rules/effects-and-style.md](rules/effects-and-style.md) for all options)
 - **`orientation`** — `"portrait"` (1080×1920, default) or `"landscape"` (1920×1080)
 - **`meta.mood`** — array of mood/tone tags for the video
+- **`meta.prompt`** — ALWAYS set to the user's original verbatim request (the exact words they used to describe the video)
+- **`meta.videoType`** — the detected/chosen video type, lowercase: `"ad"`, `"trailer"`, `"explainer"`, `"social"`, `"showreel"`, `"brand-story"`, or `"event"`
+- **`meta.trackRationale`** — one sentence explaining why you picked this track (e.g. "Energetic electronic track with 6 slots matching the ad pacing")
+- **`meta.templateRationale`** — one sentence summarizing your template strategy (e.g. "Used bg-video for impact scenes, showcase-phone for app demo, end-screen for CTA")
+- **`meta.source`** — set to `"skill"`
+- **`meta.createdAt`** — current ISO date string (e.g. `"2026-03-26"`)
 
 ### Media Handling
 
