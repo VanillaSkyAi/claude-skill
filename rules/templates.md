@@ -71,8 +71,8 @@ Templates are not equal. Richer templates create more engaging videos.
 - `social-tweet`, `social-review-stack`, `social-testimonial`, `social-milestone`, `social-notification`
 - `chart-bar`, `chart-line`, `chart-progress-ring`, `chart-pie`, `chart-counter`
 
-**Tier 3 — Background templates (palette cleansers only):**
-- `bg-photo`, `bg-video` — good with strong media
+**Tier 3 — Background templates (palette cleansers and quick cuts):**
+- `bg-photo`, `bg-video` — great at any duration, including short (< 2s) quick visual cuts between animated scenes. Use these for rhythm variety and breathing room.
 - `bg-glow`, `bg-gradient-linear`, `bg-particles`, `bg-confetti`, `bg-emoji` — atmospheric
 - `bg-solid` — CTA only, never for content
 
@@ -87,3 +87,5 @@ Templates are not equal. Richer templates create more engaging videos.
 - **Respect minDuration** — templates with complex animations need enough time
 - **Check preferredDuration** — this is the sweet spot for pacing
 - **Give Tier 1 templates more time** — set `durationWeight: 1.2–1.5` for app/showcase/chat templates
+- **bg-photo/bg-video as quick cuts** — set `durationWeight: 0.6–0.8` for fast visual cuts that add rhythm variety between animated scenes
+- **Template durations are shorter now** — preferredDurations have been reduced 20-30% across the board. Most scenes will be 2-3s, so plan accordingly

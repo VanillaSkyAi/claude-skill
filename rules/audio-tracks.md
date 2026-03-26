@@ -7,74 +7,78 @@ metadata:
 
 # Music Track Catalog
 
-Tracks are selected based on **video type match** + **structural fit** (slot count matches your scene count).
+Tracks are selected based on **video type match** + **duration fit** + **mood**.
 
-Call `list_tracks` MCP tool to get the full catalog with scene slots. Each track returns:
-- `sceneSlots[]` — pre-computed time ranges for each scene, with narrative roles
-- `beatMarkers[]` — raw beat times (needed for the audio config)
+Call `list_tracks` MCP tool to get the full catalog. Each track returns:
+- `beatMarkers[]` — all detected musical beats (typically 30-60+), analyzed with Essentia.js
 - `videoTypes` — which video types the track works best for
 - `description` — feel and character of the track
+- `duration` — total track length in seconds
 
-## How Scene Slots Work
+Scene count is driven by track duration: `round(duration / 3)`, clamped to 4-12 scenes. The system picks optimal beat boundaries at composition time — beats are natural cut points, not pre-computed slots.
 
-Beat markers define where scene transitions happen. Segments shorter than 2s are merged with neighbors. Each slot has a **role**:
+## How Scene Layout Works
+
+Beat markers (30-60+ per track) define all possible cut points. At save time, the server picks which beats to use as scene boundaries based on scene count and a pacing curve that makes scenes progressively shorter toward the climax. Each scene gets a narrative **role**:
 
 | Role | Position | Purpose |
 |------|----------|---------|
-| intro | First slot | Hook, brand reveal, opening |
-| build | Before hero | Setup, context, problem statement |
-| hero | Longest middle slot | Key demo, main message, biggest moment |
+| intro | First scene | Hook, brand reveal, opening |
+| build | Early scenes | Setup, context, problem statement |
+| hero | Longest middle scene | Key demo, main message, biggest moment |
 | accelerate | After hero | Features, social proof, momentum |
-| climax | Before outro | Impact, results, peak energy |
-| outro | Last slot | CTA, end screen, logo |
+| breathe | Brief pause | Breathing room before the climax — use bg-photo/bg-video for a quick visual cut |
+| climax | Near the end | Impact, results, peak energy — this is where the video ends |
+| outro | Last scene | CTA, end screen, logo (kept very short) |
+
+Videos end at peak energy. There is no slowdown after the climax — the outro is a quick CTA punch, not a wind-down.
 
 ## Track Selection Rules
 
 **Priority order:**
 1. **Video type match** — Track's `videoTypes` includes the video type (ad, trailer, showreel, social)
-2. **Slot count ≈ scene count** — A 5-scene story needs a track with ~5-6 slots, not 9
+2. **Duration fit** — Track duration should match the target video length for the video type
 3. **Description feel** — Track description fits the brand and message
-4. **Hero slot fits key scene** — If the main demo needs 6s, hero slot must be ≥ 6s
 
 ## Quick Reference
 
-Call `list_tracks` for exact slot data. This table is for quick orientation:
+Call `list_tracks` for exact data. This table is for quick orientation:
 
-| Track | Duration | Slots | Format | Video types |
-|-------|----------|-------|--------|-------------|
-| Intense trailer cinematic | 20s | 5 | standard | trailer, brand-story, event |
-| Grand Project Warrior | 30.1s | 6 | standard | trailer, brand-story, ad, event |
-| Grand project fear and fire | 16.6s | 5 | short | trailer, social, ad |
-| Grand project unbreakable | 17s | 4 | short | ad, brand-story, showreel |
+| Track | Duration | Scenes (approx) | Format | Video types |
+|-------|----------|-----------------|--------|-------------|
+| Intense trailer cinematic | 20s | 7 | standard | trailer, brand-story, event |
+| Grand Project Warrior | 30.1s | 10 | standard | trailer, brand-story, ad, event |
+| Grand project fear and fire | 16.6s | 6 | short | trailer, social, ad |
+| Grand project unbreakable | 17s | 6 | short | ad, brand-story, showreel |
 
 ## Timing Rule
 
-Each scene fills exactly one slot. Set timing directly from slot boundaries:
+Use `durationWeight` to control relative scene duration. The server computes `startTime`/`endTime` automatically by snapping to beat boundaries:
 
 ```json
 {
-  "timing": { "startTime": 4.7, "endTime": 8.1 }
+  "timing": { "durationWeight": 1.0 }
 }
 ```
 
-Never invent your own timing values. Always use slot `start` and `end`.
+**Do NOT set `startTime`/`endTime` manually.** The server handles this using durationWeight + beat markers.
 
-## Template Fit by Slot Duration
+## Template Fit by Scene Duration
 
-| Slot duration | Templates available |
-|---------------|-------------------|
-| < 2.5s | Background templates only (bg-solid, bg-photo, etc. — 1.5s min) |
-| 2.5 – 4s | Most templates (charts, showcases, social, intros) |
-| 5s+ | All templates including social-chat (5s min) and social-whatsapp (5s min) |
+| Scene duration | Templates available |
+|----------------|-------------------|
+| < 2s | Background templates only (bg-solid, bg-photo, bg-video — great for quick visual cuts) |
+| 2–3s | Most templates (charts, showcases, social, intros) |
+| 4s+ | All templates including social-chat and social-whatsapp |
 
 ## Scene Count Defaults (Research-Backed)
 
 | Video type | Scenes | Duration | Pacing |
 |------------|--------|----------|--------|
-| Social teaser | 3-4 | 10-15s | 2-3s per scene |
-| Product ad | 5-6 | 20-30s | 3-4s per scene |
-| Brand trailer | 6-8 | 25-35s | 2-4s per scene |
-| Showreel | 7-9 | 30-40s | 3-4s per scene |
+| Social teaser | 4-5 | 10-15s | 2-3s per scene |
+| Product ad | 7-10 | 20-30s | 2-3s per scene |
+| Brand trailer | 8-12 | 25-35s | 2-3s per scene |
+| Showreel | 10-12 | 30-40s | 2-3s per scene |
 
 First 3 seconds are critical — 47% of a video's value is delivered there.
 
@@ -87,13 +91,23 @@ First 3 seconds are critical — 47% of a video's value is delivered there.
   "duration": 27.6,
   "beatDetection": { "sensitivity": 0.5 },
   "beatMarkers": [
-    { "time": 1.2 }, { "time": 4.7 }, { "time": 8.1 },
-    { "time": 16.6 }, { "time": 18.7 }, { "time": 20.4 },
-    { "time": 21.9 }, { "time": 24.9 }
+    { "time": 0.4 }, { "time": 0.9 }, { "time": 1.4 }, { "time": 1.9 },
+    { "time": 2.4 }, { "time": 2.9 }, { "time": 3.4 }, { "time": 3.9 },
+    { "time": 4.4 }, { "time": 4.9 }, { "time": 5.4 }, { "time": 5.9 },
+    { "time": 6.4 }, { "time": 6.9 }, { "time": 7.4 }, { "time": 7.9 },
+    { "time": 8.4 }, { "time": 8.9 }, { "time": 9.4 }, { "time": 9.9 },
+    { "time": 10.4 }, { "time": 10.9 }, { "time": 11.4 }, { "time": 11.9 },
+    { "time": 12.5 }, { "time": 13.1 }, { "time": 13.7 }, { "time": 14.3 },
+    { "time": 14.9 }, { "time": 15.5 }, { "time": 16.1 }, { "time": 16.7 },
+    { "time": 17.3 }, { "time": 17.9 }, { "time": 18.5 }, { "time": 19.1 },
+    { "time": 19.7 }, { "time": 20.3 }, { "time": 20.9 }, { "time": 21.5 },
+    { "time": 22.1 }, { "time": 22.7 }, { "time": 23.3 }, { "time": 23.9 },
+    { "time": 24.5 }, { "time": 25.1 }, { "time": 25.7 }, { "time": 26.3 },
+    { "time": 26.9 }, { "time": 27.4 }
   ]
 }
 ```
 
 - `audioUrl` — leave empty, the editor loads it from the track database
-- `beatMarkers` — wrap each time in `{ "time": value }` — copy directly from track's `beatMarkers` array
+- `beatMarkers` — wrap each time in `{ "time": value }` — copy directly from track's `beatMarkers` array. Tracks typically have 30-60+ beats detected by Essentia.js
 - `beatDetection.sensitivity` — always `0.5`

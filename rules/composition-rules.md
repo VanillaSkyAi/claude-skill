@@ -12,37 +12,40 @@ metadata:
 Follow these steps in order. Do not skip steps.
 
 ### 1. Count scenes from the story
+- Scene count is driven by track duration: `round(duration / 3)`, clamped to 4-12 scenes
+- Default ranges: 7-10 for product ads, 4-5 for social teasers, 10-12 for showreels
 - Intro (brand/hook) + content scenes + CTA = total
-- Default: 5-6 for product ads, 3-4 for social teasers, 7-9 for showreels
 
-### 2. Pick track by structural fit
-- Call `list_tracks` to get available tracks with slot counts
-- Match: slot count ≈ scene count (±1 is fine)
-- Then filter by mood/energy
-- Verify hero slot duration fits your most complex scene
+### 2. Pick track by duration + mood
+- Call `list_tracks` to get available tracks
+- Match: track duration should fit the target video length for the video type
+- Filter by mood/energy — does the track description fit the brand?
 - **Vary track selection** — don't default to the same track every time. If the video is calm/lifestyle, pick the most uplifting track. If it's aggressive/tech, pick the most intense. Rotate between available tracks across videos.
 
-### 3. Map scenes to slots
+### 3. Map scenes to roles
 - Scene 1 → hook scene (see "Scene 1: skip the intro template" below)
-- Most important content → hero slot (longest duration, give it room)
-- CTA/end screen → outro slot
-- Remaining content → build/accelerate/climax slots by narrative position
+- Most important content → hero role (give it `durationWeight: 1.2–1.5` for more time)
+- CTA/end screen → outro role
+- Add a "breathe" scene before the climax — a quick bg-photo/bg-video cut for rhythm variety
+- Remaining content → build/accelerate/climax roles by narrative position
 
 ### 4. Check template fit
-- Each template's minDuration must be ≤ the slot's duration
+- Templates have lower preferredDurations now (scenes are shorter: 2-3s average)
 - If a template doesn't fit: pick a simpler one, or reduce content (fewer chart bars, fewer slides)
-- social-chat and social-whatsapp need 5s+ slots — only use in hero or long slots
+- social-chat and social-whatsapp need 4s+ — only use in hero or long scenes
+- **bg-photo and bg-video work great at short durations** — use them as quick visual cuts between animated scenes
 
 ### 5. Set timing weights
 - Use `durationWeight` to control relative scene duration (default: 1.0)
-- Hero/complex scenes: `durationWeight: 1.2–1.5` (gets more time)
+- Hero/complex scenes (Tier 1 templates): `durationWeight: 1.2–1.5` (gets more time)
+- Quick-cut scenes (bg-photo/bg-video): `durationWeight: 0.6–0.8` (fast visual cuts)
 - Simple CTA scenes: `durationWeight: 0.8–1.0` (never below 0.8 if scene has multiple text entries)
-- **Do NOT set `startTime`/`endTime` or `beatStart`/`beatEnd`** — the server computes these automatically using proportional layout with beat snapping
+- **Do NOT set `startTime`/`endTime` or `beatStart`/`beatEnd`** — the server computes these automatically from durationWeight + beat markers
 
-### 6. Scene count adjustments
-- **Fewer scenes than slots**: that's fine — scenes will get proportionally more time each
-- **More scenes than slots**: pick a different track with more slots, or cut a scene
-- Aim for slot count ≈ scene count (±2 is fine)
+### 6. Pacing curve
+- Scenes get progressively shorter toward the climax — the system applies a pacing curve automatically
+- Early scenes (intro, build) are longer for context; late scenes (accelerate, breathe, climax) are shorter for energy
+- The video ends at peak energy — no slowdown at the end
 
 ---
 
@@ -233,21 +236,23 @@ Background templates use `texts` — comma-separated entries with optional `|eff
 
 ## Pacing & Duration
 
-### Slot-Based Timing
+### Beat-Driven Timing
 
-Scene count and duration are determined by the track's scene slots (see `audio-tracks.md`). Each slot defines a scene's start and end time.
+Scene count is driven by track duration (`round(duration / 3)`, clamped 4-12). Beats (detected by Essentia.js, typically 30-60+ per track) serve as natural cut points. The server picks which beats to use as scene boundaries based on `durationWeight` values and a pacing curve.
 
-- Check `list_tracks` for the exact slot structure of each track
-- The slot count IS the scene count — one scene per slot
-- Slot durations determine which templates can be used (must fit minDuration)
+- You control relative timing with `durationWeight` — the server handles the rest
+- The pacing curve makes scenes progressively shorter toward the climax
+- All scene transitions snap to beat boundaries automatically
 
 ### Pacing Guidelines
 
-- **Intro slot**: Grab attention in the first 3 seconds — use high-impact templates
-- **Build slots**: Establish context — alternate visual intensity between scenes
-- **Hero slot**: The longest slot — use it for the key demo, showcase, or biggest stat
-- **Accelerate/climax slots**: Energy builds — shorter scenes, punchier text effects (`slam`, `flash`)
-- **Outro slot**: CTA — keep it clean and simple, don't rush it
+- **Intro scenes**: Grab attention in the first 3 seconds — use high-impact templates
+- **Build scenes**: Establish context — alternate visual intensity between scenes
+- **Hero scene**: Gets the most time (`durationWeight: 1.2–1.5`) — key demo, showcase, or biggest stat
+- **Accelerate scenes**: Energy builds — shorter, punchier text effects (`slam`, `flash`)
+- **Breathe scene**: A brief visual pause before the climax — use bg-photo or bg-video for a quick cut (`durationWeight: 0.6–0.8`)
+- **Climax scene**: Peak energy — this is effectively where the video ends emotionally
+- **Outro scene**: Quick CTA punch — keep it very short, the energy doesn't wind down
 
 ### Text Effect Variety
 
@@ -276,14 +281,17 @@ Don't use `crossfade` for every transition. Use 2-3 types per video:
 
 Present the plan as a table before building the config:
 
-| # | Slot | Time | Duration | Template | Content |
-|---|------|------|----------|----------|---------|
-| 1 | intro | 0–4.7s | 4.7s | intro-cinematic-flash | Brand name reveal |
-| 2 | build | 4.7–8.1s | 3.4s | bg-photo | Problem statement |
-| 3 | hero | 8.1–16.6s | 8.5s | showcase-tablet-slides | 3-screen demo |
-| 4 | accelerate | 16.6–20.4s | 3.8s | chart-counter | "10K users" stat |
-| 5 | climax | 20.4–24.9s | 4.5s | social-review-stack | 3 testimonials |
-| 6 | outro | 24.9–27.6s | 2.7s | bg-gradient-linear | CTA |
+| # | Role | Weight | Template | Content |
+|---|------|--------|----------|---------|
+| 1 | intro | 1.0 | bg-video | Visual hook — striking footage |
+| 2 | build | 1.0 | bg-photo | Problem statement |
+| 3 | build | 1.0 | showcase-phone | Product overview |
+| 4 | hero | 1.3 | showcase-tablet-slides | 3-screen app demo |
+| 5 | accelerate | 1.0 | chart-counter | "10K users" stat |
+| 6 | accelerate | 0.8 | bg-photo | Quick visual cut |
+| 7 | breathe | 0.7 | bg-video | Atmospheric footage — brief pause |
+| 8 | climax | 1.0 | social-review-stack | Customer reviews — peak energy |
+| 9 | outro | 0.8 | bg-gradient-linear | CTA |
 
 > Template IDs here are illustrative — always call `list_templates` for the current list.
 

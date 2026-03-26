@@ -70,7 +70,7 @@ export async function uploadMedia(
   const buffer = fs.readFileSync(filePath);
 
   // Upload to Supabase Storage
-  const uploadUrl = `${SUPABASE_URL}/storage/v1/object/user-media/${fileName}`;
+  const uploadUrl = `${SUPABASE_URL}/storage/v1/object/user-media/mcp/${fileName}`;
   const resp = await fetch(uploadUrl, {
     method: "POST",
     headers: {
@@ -92,7 +92,7 @@ export async function uploadMedia(
     throw new Error(message);
   }
 
-  const publicUrl = `${SUPABASE_URL}/storage/v1/object/public/user-media/${fileName}`;
+  const publicUrl = `${SUPABASE_URL}/storage/v1/object/public/user-media/mcp/${fileName}`;
 
   return {
     publicUrl,

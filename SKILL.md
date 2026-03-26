@@ -94,31 +94,40 @@ Infer from context when possible:
 
 ### 5. Pick a Music Track
 
-**Call `list_tracks` MCP tool** to get tracks with their scene slots. Selection priority:
+**Call `list_tracks` MCP tool** to get tracks with beat markers and duration. Selection priority:
 
 1. **Video type match** — pick a track whose `videoTypes` includes your video type (ad, trailer, showreel, social)
-2. **Match slot count** — slot count ≈ scene count (±1)
+2. **Duration fit** — track duration should match the target video length for the video type
 3. **Description feel** — does the track description fit the brand?
-4. **Check hero slot** — is it long enough for your most complex scene?
 
-See [rules/audio-tracks.md](rules/audio-tracks.md) for the slot system explained.
+Scene count is driven by track duration: `round(duration / 3)`, clamped to 4-12 scenes. Beats (30-60+ per track, detected by Essentia.js) serve as natural cut points — the system picks which beats to use as scene boundaries at save time.
+
+See [rules/audio-tracks.md](rules/audio-tracks.md) for the beat-driven layout system.
 
 ### 6. Propose a Scene Plan
 
-Present a table showing how scenes map to the track's slots:
+Present a table showing scenes with their narrative roles and duration weights. The server computes exact timing from beats:
 
-| # | Slot | Time | Duration | Template | Content |
-|---|------|------|----------|----------|---------|
-| 1 | intro | 0–4.7s | 4.7s | intro-text-slam | Brand name reveal |
-| 2 | build | 4.7–8.1s | 3.4s | bg-photo | Problem statement |
-| 3 | hero | 8.1–16.6s | 8.5s | showcase-tablet-slides | 3-screen app demo |
-| 4 | accelerate | 16.6–20.4s | 3.8s | chart-counter | "10K users" stat |
-| 5 | climax | 20.4–24.9s | 4.5s | social-review-stack | Customer reviews |
-| 6 | outro | 24.9–27.6s | 2.7s | bg-gradient-linear | CTA |
+| # | Role | Weight | Template | Content |
+|---|------|--------|----------|---------|
+| 1 | intro | 1.0 | bg-video | Visual hook — striking footage |
+| 2 | build | 1.0 | bg-photo | Problem statement |
+| 3 | build | 1.0 | showcase-phone | Product overview |
+| 4 | hero | 1.3 | showcase-tablet-slides | 3-screen app demo |
+| 5 | accelerate | 1.0 | chart-counter | "10K users" stat |
+| 6 | accelerate | 0.8 | bg-photo | Quick visual cut |
+| 7 | breathe | 0.7 | bg-video | Atmospheric footage — brief pause |
+| 8 | climax | 1.0 | social-review-stack | Customer reviews — peak energy |
+| 9 | outro | 0.8 | bg-gradient-linear | CTA |
 
 > Template IDs here are illustrative — always call `list_templates` for the current list.
 
-Be transparent about template choices. Explain why a template fits its slot duration and narrative role.
+**Key pacing notes:**
+- `bg-photo` and `bg-video` are great for quick visual cuts between animated scenes — they add rhythm variety
+- Scenes get progressively shorter toward the climax (pacing curve applied automatically)
+- The video ends at peak energy — no slowdown after the climax
+
+Be transparent about template choices. Explain why a template fits its narrative role.
 
 ### 7. User Confirms or Tweaks
 
@@ -180,7 +189,7 @@ See [rules/schema.md](rules/schema.md) for a full annotated example.
 - **`scenes[].id`** — use `"s1"`, `"s2"`, etc.
 - **`scenes[].templateId`** — call `list_templates` MCP tool to get current available templates. NEVER hardcode template IDs — the list changes as templates are added/removed.
 - **`scenes[].variables`** — keys must match the template's variable schema (returned by `list_templates`)
-- **`timing.startTime` / `endTime`** — scene start and end in seconds. These come directly from the track's scene slots — **never invent your own values**. Call `list_tracks`, pick a track, and use each slot's `start` and `end` as `startTime` and `endTime`. Every scene transition lands on a beat by construction.
+- **`timing.durationWeight`** — relative weight controlling how much time a scene gets (default: 1.0). Hero scenes: 1.2-1.5, quick cuts (bg-photo/bg-video): 0.6-0.8. The server computes `startTime`/`endTime` automatically by snapping to beat boundaries. **Do NOT set startTime/endTime manually.**
 - **`transition` / `backgroundEffect`** — set per-scene to override `style.defaultTransition` / `style.defaultBackgroundEffect`
 - **`textEffect`** — only meaningful for templates with `usesGlobalTextEffect: true` (bg-* and showcase-* templates). Set per-scene to override.
 - **`style.font`** — use the full CSS value: `"'Inter', sans-serif"` not `"Inter"` (see [rules/effects-and-style.md](rules/effects-and-style.md) for all options)
@@ -204,14 +213,14 @@ See [rules/schema.md](rules/schema.md) for a full annotated example.
 
 **Run these checks before saving the config. Fix any failures.**
 
-### 1. Timing matches slots
-Every scene's `startTime` and `endTime` must match a slot boundary from the selected track's `sceneSlots`. Scenes must not overlap and must cover the full track duration.
+### 1. Scene count fits track duration
+Scene count should be approximately `round(duration / 3)`, clamped 4-12. The server handles exact beat-boundary timing.
 
-### 2. Scene count matches slot count
-One scene per slot. If you merged slots, the merged scene should span the combined time range.
+### 2. Duration weights are sensible
+Hero/complex scenes: `durationWeight: 1.2-1.5`. Quick cuts (bg-photo/bg-video): `durationWeight: 0.6-0.8`. Don't set startTime/endTime — the server computes these.
 
-### 3. Template fits slot duration
-Each scene's duration (`endTime - startTime`) must be ≥ the template's `minDuration`. Check via `list_templates`.
+### 3. Template fits expected duration
+Given the shorter scene durations (2-3s average), ensure templates with high minDuration are only used in hero/weighted scenes. Check via `list_templates`.
 
 ### 4. Template variables
 Each scene's `variables` keys must match its template's schema. Required fields must be set. See [rules/templates.md](rules/templates.md).
@@ -226,7 +235,7 @@ Use in this order during video creation. No API keys needed — the MCP server h
 1. **`scrape_url`** (optional, do first if URL available) — `{ url }` → Returns `brandColors`, `fonts`, `headlines`, `description`, `images`, `ogImage`. Use for brand kit, font matching, and copy inspiration.
 2. **`upload_media`** (if user provides local files) — `{ filePath }` → Uploads to cloud storage, returns `{ publicUrl, fileName, mimeType, sizeBytes }`. Call once per file. Use the `publicUrl` in `mediaUrl` / `screenMediaUrl` fields. Supports: jpg, png, webp, gif, mp4, webm, mov. Max 20MB.
 3. **`list_templates`** (REQUIRED) — `{ category? }` → Returns all templates with `id`, `variables`, `minDuration`, `whenToUse`, `copyTip`. Never hardcode template IDs.
-4. **`list_tracks`** (REQUIRED) — Returns tracks with `sceneSlots` (use as `startTime`/`endTime`) and `beatMarkers` (wrap as `{ "time": value }`).
+4. **`list_tracks`** (REQUIRED) — Returns tracks with `beatMarkers` (30-60+ beats per track) and `duration`. Scene count is `round(duration / 3)` clamped 4-12. The server picks beat boundaries as scene cut points.
 5. **`save_config`** (final step) — `{ config }` → Returns `{ id, url, warnings? }`. Share the URL. Warnings flag duration issues but don't block the save.
 
 ## Example

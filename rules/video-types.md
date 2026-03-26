@@ -31,7 +31,7 @@ Starting recipes, not molds. Detect the video type from context and adapt. Alway
 
 | Aspect | Guideline |
 |--------|-----------|
-| Duration | 15–30s (5–6 scenes) |
+| Duration | 15–30s (7–10 scenes) |
 | Pacing | Fast — each scene 1 beat |
 | Fonts | Bold display: Bebas Neue, Anton, Oswald |
 | Text effects | `slam`, `bounce-drop`, `cut-in` |
@@ -46,7 +46,7 @@ Starting recipes, not molds. Detect the video type from context and adapt. Alway
 
 | Aspect | Guideline |
 |--------|-----------|
-| Duration | 25–40s (6–10 scenes) |
+| Duration | 25–40s (8–12 scenes) |
 | Pacing | 4-act arc: slow → rising → peak → resolve |
 | Fonts | Cinematic: Bebas Neue, Cinzel, DM Serif Display |
 | Text effects | `fade-in`, `zoom-through`, `word-stagger` |
@@ -61,7 +61,7 @@ Starting recipes, not molds. Detect the video type from context and adapt. Alway
 
 | Aspect | Guideline |
 |--------|-----------|
-| Duration | 30–60s (8–12 scenes) |
+| Duration | 30–60s (10–12 scenes) |
 | Pacing | Steady rhythm, consistent energy |
 | Fonts | Clean sans-serif: Inter, Montserrat, Work Sans |
 | Text effects | `slide-up`, `fade-in` |
@@ -76,7 +76,7 @@ Starting recipes, not molds. Detect the video type from context and adapt. Alway
 
 | Aspect | Guideline |
 |--------|-----------|
-| Duration | 15–20s (4–5 scenes) |
+| Duration | 15–20s (4–6 scenes) |
 | Orientation | **Portrait** (9:16) |
 | Pacing | Extremely fast — every second counts |
 | Fonts | Extra bold: Bebas Neue, Anton |
@@ -92,7 +92,7 @@ Starting recipes, not molds. Detect the video type from context and adapt. Alway
 
 | Aspect | Guideline |
 |--------|-----------|
-| Duration | 25–40s (6–8 scenes) |
+| Duration | 25–40s (8–10 scenes) |
 | Pacing | Slow, deliberate — let footage breathe |
 | Fonts | Serif: Playfair Display, Cinzel |
 | Text effects | `fade-in`, `word-stagger` |
@@ -107,7 +107,7 @@ Starting recipes, not molds. Detect the video type from context and adapt. Alway
 
 | Aspect | Guideline |
 |--------|-----------|
-| Duration | 15–25s (5–6 scenes) |
+| Duration | 15–25s (6–8 scenes) |
 | Pacing | Tease → reveal → details → urgency |
 | Fonts | Bold display: Bebas Neue, Anton |
 | Text effects | `slam`, `zoom-through`, `cut-in` |
@@ -122,7 +122,7 @@ Starting recipes, not molds. Detect the video type from context and adapt. Alway
 
 | Aspect | Guideline |
 |--------|-----------|
-| Duration | 20–30s (5–7 scenes) |
+| Duration | 20–30s (7–10 scenes) |
 | Pacing | Steady and measured — let each point land before moving on |
 | Fonts | Clean sans-serif: Inter, Montserrat, Work Sans |
 | Text effects | `fade-in`, `slide-up`, `word-stagger` |

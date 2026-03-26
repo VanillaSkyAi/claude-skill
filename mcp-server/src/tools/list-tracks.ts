@@ -4,7 +4,7 @@ export interface SceneSlot {
   start: number;
   end: number;
   duration: number;
-  role: "intro" | "build" | "hero" | "accelerate" | "climax" | "outro";
+  role: "intro" | "build" | "hero" | "accelerate" | "breathe" | "climax" | "outro";
 }
 
 export interface Track {

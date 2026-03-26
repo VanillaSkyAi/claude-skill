@@ -12,14 +12,14 @@ metadata:
 The `save_config` endpoint automatically computes `startTime`/`endTime` for each scene using proportional layout with beat snapping. You only need to provide `durationWeight` — a relative weight that controls how much time a scene gets compared to siblings.
 
 - `durationWeight: 1.0` — default, gets a normal share of time
-- `durationWeight: 1.3` — gets 30% more time (use for hero/complex scenes)
-- `durationWeight: 0.7` — gets 30% less time (use for simple CTA scenes, but never below 0.8 for scenes with multiple text entries)
+- `durationWeight: 1.2–1.5` — gets more time (use for Tier 1 hero/complex scenes: app, showcase, chat templates)
+- `durationWeight: 0.6–0.8` — gets less time (use for bg-photo/bg-video quick visual cuts and simple CTA scenes; never below 0.8 for scenes with multiple text entries)
 
 **Do NOT set `startTime`/`endTime` or `beatStart`/`beatEnd` manually.** The server handles this.
 
 ## Audio: use raw values from `list_tracks`
 
-Pass `beatMarkers` as flat numbers from `list_tracks` — the server normalizes them. `beatDetection` and `audioUrl` are optional; the server adds defaults.
+Pass `beatMarkers` as flat numbers from `list_tracks` — the server normalizes them. Tracks typically have 30-60+ beats detected by Essentia.js. `beatDetection` and `audioUrl` are optional; the server adds defaults. The server uses these beats as snap points when computing scene boundaries from `durationWeight` values.
 
 ```json
 {
@@ -28,7 +28,7 @@ Pass `beatMarkers` as flat numbers from `list_tracks` — the server normalizes 
     "trackId": "a5cf8cbd-9606-4246-8408-61bc7e5d2794",
     "audioUrl": "",
     "duration": 27.4,
-    "beatMarkers": [4.2, 7.6, 10.2, 12.7, 15.1, 17.4, 19.2, 22.8]
+    "beatMarkers": [0.4, 0.9, 1.4, 1.9, 2.4, 2.9, 3.4, 3.9, 4.2, 4.7, 5.2, 5.7, 6.2, 6.7, 7.2, 7.6, 8.1, 8.6, 9.1, 9.6, 10.2, 10.7, 11.2, 11.7, 12.2, 12.7, 13.2, 13.7, 14.2, 14.7, 15.1, 15.6, 16.1, 16.6, 17.1, 17.4, 17.9, 18.4, 19.2, 19.7, 20.2, 20.7, 21.2, 21.7, 22.2, 22.8, 23.3, 23.8, 24.3, 24.8, 25.3, 25.8, 26.3, 26.8, 27.4]
   },
   "scenes": [
     {
