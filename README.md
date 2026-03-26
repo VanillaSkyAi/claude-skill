@@ -216,7 +216,7 @@ Templates are organized by category. Claude discovers the current list via the `
 
 | Category | Examples |
 |----------|----------|
-| **Intro** (7) | Globe, Glitch Matrix, Cinematic Flash, Spotlight, Countdown, Text Slam |
+| **Brand Reveal** (7) | Globe, Glitch Matrix, Cinematic Flash, Spotlight, Countdown, Text Slam |
 | **Background** (8) | Solid, Photo, Video, Gradient, Glow, Confetti, Emoji, Particles |
 | **Chart** (5) | Counter, Bar, Line, Progress Ring, Pie |
 | **Showcase** (4) | Phone Mockup, Triple Phone, Tablet, Tablet Slideshow |
