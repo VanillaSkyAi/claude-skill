@@ -20,11 +20,23 @@ Call `list_tracks` MCP tool to get the catalog. Each track returns:
 ## Track Selection Rules
 
 **Priority order:**
-1. **Mood match** — Track description fits the arc's mood (see composition-rules.md)
+1. **Arc mood match** — Pick a track whose energy matches the arc (see table below)
 2. **Duration fit** — Track duration close to your estimated total from scene planning
-3. **Vary selection** — Don't default to the same track every time
+3. **NEVER pick the same track twice in a row** — if you've used a track before in this session, pick a different one
 
 Always call `list_tracks` for current data — never hardcode track names.
+
+## Arc → Track Mood (FOLLOW THIS)
+
+| Arc | Track energy | Look for in description |
+|-----|-------------|------------------------|
+| **Launch** | Building, cinematic, epic | "build", "epic", "orchestral", "cinematic", "momentum" |
+| **Explain** | Steady, clear, modern | "gentle", "optimistic", "modern", "clean", "steady" |
+| **Sell** | Urgent, punchy, driving | "driving", "energetic", "punchy", "intense", "fast" |
+| **Showcase** | Polished, rhythmic, confident | "confident", "modern", "polished", "groove", "swagger" |
+| **Social** | High-energy, fun, bouncy | "upbeat", "bounce", "fun", "energy", "drops" |
+
+**Do NOT match by use-case keywords** like "startup pitches" or "SaaS demos" — match by the FEEL of the music. Two videos about the same product should sound different if they have different arcs.
 
 ## Audio Config Format
 
