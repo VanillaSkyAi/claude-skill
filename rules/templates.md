@@ -80,6 +80,24 @@ Templates are not equal. Richer templates create more engaging videos.
 
 **Intro templates (`intro-*`) are NOT a tier — they're optional cinematic openers.** Most videos should start with `bg-photo` or `bg-video` with strong hook text. Only use intro templates for trailers, launches, or when the user asks for a dramatic/cinematic feel. See composition-rules.md for details.
 
+## Structured variable format
+
+Some templates accept structured variables (e.g. `notif1`–`notif6`, `transaction1`–`transaction5`, `chat1`–`chat6`, `msg1`–`msg5`). **Always pass these as colon-separated strings**, matching the format in the schema description:
+
+```
+"🔔:Instagram:liked your photo:2m"
+"👕:Adidas:Shopping:-45.00€"
+"😊:Sarah Chen:Hey, are you free tonight?:2m"
+```
+
+Templates accept objects and JSON strings as a fallback, but colon-separated strings are the canonical format and render most reliably.
+
+For chat templates (`social-chat`, `social-whatsapp`), pass plain text strings:
+```
+"Hey, what's up?"
+"I'm good, how are you?|out"
+```
+
 ## Template rules
 
 - **Scene 1 should be `bg-photo` or `bg-video` with strong hook text.** Intro templates are optional — use only for trailers/launches or when the user asks for a cinematic feel.
