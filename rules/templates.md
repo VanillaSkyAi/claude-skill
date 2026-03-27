@@ -1,9 +1,9 @@
 ---
 name: templates
 description: How to discover and use scene templates — call list_templates MCP tool for the live list
-metadata:
-  tags: templates, scenes, variables, schema
 ---
+
+> **Scope:** Template discovery, variable formats, tiers, selection rules. For creative composition see [composition-rules.md]. For effects/fonts see [effects-and-style.md].
 
 # Scene Templates
 
@@ -82,10 +82,8 @@ Templates are not equal. Richer templates create more engaging videos.
 
 ## Template rules
 
-- **Scene 1 must be an intro template or bg-photo** — start with visual impact
+- **Scene 1 should be `bg-photo` or `bg-video` with strong hook text.** Intro templates are optional — use only for trailers/launches or when the user asks for a cinematic feel.
 - **Don't use the same template 3x in a row** — vary for visual interest
 - **Respect minDuration** — templates with complex animations need enough time
 - **Check preferredDuration** — this is the sweet spot for pacing
-- **Give Tier 1 templates more time** — set `durationWeight: 1.2–1.5` for app/showcase/chat templates
-- **bg-photo/bg-video as quick cuts** — set `durationWeight: 0.6–0.8` for fast visual cuts that add rhythm variety between animated scenes
-- **Template durations are shorter now** — preferredDurations have been reduced 20-30% across the board. Most scenes will be 2-3s, so plan accordingly
+- For timing weights by template tier, see [composition-rules.md](composition-rules.md).

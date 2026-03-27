@@ -1,9 +1,9 @@
 ---
 name: effects-and-style
 description: Text effects, background effects, transitions, fonts, and brand kit reference
-metadata:
-  tags: effects, text, background, transitions, fonts, brand, style
 ---
+
+> **Scope:** All effects, transitions, fonts, and brand kit reference. For when/how to use effects in context see [composition-rules.md].
 
 # Effects & Style Reference
 
@@ -19,7 +19,7 @@ metadata:
 | `zoom-in` | Scales up from small | Focus, emphasis |
 | `zoom-through` | Scales down from huge (2.5x→1) | Dramatic, cinematic — "zooming past camera" |
 | `bounce-drop` | Drops from above with bounce | Playful, energetic |
-| `slam` | Slams in from 4x scale with bounce | Maximum impact, aggressive |
+| `slam` | Slams in from 4x scale with bounce | Sports/fitness only — reads as dated in most contexts |
 | `cut-in` | Instant appear, no animation | Hard cuts, fast pacing |
 | `typewriter` | Per-character reveal | Tech, narrative, building tension |
 | `word-stagger` | Per-word cascade (slide-up) | Lists, statements, rhythmic text |
@@ -29,7 +29,7 @@ metadata:
 | Mood | Recommended effects |
 |------|-------------------|
 | Calm / elegant | `fade-in`, `slide-up`, `typewriter` |
-| Energetic / bold | `slam`, `bounce-drop`, `zoom-through` |
+| Energetic / bold | `zoom-through`, `bounce-drop`, `cut-in` |
 | Tech / edgy | `cut-in`, `typewriter`, `zoom-through` |
 | Dramatic / cinematic | `fade-in`, `zoom-through`, `word-stagger` |
 | Clean / corporate | `slide-up`, `fade-in`, `cut-in` |
@@ -37,7 +37,7 @@ metadata:
 **Rules:**
 - Use max 2-3 distinct text effects per video (set one as `defaultTextEffect`, override sparingly)
 - `fade-in` is the safest default — works with any mood
-- `slam` and `bounce-drop` need energetic music to work
+- `slam` is dated outside sports/fitness contexts — prefer `zoom-through` or `bounce-drop` for impact
 
 ---
 
@@ -85,19 +85,20 @@ Set via `style.defaultTransition` or per-scene `transition`.
 
 | Transition | When to use |
 |------------|-------------|
-| `crossfade` | Default — between most scenes (~70% of video) |
+| `crossfade` | Visual continuity — when adjacent scenes share elements (~15-20% of video) |
 | `dip-to-black` | Dramatic pause, structural break, before/after counter |
 | `flash` | High-energy beat drops |
 | `zoom-in` | Moving into detail (wide → close) |
 | `zoom-out` | Revealing bigger picture |
-| `cut` | Hard cut, no transition — fast pacing, aggressive edits |
+| `cut` | Professional default — clean, confident, works everywhere (~80% of video) |
 | `slide-left` | Sequential progression (step 1 → step 2) |
 | `slide-right` | Sequential progression (reverse direction) |
 
 **Rules:**
-- Use 2-3 types max per video
-- `crossfade` is the workhorse — use it for most scene transitions
-- `dip-to-black` works well before counter or gradient-text scenes (creates a dramatic pause)
+- `cut` is the default — 80%+ of transitions in any professional video
+- `crossfade` for visual continuity only — never as a blanket default
+- Use 2-3 transition types max per video
+- `dip-to-black` works well before counter scenes (creates a dramatic pause)
 - `flash` should coincide with a high-energy beat marker
 
 ---

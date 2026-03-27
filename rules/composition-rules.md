@@ -1,298 +1,417 @@
 ---
 name: composition-rules
-description: Narrative structure, pacing, copy writing, and Pexels keyword strategy — template-agnostic
-metadata:
-  tags: composition, narrative, pacing, copy, keywords
+description: 5 arcs, 3-phase structure, scene planning, template selection, copy, pacing — the creative brain
 ---
 
 # Composition Rules
 
-## Composition Flow
+> **Scope:** Arcs, scene planning, templates, copy, pacing. For template variables see [templates.md](templates.md). For effects/fonts see [effects-and-style.md](effects-and-style.md). For audio config see [audio-tracks.md](audio-tracks.md).
 
-Follow these steps in order. Do not skip steps.
+## The 3-Phase Structure
 
-### 1. Count scenes from the story
-- Scene count is driven by track duration: `round(duration / 3)`, clamped to 4-12 scenes
-- Default ranges: 7-10 for product ads, 4-5 for social teasers, 10-12 for showreels
-- Intro (brand/hook) + content scenes + CTA = total
+Every video, regardless of length or purpose, has three phases:
 
-### 2. Pick track by duration + mood
-- Call `list_tracks` to get available tracks
-- Match: track duration should fit the target video length for the video type
-- Filter by mood/energy — does the track description fit the brand?
-- **Vary track selection** — don't default to the same track every time. If the video is calm/lifestyle, pick the most uplifting track. If it's aggressive/tech, pick the most intense. Rotate between available tracks across videos.
+```
+HOOK  →  BODY  →  CLOSE
+```
 
-### 3. Map scenes to roles
-- Scene 1 → hook scene (see "Scene 1: skip the intro template" below)
-- Most important content → hero role (give it `durationWeight: 1.2–1.5` for more time)
-- CTA/end screen → outro role
-- Add a "breathe" scene before the climax — a quick bg-photo/bg-video cut for rhythm variety
-- Remaining content → build/accelerate/climax roles by narrative position
+| Phase | What it does | Scenes | Time budget |
+|-------|-------------|--------|-------------|
+| **HOOK** | Grab attention — first impression decides everything | 1-2 scenes | ~3s (first 3 seconds) |
+| **BODY** | Deliver the content — this is where arcs diverge | 2-8 scenes | Scales with duration |
+| **CLOSE** | Call to action — what should the viewer do? | 1-2 scenes | 2-3s minimum |
 
-### 4. Check template fit
-- Templates have lower preferredDurations now (scenes are shorter: 2-3s average)
-- If a template doesn't fit: pick a simpler one, or reduce content (fewer chart bars, fewer slides)
-- social-chat and social-whatsapp need 4s+ — only use in hero or long scenes
-- **bg-photo and bg-video work great at short durations** — use them as quick visual cuts between animated scenes
-
-### 5. Set timing weights
-- Use `durationWeight` to control relative scene duration (default: 1.0)
-- Hero/complex scenes (Tier 1 templates): `durationWeight: 1.2–1.5` (gets more time)
-- Quick-cut scenes (bg-photo/bg-video): `durationWeight: 0.6–0.8` (fast visual cuts)
-- Simple CTA scenes: `durationWeight: 0.8–1.0` (never below 0.8 if scene has multiple text entries)
-- **Do NOT set `startTime`/`endTime` or `beatStart`/`beatEnd`** — the server computes these automatically from durationWeight + beat markers
-
-### 6. Pacing curve
-- Scenes get progressively shorter toward the climax — the system applies a pacing curve automatically
-- Early scenes (intro, build) are longer for context; late scenes (accelerate, breathe, climax) are shorter for energy
-- The video ends at peak energy — no slowdown at the end
+**Universal rules (apply to every video):**
+- **First 3 seconds decide everything** — 65% of viewers leave if not hooked. Lead with your strongest visual or most provocative statement. Never a logo. Never "welcome to."
+- **End at peak energy** — no wind-down. The CTA is a quick punch, not a cooldown.
+- **One message per video** — the most common failure is cramming multiple messages.
+- **Sound-off by default** — 85% of social video is watched muted. Every scene MUST have text overlays. Text is not decoration — it IS the message.
 
 ---
 
-## Narrative Arc
+## The 5 Arcs
 
-Every video follows a 4-act structure, regardless of length:
+Detect the arc from the user's prompt. If ambiguous, default to **Launch** — it's what most founders need first.
 
-| Act | Scenes | Purpose | Energy |
-|-----|--------|---------|--------|
-| Hook | 1–2 | Grab attention — striking visual + punchy text | High |
-| Build | 2–3 | Establish context — show the product/brand/story | Rising |
-| Climax | 1–2 | Peak moment — impressive stat, proof, or reveal | Peak |
-| CTA | 1–2 | Call to action — what should the viewer do? | Resolving |
+---
+
+### Launch
+
+> "Look what we built."
+
+**Detect from:** "launch video", "announcement", "we just shipped", "introducing", "product video", "startup video"
+
+**Body strategy:** Show the product early (scene 2-3, not scene 5). Reveal features, then prove traction. Build excitement — this is a celebration.
+
+**Pacing:** Building energy. Start confident, end electric.
+
+| Phase | Scenes | What goes here |
+|-------|--------|---------------|
+| HOOK | 1-2 | Product in action or bold problem statement |
+| BODY | 4-7 | Product demo → key features → social proof / stats |
+| CLOSE | 1 | CTA: "Try it free → [url]" |
+
+**Hook formulas:**
+- "Introducing [product]. [One-line value prop]."
+- "Meet [product]. [Benefit] in [timeframe]."
+- "[Product] just launched. Here's why it matters."
+- "[Bold claim about what it replaces]."
+
+**CTA formulas:**
+- "Try [product] free → [url]"
+- "Ship your first [thing] today → [url]"
+- "[Product] is live. Get early access → [url]"
+
+**Style:** Bold display fonts (Bebas Neue, Anton) or clean tech (Inter, Space Grotesk). Dark bg + bright accent. `zoom-through` for hook, `fade-in` default.
+
+**Track mood:** Confident, building, exciting.
+
+---
+
+### Explain
+
+> "Let me show you how it works."
+
+**Detect from:** "explainer", "how it works", "landing page video", "what is", "overview", "walk through", "intro to"
+
+**Body strategy:** One concept per scene — clarity over cleverness. Problem → solution → how → proof. Each scene needs 3-5s for comprehension. Don't rush.
+
+**Pacing:** Steady and measured. Let each point land before moving on.
+
+| Phase | Scenes | What goes here |
+|-------|--------|---------------|
+| HOOK | 1 | Question or surprising fact about the problem |
+| BODY | 3-5 | Problem → solution → how it works → proof/stat |
+| CLOSE | 1 | Key takeaway + CTA |
+
+**Hook formulas:**
+- "What if [pain point] was solved?"
+- "[Pain point] is costing you [consequence]."
+- "How to [task] in [timeframe]."
+- "Did you know [surprising fact about the problem]?"
+
+**CTA formulas:**
+- "Start free today → [url]"
+- "See how it works → [url]"
+- "Learn more → [url]"
+
+**Style:** Clean sans-serif (Inter, Montserrat, Work Sans). Can use lighter backgrounds. `fade-in` default, `slide-up` for key points. Favor text-heavy bg-* templates and charts for proof. Each scene = one idea.
+
+**Track mood:** Steady, clear, not distracting.
+
+---
+
+### Sell
+
+> "You need this. Here's why."
+
+**Detect from:** "ad", "advertisement", "marketing video", "get signups", "convert", "commercial"
+
+**Body strategy:** Compressed — every scene must earn its place. Agitate the problem, show the solution, stack proof. No filler. For under 15s: multiple-peaks arc (high → shift → tension → CTA).
+
+**Pacing:** Urgent and punchy. Accelerating cuts.
+
+| Phase | Scenes | What goes here |
+|-------|--------|---------------|
+| HOOK | 1 | Pain point or provocative claim |
+| BODY | 3-6 | Agitate → solve → prove → prove again |
+| CLOSE | 1 | Single, specific CTA |
+
+**Hook formulas:**
+- "Stop [doing painful thing]."
+- "Still using [competitor/old way]? Try this."
+- "[Number] [people] switched this [timeframe]."
+- "[Audience]: you need to see this."
+- "[Hard task] just got 10x easier."
+
+**CTA formulas:**
+- "Start free today → [url]"
+- "Join [N]+ [audience] → [url]"
+- "Switch to [product] → [url]"
+
+**Style:** Bold, high contrast (Bebas Neue, Oswald, Anton). Dark, high saturation. `bounce-drop` for hook, `cut-in` for urgency. Specific CTAs outperform generic: "Start free today" beats "Learn more" by ~30%.
+
+**Track mood:** Urgent, energetic, driving.
+
+---
+
+### Showcase
+
+> "Look at everything it does."
+
+**Detect from:** "demo", "features", "product tour", "showreel", "portfolio", "walkthrough"
+
+**Body strategy:** Lead with the most impressive feature, then rapid-fire the rest. Alternate feature highlights with quick visual cuts for breathing room. Heavy on device mockups and app screenshots.
+
+**Pacing:** Rapid-fire highlights with a steady rhythm. Don't linger.
+
+| Phase | Scenes | What goes here |
+|-------|--------|---------------|
+| HOOK | 1-2 | The most impressive feature or "Everything [product] can do" |
+| BODY | 5-9 | Feature → quick cut → feature → quick cut → stat |
+| CLOSE | 1 | CTA or product hero shot |
+
+**Hook formulas:**
+- "Everything [product] can do in [duration]."
+- "[Product]'s most powerful feature:"
+- "Here's why [N]+ teams use [product]."
+- "The [tool type] built for [audience]."
+
+**CTA formulas:**
+- "Try [product] free → [url]"
+- "See the full demo → [url]"
+- "[Product] → [url]"
+
+**Style:** Modern tech (DM Sans, Space Grotesk, Inter). Dark, polished. `fade-in` default, vary per feature scene. At least 2-3 Tier 1 templates (showcase-phone, app-* screens). Show the product, not stock footage.
+
+**Track mood:** Polished, modern, rhythmic.
+
+---
+
+### Social
+
+> "One moment, maximum impact."
+
+**Detect from:** "TikTok", "Reel", "Short", "social clip", "Instagram", "LinkedIn post", "Twitter video"
+
+**Body strategy:** Minimal. One wow moment, maybe two. Every second counts. Max 4 words per scene. This is the tightest format — no room for setup.
+
+**Pacing:** Extremely fast. Single punch or rapid burst.
+
+| Phase | Scenes | What goes here |
+|-------|--------|---------------|
+| HOOK | 1 | Pattern interrupt — stop the scroll |
+| BODY | 2-3 | One key moment or rapid feature burst |
+| CLOSE | 1 | Soft CTA or brand name |
+
+**Hook formulas:**
+- "Wait. Watch this."
+- "POV: you just discovered [product]."
+- "[Controversial opinion about industry]."
+- "[Product] in 10 seconds."
+
+**CTA formulas:**
+- "[Product] → [url]"
+- "Link in bio."
+- "Try it → [url]"
+
+**Style:** Extra bold (Anton, Bebas Neue). High contrast, platform-native feel. `cut-in` for speed, `bounce-drop` for energy. **Portrait (9:16) by default.** Keep text in the central safe zone (top/bottom 15% reserved for platform UI).
+
+**Track mood:** High energy, short, punchy.
+
+---
+
+## Scene Planning
+
+### Content-driven, not formula-driven
+
+Don't count scenes from a formula. Plan them from what you have:
+
+**Step 1: Detect the arc** from the user's prompt.
+
+**Step 2: Plan the HOOK** (1-2 scenes)
+- What's the strongest opening? Product in action, a bold claim, or a question?
+- Always bg-photo or bg-video for visual impact, unless user has no media (then consider intro-* templates)
+
+**Step 3: Plan the BODY** based on the arc's body strategy + available content
+- Has screenshots → showcase-phone, showcase-tablet
+- Has stats/traction → chart-counter (one), chart-bar, chart-progress-ring
+- Has features to list → app-* templates
+- Has customer quotes → social-testimonial, social-review-stack
+- Has nothing → bg-photo with Pexels keywords + text-driven scenes
+- **Alternate busy and calm:** follow a complex scene (Tier 1) with a quick visual cut (Tier 3 bg-photo)
+
+**Step 4: Plan the CLOSE** (1-2 scenes)
+- CTA from the arc's formula table
+- Template: bg-solid, bg-gradient-linear, or bg-glow
+- durationWeight 1.0 minimum — CTA must hold 2-3s
+- Use `dip-to-black` transition before the CTA for a dramatic pause
+
+**Step 5: Estimate total duration** from template complexity
+- Tier 1 templates (app-*, showcase-*, social-chat): ~4s each
+- Tier 2 templates (chart-*, social-tweet, social-review-stack): ~3s each
+- Tier 3 templates (bg-photo, bg-video, bg-solid): ~2s each
+- CTA: ~2.5-3s
+
+**Step 6: Pick the track**
+- Call `list_tracks`, filter by the arc's track mood
+- Pick the track closest to your estimated duration
+- **Vary track selection** — don't default to the same track every time
+
+**Step 7: Set durationWeights**
+- Tier 1 templates: `durationWeight: 1.2-1.5`
+- Tier 3 quick cuts: `durationWeight: 0.7-0.8`
+- CTA: `durationWeight: 1.0` minimum
+- **Minimum durationWeight: 0.7** — scenes under 1.5s are poorly recalled
+- **Do NOT set startTime/endTime** — the server computes these from weights + beat markers
+
+**Total scenes: 4-12** (clamped). If your plan has more, cut the weakest body scenes.
+
+---
 
 ## Template Selection
 
-**Always call `list_templates` first** to get the current template list. Then match templates to scenes based on:
-
-- `whenToUse` — does the template's purpose match the scene's role in the arc?
-- `tags` — do the keywords match the scene's mood/content?
-- `preferredDuration` — does the template fit the available beat time?
+**Always call `list_templates` first.** Match templates to scenes based on `whenToUse`, `tags`, and `preferredDuration`.
 
 ### Template variety is non-negotiable
 
-**The #1 cause of boring videos is over-relying on text-on-background templates.** Templates like `bg-solid`, `bg-glow`, `bg-gradient-linear`, and `bg-particles` are just colored rectangles with text. They're palette cleansers — never the main content.
+**The #1 cause of boring videos is over-relying on text-on-background templates.** bg-solid, bg-glow, bg-gradient-linear are palette cleansers — never the main content.
 
-**Mandatory template mix for a 5+ scene video:**
-- At least 1 **interactive/UI template** (`app-*`, `showcase-*`, or `social-*`) — these are visually rich and feel dynamic
-- At most 1 `bg-solid` scene (CTA only) — never use bg-solid for content scenes
-- At most 1 `chart-counter` — use other chart types (`chart-bar`, `chart-progress-ring`, `chart-pie`) for variety
-- At most 2 plain background scenes (`bg-solid`, `bg-glow`, `bg-gradient-linear`) total
+**Mandatory mix for 5+ scene videos:**
+- At least 1 interactive/UI template (app-*, showcase-*, or social-*)
+- At most 1 bg-solid scene (CTA only)
+- At most 1 chart-counter per video
+- At most 2 plain background scenes total
 
-### Brand-reveal templates: use sparingly
-
-**Brand-reveal templates (`intro-*`) are stylistic title cards** — countdowns, spotlight reveals, cinematic flashes. They're not mandatory openers. Most videos are better off leading with real content.
-
-**These templates work as openers OR closers.** A brand name reveal can be just as effective at the end of a video as at the beginning. Don't default to putting them first.
-
-**When to use brand-reveal templates:**
-- The user has no logo, photos, or video — a stylistic title card fills the gap
-- The user explicitly asks for a "trailer" or "cinematic" feel
-- The video type is Event/Launch (countdown fits)
-- The user's prompt uses words like "epic", "dramatic", "reveal"
-
-**When NOT to use them:**
-- The user has photos or video — lead with their content instead
-- The user has a logo — use a dedicated logo template instead (when available)
-- Personal/casual videos (birthday, thank-you, social) — too dramatic
-
-**Default scene 1: `bg-photo` or `bg-video` with a strong hook text.** Real content beats ceremony. A striking photo with punchy copy is more engaging than any animation.
-
-| Video type | Scene 1 |
-|-----------|---------|
-| Product ad | `bg-photo` with product/lifestyle shot + hook text |
-| Social/TikTok | `bg-video` with action footage + punchy text |
-| Brand story | `bg-photo` with atmospheric shot + brand statement |
-| Personal (birthday, thank-you) | `bg-photo` with user's own photo |
-| Trailer/launch (no media) | `intro-cinematic-flash` or `intro-countdown` |
-| Premium/luxury (no media) | `intro-spotlight` or `intro-vanilla-sky` |
-
-### Prefer rich templates over plain backgrounds
-
-Before reaching for a generic `bg-*` template, ask: **is there a richer template that shows this better?**
-
-### Showcase templates: use even without screenshots
-
-`showcase-phone`, `showcase-phone-triple`, `showcase-tablet`, and `showcase-tablet-slides` show professional device mockups with dimension placeholders when no screenshot is provided. **This is intentional and good** — the placeholders prompt users to upload their own screenshots in the editor, which drives engagement and personalization. Always include at least one showcase template for any app, SaaS, or product video — even when the user hasn't provided screenshots.
+### Content → template mapping
 
 | Content | Don't use | Use instead |
 |---------|-----------|-------------|
-| App/product features | `bg-solid` with feature list | `showcase-phone` or `showcase-tablet` (with or without screenshot) |
-| Price | `chart-counter` | `app-ecommerce` with full product card |
-| Comparison (A vs B) | `chart-counter` twice | `chart-bar` with side-by-side bars |
-| Customer quotes | `bg-gradient-linear` with quote text | `social-testimonial` or `social-review-stack` |
-| Chat/support demo | `bg-solid` with text | `social-chat` or `social-whatsapp` with conversation |
-| Search result | `bg-photo` | `social-google-search` with query + result |
-| Restaurant/local biz | `bg-photo` with rating text | `app-search-bar` with restaurant card |
-| Notifications/alerts | `bg-solid` with text | `social-notification` with app-style card |
-| Stats dashboard | Multiple `chart-counter` scenes | `app-fitness`, `app-banking`, or `app-weather` |
-| Milestone/follower count | `chart-counter` | `social-milestone` with badge + confetti |
-| Multiple reviews | 3× `social-testimonial` | `social-review-stack` (shows 3 at once) |
-| Multi-screen app demo | 3× `showcase-phone` | `showcase-phone-triple` (3 phones at once) |
+| App/product features | bg-solid with feature list | showcase-phone or showcase-tablet |
+| Price/offer | chart-counter | app-ecommerce with product card |
+| Comparison | chart-counter twice | chart-bar with side-by-side bars |
+| Customer quotes | bg-gradient with quote text | social-testimonial or social-review-stack |
+| Stats dashboard | Multiple chart-counter | app-fitness, app-banking, or app-weather |
+| Notifications | bg-solid with text | social-notification with app-style card |
 
-### chart-counter: max 1 per video
+### Showcase templates work without screenshots
 
-`chart-counter` is for ONE hero stat — the most impressive number in the video. **Never use it for 2+ scenes.** For other data:
+Device mockups show professional placeholders when no screenshot is provided. This is intentional — placeholders prompt users to upload their own in the editor. Always include at least one showcase template for app/SaaS videos.
 
-| Data type | Template |
-|-----------|----------|
-| One big impressive number (10K+) | `chart-counter` |
-| Percentage / completion | `chart-progress-ring` |
-| Comparison (A vs B vs C) | `chart-bar` |
-| Trend over time | `chart-line` |
-| Distribution / breakdown | `chart-pie` |
-| Small numbers (< 50) | Don't chart — use text with `slam` effect |
+### Brand-reveal templates: use sparingly
 
-### CTA scenes: not just bg-solid
-
-The last scene doesn't have to be `bg-solid`. Better options:
-
-| CTA style | Template | When |
-|-----------|----------|------|
-| Clean + simple | `bg-solid` | Short CTA, 1 line |
-| Energetic + glowing | `bg-glow` | After high-energy videos |
-| Gradient + movement | `bg-gradient-linear` | Premium/elegant brands |
-| Confetti celebration | `bg-confetti` | After milestone/achievement videos |
+intro-* templates are cinematic openers — not mandatory. Most videos are better starting with real content (bg-photo or bg-video with hook text). Only use when: user has no media, asks for "cinematic"/"trailer" feel, or the Launch arc fits a dramatic reveal.
 
 ### Card templates need dark backgrounds
 
-`social-testimonial`, `social-tweet`, `social-review-stack`, `social-chat`, `social-whatsapp`, `social-notification`, `social-google-search`, all `app-*`, and all `showcase-*` render white/light cards. Always pair these with a dark brandKit bg (`#0a0a0a` to `#1a1a2e`). Light brand palettes should only use `bg-*` and chart templates.
+All social-*, app-*, and showcase-* templates render white/light cards. Always use a dark brandKit bg (#0a0a0a to #1a1a2e). Light brand palettes should stick to bg-* and chart templates.
 
-## Scene Flow
+---
+
+## Scene Flow & Effects
 
 - **Alternate visual intensity** — follow a busy scene with a calmer one
-- **Use simple backgrounds as palette cleansers** between media-heavy scenes
-- **Match cuts** — when adjacent scenes share a visual element, use `crossfade`
+- **Max 3 high-energy scenes before a breather** — use a bg-photo/bg-video quick cut
+- **Match cuts** — when adjacent scenes share a visual element, use crossfade
 
-### Background effects are mandatory for photo/video scenes
+### Background effects on photos
 
-**Always set `style.defaultBackgroundEffect`** — never leave it empty. `slow-zoom-in` is a safe default. Static photos look lifeless and amateurish.
+**Always set defaultBackgroundEffect** — never leave it empty. slow-zoom-in is a safe default. Static photos look lifeless.
 
-**Alternate camera movement on consecutive photo scenes.** When you have 2+ `bg-photo` scenes in a row, vary the `backgroundEffect` per scene to create visual rhythm:
+**Alternate camera movement** on consecutive photo scenes:
 
-| Scene | Effect | Movement |
-|-------|--------|----------|
-| Photo 1 | `slow-zoom-in` | Pushing in |
-| Photo 2 | `ken-burns` | Pan + zoom (direction auto-alternates) |
-| Photo 3 | `slow-zoom-out` | Pulling back |
-| Photo 4 | `drift` | Gentle pan (direction auto-alternates) |
+| Scene | Effect |
+|-------|--------|
+| Photo 1 | slow-zoom-in |
+| Photo 2 | ken-burns |
+| Photo 3 | slow-zoom-out |
+| Photo 4 | drift |
 
-**Never use the same background effect on adjacent photo scenes.** This creates a monotone, slideshow feel. Rotate between `slow-zoom-in`, `ken-burns`, `slow-zoom-out`, and `drift`.
+Never use the same effect on adjacent photos.
 
-## Pexels Keyword Strategy
+### Pexels keyword strategy
 
-Write descriptive, visual keywords (2–4 words) for `mediaKeyword`. Think cinematically.
+Write descriptive, visual keywords (2-4 words). Think cinematically.
 
-### Shot Types
+| Shot type | When | Example keywords |
+|-----------|------|------------------|
+| Wide/establishing | Hook, context | "aerial city night", "drone ocean sunset" |
+| Medium | Subject in context | "woman working laptop cafe" |
+| Close-up | Detail, product | "hands typing keyboard", "coffee cup steam" |
+| Action | Energy | "runner trail morning" |
 
-| Shot type | When to use | Example keywords |
-|-----------|-------------|------------------|
-| Establishing/wide | Scene 1 hook, context | `"aerial city night"`, `"drone ocean sunset"` |
-| Medium | Subject in context | `"woman working laptop cafe"`, `"team office meeting"` |
-| Close-up | Emotion, detail, product | `"hands typing keyboard"`, `"coffee cup steam close up"` |
-| Action/motion | Energy, dynamism | `"runner trail morning"`, `"skateboard street tricks"` |
+**Bad keywords:** "business", "technology", "success" — too vague.
 
-**Match shot types to the arc:** wide shots for hooks → medium for build → close-ups for climax → wide for resolution.
-
-**Bad keywords:** `"business"`, `"technology"`, `"success"` — too vague, returns generic footage.
+---
 
 ## Copy Best Practices
 
-### The `texts` variable
+Use the texts format defined in [templates.md](templates.md#the-texts-variable).
 
-Background templates use `texts` — comma-separated entries with optional `|effect`:
+### Word Budget
 
-- **Short text (1-5 words):** For scenes with strong visuals. `"Ship faster."`
-- **Medium text (5-15 words):** For statement scenes. `"Every cup tells a story."`
-- **Multi-entry:** For dramatic reveals. `"They said no.,We said watch.,10K users later."`
+| Duration | Words per scene | Total words |
+|----------|----------------|-------------|
+| 10-15s | 2-5 | 15-25 |
+| 15-25s | 3-6 | 25-45 |
+| 25-40s | 3-7 | 40-70 |
 
-### Hook Formulas (Scene 1)
+Fewer words = more recall. "Ship 10x faster." beats "Transform your workflow with our revolutionary platform."
 
-| Formula | Example |
-|---------|---------|
-| "The average X loses Y every Z." | "The average team loses 5 hours every week." |
-| "What if you could [benefit]?" | "What if you could ship 10x faster?" |
-| "Stop [pain point]." | "Stop losing customers." |
-| "Meet [product name]." | "Meet Flowstate." |
-| "[Provocative statement]." | "Email is broken." |
-| "Built for [audience]." | "Built for developers who ship." |
+### Visual hooks (scene 1 footage)
 
-### CTA Formulas (Last scene)
+| Visual | Keyword style | Why |
+|--------|---------------|-----|
+| Human face | "woman smiling close up" | Faces are attention magnets |
+| Fast motion | "drone speed city traffic" | Movement triggers alertness |
+| Scale | "aerial mountain landscape" | Awe creates curiosity |
+| Vivid color | "neon lights city rain night" | Color pops stop the scroll |
 
-| Formula | Example |
-|---------|---------|
-| "[Action] free today." | "Start free today." |
-| "Join [social proof]." | "Join 10K+ teams." |
-| "See it in action." | — |
-| "Try [product] free." | "Try Flowstate free." |
+---
 
-### Visual Hooks (Scene 1 Footage)
+## Pacing & Timing
 
-| Visual hook | Keyword style | Why it grabs |
-|-------------|---------------|--------------|
-| Human face/emotion | `"woman smiling close up"` | Faces are attention magnets |
-| Fast motion | `"drone speed city traffic"` | Movement triggers alertness |
-| Scale/grandeur | `"aerial mountain landscape"` | Awe creates curiosity |
-| Vivid color | `"neon lights city rain night"` | Color pops stop the scroll |
+Beats (30-60+ per track, detected by Essentia.js) are natural cut points. The server picks which beats to use as scene boundaries based on durationWeight values and a pacing curve.
 
-## Pacing & Duration
+- You control relative timing with durationWeight — the server handles the rest
+- The pacing curve makes later scenes progressively shorter
+- All transitions snap to beat boundaries automatically
+- **Not every beat needs a cut** — cut on downbeats for scene changes, use minor beats for text pops and effects
 
-### Beat-Driven Timing
+### Text effect variety
 
-Scene count is driven by track duration (`round(duration / 3)`, clamped 4-12). Beats (detected by Essentia.js, typically 30-60+ per track) serve as natural cut points. The server picks which beats to use as scene boundaries based on `durationWeight` values and a pacing curve.
+Set a calm defaultTextEffect (e.g., fade-in), override on 2-3 key moments:
 
-- You control relative timing with `durationWeight` — the server handles the rest
-- The pacing curve makes scenes progressively shorter toward the climax
-- All scene transitions snap to beat boundaries automatically
+| Moment | Override with |
+|--------|-------------|
+| Hook text | zoom-through or bounce-drop |
+| Big stat | zoom-through |
+| Beat drop | flash or cut-in |
+| Calm scene | Keep fade-in default |
 
-### Pacing Guidelines
+**Avoid slam except for sports/fitness.** It peaked 2015-2019. Prefer zoom-through.
 
-- **Intro scenes**: Grab attention in the first 3 seconds — use high-impact templates
-- **Build scenes**: Establish context — alternate visual intensity between scenes
-- **Hero scene**: Gets the most time (`durationWeight: 1.2–1.5`) — key demo, showcase, or biggest stat
-- **Accelerate scenes**: Energy builds — shorter, punchier text effects (`slam`, `flash`)
-- **Breathe scene**: A brief visual pause before the climax — use bg-photo or bg-video for a quick cut (`durationWeight: 0.6–0.8`)
-- **Climax scene**: Peak energy — this is effectively where the video ends emotionally
-- **Outro scene**: Quick CTA punch — keep it very short, the energy doesn't wind down
-
-### Text Effect Variety
-
-Don't use the same text effect for every scene. Set a calm `defaultTextEffect` (e.g., `fade-in`), then override on 2-3 key moments:
-
-| Scene role | Override with |
-|------------|--------------|
-| Hook / first text | `slam` or `zoom-through` — grabs attention |
-| Big stat reveal | `slam` — makes the number land with impact |
-| Beat drop moment | `flash` or `cut-in` — syncs with music energy |
-| Calm/emotional scene | Keep the default `fade-in` — don't override |
-
-### Transition Variety
-
-Don't use `crossfade` for every transition. Use 2-3 types per video:
+### Transition variety
 
 | Moment | Transition |
 |--------|-----------|
-| Default (most scenes) | `crossfade` (~60% of transitions) |
-| Before a big reveal or stat | `dip-to-black` — dramatic pause |
-| High-energy beat drop | `flash` — white flash sync |
-| Fast-paced sequence | `cut` — hard cuts feel aggressive |
-| Sequential steps/screens | `slide-left` — directional flow |
+| Default (~80%) | cut — hard cuts are the professional standard |
+| Visual continuity (~15%) | crossfade — only when scenes share a visual element |
+| Before CTA | dip-to-black — dramatic pause |
+| Beat drop | flash — white flash sync |
+| Sequential steps | slide-left — directional flow |
+
+---
+
+## Common Mistakes
+
+| BAD | WHY | GOOD |
+|-----|-----|------|
+| 5 bg-solid scenes in a row | Slideshow, no visual interest | Mix bg-photo, showcase, chart templates |
+| crossfade on every transition | Amateur "iMovie default" | 80% hard cuts, crossfade for continuity only |
+| slam effect on every text | Reads as 2017 YouTube | zoom-through for impact, fade-in default |
+| "Welcome to our company" as scene 1 | Zero hook value | Problem statement or product in action |
+| 12 words per scene | Unreadable at 2-3s | 3-7 words max |
+| CTA holds for 0.8s | Can't read or act | CTA holds 2-3 seconds minimum |
+| Same background effect on all photos | Monotone slideshow | Alternate zoom-in, ken-burns, drift |
+| Every scene same durationWeight | No rhythm | Vary: Tier 1 gets 1.3, quick cuts get 0.7 |
+| Track picked before scene plan | Duration mismatch | Plan scenes first, pick track to fit |
+
+---
 
 ## Scene Plan Format
 
 Present the plan as a table before building the config:
 
-| # | Role | Weight | Template | Content |
-|---|------|--------|----------|---------|
-| 1 | intro | 1.0 | bg-video | Visual hook — striking footage |
-| 2 | build | 1.0 | bg-photo | Problem statement |
-| 3 | build | 1.0 | showcase-phone | Product overview |
-| 4 | hero | 1.3 | showcase-tablet-slides | 3-screen app demo |
-| 5 | accelerate | 1.0 | chart-counter | "10K users" stat |
-| 6 | accelerate | 0.8 | bg-photo | Quick visual cut |
-| 7 | breathe | 0.7 | bg-video | Atmospheric footage — brief pause |
-| 8 | climax | 1.0 | social-review-stack | Customer reviews — peak energy |
-| 9 | outro | 0.8 | bg-gradient-linear | CTA |
+| # | Phase | Weight | Template | Content |
+|---|-------|--------|----------|---------|
+| 1 | hook | 1.0 | bg-video | "Ship faster." — product in action |
+| 2 | body | 1.0 | bg-photo | Problem: "Deploys take hours." |
+| 3 | body | 1.3 | showcase-phone | App screenshot — the product |
+| 4 | body | 1.2 | app-fitness | Live dashboard stats |
+| 5 | body | 1.0 | chart-counter | "10K users" — traction proof |
+| 6 | body | 0.7 | bg-photo | Quick visual cut — breathing room |
+| 7 | body | 1.0 | social-review-stack | Customer reviews |
+| 8 | close | 1.0 | bg-gradient-linear | "Try it free → app.com" |
 
-> Template IDs here are illustrative — always call `list_templates` for the current list.
-
-This shows the user exactly how scenes map to the music structure.
+> Template IDs are illustrative — always call `list_templates` for the current list.
