@@ -41,6 +41,12 @@ Detect the arc from the user's prompt. If ambiguous, default to **Launch** — i
 
 **Detect from:** "launch video", "announcement", "we just shipped", "introducing", "product video", "startup video"
 
+**Template Recipe:**
+- HOOK (scene 1) — pick ONE: `intro-cinematic-flash`, `intro-spotlight`, `intro-text-slam`, `intro-countdown`, `hook-question`, `hook-stat`
+- BODY — pick from: showcase-phone, showcase-browser, showcase-phone-triple, app-*, infographic-feature-grid, infographic-feature-list, infographic-steps, chart-counter (max 1), social-milestone, infographic-stat-row, social-testimonial, social-review-stack, social-tweet. Max 1 bg-photo/bg-video quick cut.
+- CTA (last scene) — pick ONE: `bg-confetti`, `intro-vanilla-sky`, `bg-particles`, `cta-split`
+- FORBIDDEN: bg-glow as CTA, bg-video as opener
+
 **Body strategy:** Show the product early (scene 2-3, not scene 5). Reveal features, then prove traction. Build excitement — this is a celebration.
 
 **Pacing:** Building energy. Start confident, end electric.
@@ -74,6 +80,12 @@ Detect the arc from the user's prompt. If ambiguous, default to **Launch** — i
 
 **Detect from:** "explainer", "how it works", "landing page video", "what is", "overview", "walk through", "intro to"
 
+**Template Recipe:**
+- HOOK (scene 1) — pick ONE: `infographic-problem-solution`, `showcase-browser`, `showcase-phone`, `hook-question`, `hook-stat`, `bg-photo`
+- BODY — pick from: infographic-problem-solution, infographic-comparison, infographic-feature-grid, infographic-feature-list, infographic-steps, showcase-phone, showcase-browser, showcase-code, showcase-terminal, chart-bar, chart-line, chart-progress-ring, infographic-stat-row (max 1 chart-counter), social-testimonial, social-review-stack
+- CTA (last scene) — pick ONE: `bg-glow`, `bg-solid`, `bg-particles`, `cta-split`
+- FORBIDDEN: bg-video as opener, more than 1 bg-* quick cut
+
 **Body strategy:** One concept per scene — clarity over cleverness. Problem → solution → how → proof. Each scene needs 3-5s for comprehension. Don't rush.
 
 **Pacing:** Steady and measured. Let each point land before moving on.
@@ -106,6 +118,12 @@ Detect the arc from the user's prompt. If ambiguous, default to **Launch** — i
 > "You need this. Here's why."
 
 **Detect from:** "ad", "advertisement", "marketing video", "get signups", "convert", "commercial"
+
+**Template Recipe:**
+- HOOK (scene 1) — pick ONE: `bg-video`, `bg-photo`, `intro-text-slam`, `hook-stat`, `hook-question`
+- BODY — pick from: infographic-problem-solution, infographic-comparison, showcase-phone, showcase-browser, app-*, chart-counter (max 1), chart-bar, chart-progress-ring, social-milestone, social-tweet, social-review-stack, social-google-search. Max 2 bg-photo/bg-video quick cuts.
+- CTA (last scene) — pick ONE: `bg-glow`, `bg-particles`, `bg-confetti`, `cta-split`
+- FORBIDDEN: intro-* as opener, more than 1 chart-counter
 
 **Body strategy:** Compressed — every scene must earn its place. Agitate the problem, show the solution, stack proof. No filler. For under 15s: multiple-peaks arc (high → shift → tension → CTA).
 
@@ -141,6 +159,12 @@ Detect the arc from the user's prompt. If ambiguous, default to **Launch** — i
 
 **Detect from:** "demo", "features", "product tour", "showreel", "portfolio", "walkthrough"
 
+**Template Recipe:**
+- HOOK (scene 1) — pick ONE: `showcase-phone`, `showcase-browser`, `app-grid`, `showcase-phone-triple`
+- BODY — pick from (50%+ MUST be showcase/app): showcase-phone, showcase-browser, showcase-tablet, showcase-code, showcase-terminal, showcase-browser-slides, showcase-tablet-slides, app-*, chart-counter, infographic-stat-row, social-milestone (max 1 data template). Max 2 bg-photo/bg-video quick cuts.
+- CTA (last scene) — pick ONE: `intro-vanilla-sky`, `bg-glow`, `bg-particles`, `cta-split`
+- FORBIDDEN: infographic-* as opener, more than 2 bg-* scenes
+
 **Body strategy:** Lead with the most impressive feature, then rapid-fire the rest. Alternate feature highlights with quick visual cuts for breathing room. Heavy on device mockups and app screenshots.
 
 **Pacing:** Rapid-fire highlights with a steady rhythm. Don't linger.
@@ -173,6 +197,12 @@ Detect the arc from the user's prompt. If ambiguous, default to **Launch** — i
 > "One moment, maximum impact."
 
 **Detect from:** "TikTok", "Reel", "Short", "social clip", "Instagram", "LinkedIn post", "Twitter video"
+
+**Template Recipe:**
+- HOOK (scene 1) — pick ONE: `bg-video`, `bg-photo`, `intro-countdown`, `intro-text-slam`, `hook-stat`
+- BODY — pick from (keep SHORT, 2-3 scenes max): showcase-phone, app-*, social-chat, social-whatsapp, social-tweet, chart-counter, social-milestone. Max 1 bg-photo quick cut.
+- CTA (last scene) — pick ONE: `bg-emoji`, `bg-confetti`, `bg-glow`, `cta-split`
+- FORBIDDEN: infographic-* (too slow), showcase-browser (desktop on mobile)
 
 **Body strategy:** Minimal. One wow moment, maybe two. Every second counts. Max 4 words per scene. This is the tightest format — no room for setup.
 
@@ -210,12 +240,8 @@ Don't count scenes from a formula. Plan them from what you have:
 **Step 1: Detect the arc** from the user's prompt.
 
 **Step 2: Plan the HOOK** (1-2 scenes)
-- What's the strongest opening? Product in action, a bold claim, or a question?
-- Vary the hook — don't default to bg-video every time:
-  - **Visual impact:** bg-photo or bg-video with striking media
-  - **Brand reveal:** intro-cinematic-flash, intro-spotlight, intro-text-slam (for launches, trailers, cinematic feel)
-  - **Product-first:** showcase-phone, showcase-browser, app-* (jump straight into the product)
-  - Pick the opener that best matches the arc. Intro-* templates are underused — consider them for trailer and launch arcs.
+- Follow your arc's Template Recipe for the HOOK — pick randomly from the prescribed pool.
+- Don't always pick the first option in the list. Rotate across sessions for variety.
 
 **Step 3: Plan the BODY** based on the arc's body strategy + available content
 - Has screenshots → showcase-phone, showcase-tablet
@@ -226,14 +252,9 @@ Don't count scenes from a formula. Plan them from what you have:
 - **Alternate busy and calm:** follow a complex scene (Tier 1) with a quick visual cut (Tier 3 bg-photo)
 
 **Step 4: Plan the CLOSE** (1-2 scenes)
-- CTA from the arc's formula table
-- Vary the CTA template — don't default to bg-glow every time:
-  - `bg-glow` — clean, professional endings
-  - `bg-confetti` — celebratory (launches, milestones, events)
-  - `bg-particles` — atmospheric, premium feel
-  - `bg-emoji` — playful, social content
-  - `intro-vanilla-sky` — brand moment closer
-  - Avoid `bg-gradient-linear` — it blends bg + accent and often produces muddy colors
+- Follow your arc's Template Recipe for the CTA — pick randomly from the prescribed pool.
+- Don't always pick the first option in the list. Rotate across sessions for variety.
+- Avoid `bg-gradient-linear` — it blends bg + accent and often produces muddy colors
 - durationWeight 1.0 minimum — CTA must hold 2-3s
 - Use `dip-to-black` transition before the CTA for a dramatic pause
 
@@ -263,19 +284,9 @@ Don't count scenes from a formula. Plan them from what you have:
 
 **Always call `list_templates` first.** Match templates to scenes based on `whenToUse`, `tags`, and `preferredDuration`.
 
-### Template variety is non-negotiable
+### Template variety
 
-**The #1 cause of boring videos is over-relying on text-on-background templates.** bg-solid, bg-glow, bg-gradient-linear are palette cleansers — never the main content.
-
-**Mandatory mix for 5+ scene videos:**
-- At least 1 interactive/UI template (app-*, showcase-*, or social-*)
-- At most 1 bg-solid scene (CTA only)
-- At most 1 chart-counter per video
-- At most 2 plain background scenes total
-- **For SaaS/app/tech prompts**: include at least one app-* template (app-banking, app-fitness, app-ecommerce, etc.) — they create the most engaging mockup-style scenes
-- **For multi-feature content**: use showcase-phone-triple or showcase-browser-slides instead of 3 separate showcase-phone scenes
-- **For celebratory content** (launches, milestones): use bg-confetti or bg-emoji, not just bg-glow
-- **Max 1 chart-counter per video** — for additional stats, use chart-bar, chart-progress-ring, infographic-stat-row, or social-milestone
+**The #1 cause of boring videos is over-relying on text-on-background templates.** bg-solid, bg-glow, bg-gradient-linear are palette cleansers — never the main content. Each arc's Template Recipe enforces the right mix.
 
 ### Content → template mapping
 
