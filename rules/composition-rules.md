@@ -62,7 +62,7 @@ Detect the arc from the user's prompt. If ambiguous, default to **Launch** — i
 - "Ship your first [thing] today → [url]"
 - "[Product] is live. Get early access → [url]"
 
-**Style:** Bold display fonts (Bebas Neue, Anton) or clean tech (Inter, Space Grotesk). Dark bg + bright accent. `zoom-through` for hook, `fade-in` default.
+**Style:** Bold display fonts (Bebas Neue, Anton, Oswald, Archivo Black) or clean tech (Inter, Space Grotesk, DM Sans, Outfit). Dark bg + bright accent. `zoom-through` for hook, `fade-in` default.
 
 **Track mood:** Confident, building, exciting.
 
@@ -95,7 +95,7 @@ Detect the arc from the user's prompt. If ambiguous, default to **Launch** — i
 - "See how it works → [url]"
 - "Learn more → [url]"
 
-**Style:** Clean sans-serif (Inter, Montserrat, Work Sans). Can use lighter backgrounds. `fade-in` default, `slide-up` for key points. Favor text-heavy bg-* templates and charts for proof. Each scene = one idea.
+**Style:** Clean sans-serif (Inter, Montserrat, Work Sans, Plus Jakarta Sans, Lato). Can use lighter backgrounds. `fade-in` default, `slide-up` for key points. Favor text-heavy bg-* templates and charts for proof. Each scene = one idea.
 
 **Track mood:** Steady, clear, not distracting.
 
@@ -129,7 +129,7 @@ Detect the arc from the user's prompt. If ambiguous, default to **Launch** — i
 - "Join [N]+ [audience] → [url]"
 - "Switch to [product] → [url]"
 
-**Style:** Bold, high contrast (Bebas Neue, Oswald, Anton). Dark, high saturation. `bounce-drop` for hook, `cut-in` for urgency. Specific CTAs outperform generic: "Start free today" beats "Learn more" by ~30%.
+**Style:** Bold, high contrast (Bebas Neue, Oswald, Anton, Teko, Archivo Black). Dark, high saturation. `bounce-drop` for hook, `cut-in` for urgency. Specific CTAs outperform generic: "Start free today" beats "Learn more" by ~30%.
 
 **Track mood:** Urgent, energetic, driving.
 
@@ -162,7 +162,7 @@ Detect the arc from the user's prompt. If ambiguous, default to **Launch** — i
 - "See the full demo → [url]"
 - "[Product] → [url]"
 
-**Style:** Modern tech (DM Sans, Space Grotesk, Inter). Dark, polished. `fade-in` default, vary per feature scene. At least 2-3 Tier 1 templates (showcase-phone, app-* screens). Show the product, not stock footage.
+**Style:** Modern tech (DM Sans, Space Grotesk, Inter, Manrope, Outfit). Dark, polished. `fade-in` default, vary per feature scene. At least 2-3 Tier 1 templates (showcase-phone, app-* screens). Show the product, not stock footage.
 
 **Track mood:** Polished, modern, rhythmic.
 
@@ -195,7 +195,7 @@ Detect the arc from the user's prompt. If ambiguous, default to **Launch** — i
 - "Link in bio."
 - "Try it → [url]"
 
-**Style:** Extra bold (Anton, Bebas Neue). High contrast, platform-native feel. `cut-in` for speed, `bounce-drop` for energy. **Portrait (9:16) by default.** Keep text in the central safe zone (top/bottom 15% reserved for platform UI).
+**Style:** Extra bold (Anton, Bebas Neue, Passion One) or trendy (Plus Jakarta Sans, Outfit, Poppins). High contrast, platform-native feel. `cut-in` for speed, `bounce-drop` for energy. **Portrait (9:16) by default.** Keep text in the central safe zone (top/bottom 15% reserved for platform UI).
 
 **Track mood:** High energy, short, punchy.
 
@@ -211,7 +211,11 @@ Don't count scenes from a formula. Plan them from what you have:
 
 **Step 2: Plan the HOOK** (1-2 scenes)
 - What's the strongest opening? Product in action, a bold claim, or a question?
-- Always bg-photo or bg-video for visual impact, unless user has no media (then consider intro-* templates)
+- Vary the hook — don't default to bg-video every time:
+  - **Visual impact:** bg-photo or bg-video with striking media
+  - **Brand reveal:** intro-cinematic-flash, intro-spotlight, intro-text-slam (for launches, trailers, cinematic feel)
+  - **Product-first:** showcase-phone, showcase-browser, app-* (jump straight into the product)
+  - Pick the opener that best matches the arc. Intro-* templates are underused — consider them for trailer and launch arcs.
 
 **Step 3: Plan the BODY** based on the arc's body strategy + available content
 - Has screenshots → showcase-phone, showcase-tablet
@@ -223,7 +227,13 @@ Don't count scenes from a formula. Plan them from what you have:
 
 **Step 4: Plan the CLOSE** (1-2 scenes)
 - CTA from the arc's formula table
-- Template: `bg-glow` (preferred) or `bg-solid` — avoid `bg-gradient-linear` as it blends bg + accent and often produces muddy colors
+- Vary the CTA template — don't default to bg-glow every time:
+  - `bg-glow` — clean, professional endings
+  - `bg-confetti` — celebratory (launches, milestones, events)
+  - `bg-particles` — atmospheric, premium feel
+  - `bg-emoji` — playful, social content
+  - `intro-vanilla-sky` — brand moment closer
+  - Avoid `bg-gradient-linear` — it blends bg + accent and often produces muddy colors
 - durationWeight 1.0 minimum — CTA must hold 2-3s
 - Use `dip-to-black` transition before the CTA for a dramatic pause
 
@@ -262,6 +272,10 @@ Don't count scenes from a formula. Plan them from what you have:
 - At most 1 bg-solid scene (CTA only)
 - At most 1 chart-counter per video
 - At most 2 plain background scenes total
+- **For SaaS/app/tech prompts**: include at least one app-* template (app-banking, app-fitness, app-ecommerce, etc.) — they create the most engaging mockup-style scenes
+- **For multi-feature content**: use showcase-phone-triple or showcase-browser-slides instead of 3 separate showcase-phone scenes
+- **For celebratory content** (launches, milestones): use bg-confetti or bg-emoji, not just bg-glow
+- **Max 1 chart-counter per video** — for additional stats, use chart-bar, chart-progress-ring, infographic-stat-row, or social-milestone
 
 ### Content → template mapping
 
@@ -280,7 +294,7 @@ Device mockups show professional placeholders when no screenshot is provided. Th
 
 ### Brand-reveal templates: use sparingly
 
-intro-* templates are cinematic openers — not mandatory. Most videos are better starting with real content (bg-photo or bg-video with hook text). Only use when: user has no media, asks for "cinematic"/"trailer" feel, or the Launch arc fits a dramatic reveal.
+intro-* templates are cinematic openers — excellent for launches, trailers, and brand stories. They're currently underused. Consider them whenever: the prompt mentions "launch", "introducing", "cinematic", or "trailer"; the arc is Launch or Social; or the brand name is prominent. Don't limit them to "no media" situations.
 
 ### Card templates need dark backgrounds
 
@@ -291,6 +305,17 @@ All social-*, app-*, and showcase-* templates render white/light cards. Always u
 ## Scene Flow & Effects
 
 - **Alternate visual intensity** — follow a busy scene with a calmer one
+
+### Text effects — set them, don't skip them
+
+**Always set `defaultTextEffect`** based on the arc's mood:
+- Calm / elegant → `fade-in` or `slide-up`
+- Energetic / bold → `zoom-through` or `bounce-drop`
+- Tech / edgy → `cut-in` or `typewriter`
+- Cinematic → `fade-in` or `word-stagger`
+
+Override per-scene for contrast — e.g., use `zoom-through` on the climax scene for maximum impact while keeping `fade-in` as the default.
+
 - **Max 3 high-energy scenes before a breather** — use a bg-photo/bg-video quick cut
 - **Match cuts** — when adjacent scenes share a visual element, use crossfade
 

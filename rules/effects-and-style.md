@@ -196,7 +196,9 @@ Optional. Set via `style.brandKit`. All templates read these values with fallbac
 - If no brand kit, the defaults look professional
 
 **Scraper color mapping — don't trust blindly:**
-- The scraper's `brandColors.primary` is usually a page surface color (e.g. near-black or white), NOT the actual brand color. **Always default `brandKit.bg` to `#0a0a1a`** unless the user explicitly provides a bg color or the brand is clearly light-themed.
+- The scraper's `brandColors.primary` is usually a page surface color (e.g. near-black or white), NOT the actual brand color.
+- **Background color decision:** If your scene plan includes card-based templates (social-*, app-*, showcase-*), you MUST use a dark bg (`#0a0a1a` to `#1a1a2e`) — cards render as white/light and are invisible on light backgrounds. If your scene plan uses ONLY bg-*, chart-*, and infographic-* templates, you may use the brand's actual background color (light or dark).
+- When in doubt, default to dark (`#0a0a1a`) — it's always safe.
 - Use the scraper's colors to set `brandKit.accent` only — pick whichever scraped color is most vibrant/saturated as the accent.
 - If the scraper returns two dull colors (e.g. near-black + near-white), ignore both and use a color you know from the brand or the default palette.
 
