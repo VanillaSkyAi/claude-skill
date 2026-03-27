@@ -76,7 +76,7 @@ description: Full annotated VideoConfig JSON example — reference for building 
     },
     {
       "id": "s8",
-      "templateId": "bg-gradient-linear",
+      "templateId": "bg-glow",
       "variables": { "texts": "Start free today.,fitpulse.app" },
       "timing": { "durationWeight": 1.0 },
       "transition": "cut"
@@ -95,7 +95,7 @@ description: Full annotated VideoConfig JSON example — reference for building 
     "mood": ["Energetic"],
     "videoType": "launch",
     "trackRationale": "High-energy track with 55 beats across 27s — tight snap points for 8 scenes",
-    "templateRationale": "bg-video hook, bg-photo for texture, showcase-phone for demo, app-fitness body centerpiece, chart-counter for social proof stat, social-review-stack for testimonials, bg-gradient-linear close CTA",
+    "templateRationale": "bg-video hook, bg-photo for texture, showcase-phone for demo, app-fitness body centerpiece, chart-counter for social proof stat, social-review-stack for testimonials, bg-glow close CTA (avoids muddy gradient blends)",
     "source": "skill",
     "createdAt": "2026-03-27"
   }

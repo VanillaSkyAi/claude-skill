@@ -223,7 +223,7 @@ Don't count scenes from a formula. Plan them from what you have:
 
 **Step 4: Plan the CLOSE** (1-2 scenes)
 - CTA from the arc's formula table
-- Template: bg-solid, bg-gradient-linear, or bg-glow
+- Template: `bg-glow` (preferred) or `bg-solid` — avoid `bg-gradient-linear` as it blends bg + accent and often produces muddy colors
 - durationWeight 1.0 minimum — CTA must hold 2-3s
 - Use `dip-to-black` transition before the CTA for a dramatic pause
 
@@ -412,6 +412,6 @@ Present the plan as a table before building the config:
 | 5 | body | 1.0 | chart-counter | "10K users" — traction proof |
 | 6 | body | 0.7 | bg-photo | Quick visual cut — breathing room |
 | 7 | body | 1.0 | social-review-stack | Customer reviews |
-| 8 | close | 1.0 | bg-gradient-linear | "Try it free → app.com" |
+| 8 | close | 1.0 | bg-glow | "Try it free → app.com" |
 
 > Template IDs are illustrative — always call `list_templates` for the current list.

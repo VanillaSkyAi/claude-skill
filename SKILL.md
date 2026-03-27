@@ -44,8 +44,8 @@ Use detection cues from [rules/composition-rules.md](rules/composition-rules.md)
 
 | Scraped field | Use in config |
 |---------------|---------------|
-| `brandColors.primary` | `style.brandKit.accent` |
-| `brandColors.accent` | `style.brandKit.bg` (or use a dark version) |
+| `brandColors.primary` | **Ignore for bg.** Scraped "primary" is usually a page surface color (near-black/white), not a brand color. Always default `brandKit.bg` to `#0a0a1a`. Only use the scraped primary as `brandKit.accent` if it's vibrant/saturated. |
+| `brandColors.accent` | Use as `style.brandKit.accent` if vibrant. If both scraped colors are dull (near-black + near-white), ignore both — use a known brand color or the default palette. |
 | `fonts.primary` | Match to closest available font in `style.font` (see effects-and-style.md for full list) |
 | `fonts.headings` | Note for user — detected a different headings font |
 | `title` | Scene copy inspiration, `meta.name` |
@@ -60,6 +60,11 @@ Use detection cues from [rules/composition-rules.md](rules/composition-rules.md)
 > "I found your brand colors (#3b82f6 blue + dark bg), font (Inter), and a product screenshot from your site — look right?"
 
 **Don't blindly copy** — use scraped data as inspiration. Rewrite headlines to be punchier (1-5 words for scenes). Extract key features. Use their actual brand colors.
+
+**Color rules:**
+- `brandKit.bg` should almost always be `#0a0a1a` (default dark navy) — don't use scraped surface colors as backgrounds
+- Pick the most vibrant/saturated scraped color for `brandKit.accent`
+- If the brand has a well-known color (e.g. Spotify green, Miro yellow), use that as accent even if the scraper didn't find it
 
 **If no URL available**, ask naturally:
 - "Do you have **brand colors**?" -> `style.brandKit.bg` + `.accent`

@@ -195,4 +195,12 @@ Optional. Set via `style.brandKit`. All templates read these values with fallbac
 - If the user provides hex colors, use them directly
 - If no brand kit, the defaults look professional
 
+**Scraper color mapping — don't trust blindly:**
+- The scraper's `brandColors.primary` is usually a page surface color (e.g. near-black or white), NOT the actual brand color. **Always default `brandKit.bg` to `#0a0a1a`** unless the user explicitly provides a bg color or the brand is clearly light-themed.
+- Use the scraper's colors to set `brandKit.accent` only — pick whichever scraped color is most vibrant/saturated as the accent.
+- If the scraper returns two dull colors (e.g. near-black + near-white), ignore both and use a color you know from the brand or the default palette.
+
+**Gradient color warning — muddy blends:**
+`bg-gradient-linear` blends `brandKit.bg` and `brandKit.accent` directly. When bg is dark (#0a-#1a range) and accent is saturated (yellow, green, blue), linear interpolation produces ugly muddy tones (olive, brown, murky green). **Avoid `bg-gradient-linear` for CTA/close scenes — use `bg-glow` or `bg-solid` instead.** These templates show the accent as a highlight/glow without blending two clashing colors. If you must use `bg-gradient-linear`, ensure both colors are in a similar hue family so the blend looks intentional (e.g. dark blue → light blue, not black → yellow).
+
 **Light background warning:** Card-based templates (`social-testimonial`, `social-tweet`, `social-notification`, `social-review-stack`, `social-chat`, `social-whatsapp`, `social-google-search`, all `app-*`, all `showcase-*`) render white/light cards. If your brandKit bg is light (e.g., `#fdf2f8`), the card will be nearly invisible against the background and text inside may be unreadable. **Always use a dark brandKit bg (`#0a0a0a` to `#1a1a2e`) when using card-based templates.** If the brand requires a light palette, only use background templates (`bg-*`) and chart templates — not card-based ones.
