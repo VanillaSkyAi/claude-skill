@@ -1,25 +1,11 @@
 ---
 name: schema
 description: Full annotated VideoConfig JSON example — reference for building configs
-metadata:
-  tags: schema, config, json, videoconfig, example
 ---
 
 # VideoConfig Schema Example
 
-## Timing: use `durationWeight`, not manual times
-
-The `save_config` endpoint automatically computes `startTime`/`endTime` for each scene using proportional layout with beat snapping. You only need to provide `durationWeight` — a relative weight that controls how much time a scene gets compared to siblings.
-
-- `durationWeight: 1.0` — default, gets a normal share of time
-- `durationWeight: 1.2–1.5` — gets more time (use for Tier 1 hero/complex scenes: app, showcase, chat templates)
-- `durationWeight: 0.6–0.8` — gets less time (use for bg-photo/bg-video quick visual cuts and simple CTA scenes; never below 0.8 for scenes with multiple text entries)
-
-**Do NOT set `startTime`/`endTime` or `beatStart`/`beatEnd` manually.** The server handles this.
-
-## Audio: use raw values from `list_tracks`
-
-Pass `beatMarkers` as flat numbers from `list_tracks` — the server normalizes them. Tracks typically have 30-60+ beats detected by Essentia.js. `beatDetection` and `audioUrl` are optional; the server adds defaults. The server uses these beats as snap points when computing scene boundaries from `durationWeight` values.
+> **Scope:** VideoConfig JSON reference example. For timing rules see [composition-rules.md](composition-rules.md). For audio config format see [audio-tracks.md](audio-tracks.md). For template variables see [templates.md](templates.md).
 
 ```json
 {
@@ -27,60 +13,100 @@ Pass `beatMarkers` as flat numbers from `list_tracks` — the server normalizes 
   "audio": {
     "trackId": "a5cf8cbd-9606-4246-8408-61bc7e5d2794",
     "audioUrl": "",
-    "duration": 27.4,
-    "beatMarkers": [0.4, 0.9, 1.4, 1.9, 2.4, 2.9, 3.4, 3.9, 4.2, 4.7, 5.2, 5.7, 6.2, 6.7, 7.2, 7.6, 8.1, 8.6, 9.1, 9.6, 10.2, 10.7, 11.2, 11.7, 12.2, 12.7, 13.2, 13.7, 14.2, 14.7, 15.1, 15.6, 16.1, 16.6, 17.1, 17.4, 17.9, 18.4, 19.2, 19.7, 20.2, 20.7, 21.2, 21.7, 22.2, 22.8, 23.3, 23.8, 24.3, 24.8, 25.3, 25.8, 26.3, 26.8, 27.4]
+    "duration": 27.4
   },
   "scenes": [
     {
       "id": "s1",
-      "templateId": "bg-photo",
-      "variables": {
-        "texts": "Get moving.",
-        "mediaUrl": "",
-        "mediaKeyword": "fitness workout gym"
-      },
+      "templateId": "bg-video",
+      "variables": { "texts": "Get moving.", "mediaUrl": "", "mediaKeyword": "fitness workout gym" },
       "timing": { "durationWeight": 1.0 },
-      "transition": "crossfade",
+      "transition": "cut",
       "backgroundEffect": "slow-zoom-in"
     },
     {
       "id": "s2",
-      "templateId": "chart-counter",
-      "variables": {
-        "value": 10000,
-        "label": "Active users",
-        "unit": "+"
-      },
-      "timing": { "durationWeight": 1.0 }
+      "templateId": "bg-photo",
+      "variables": { "texts": "Track everything.", "mediaUrl": "", "mediaKeyword": "smartwatch wrist close up" },
+      "timing": { "durationWeight": 1.0 },
+      "transition": "crossfade",
+      "backgroundEffect": "ken-burns"
     },
     {
       "id": "s3",
-      "templateId": "bg-gradient-linear",
+      "templateId": "showcase-phone",
+      "variables": { "screenMediaUrl": "" },
+      "timing": { "durationWeight": 1.0 },
+      "transition": "cut"
+    },
+    {
+      "id": "s4",
+      "templateId": "app-fitness",
+      "variables": { "steps": 12450, "calories": 847, "heartRate": 142, "label": "Today's Stats" },
+      "timing": { "durationWeight": 1.3 },
+      "transition": "cut"
+    },
+    {
+      "id": "s5",
+      "templateId": "chart-counter",
+      "variables": { "value": 10000, "label": "Active users", "unit": "+" },
+      "timing": { "durationWeight": 1.0 },
+      "transition": "cut"
+    },
+    {
+      "id": "s6",
+      "templateId": "bg-photo",
+      "variables": { "texts": "Push harder.", "mediaUrl": "", "mediaKeyword": "runner sunrise trail" },
+      "timing": { "durationWeight": 0.7 },
+      "transition": "dip-to-black",
+      "backgroundEffect": "drift"
+    },
+    {
+      "id": "s7",
+      "templateId": "social-review-stack",
       "variables": {
-        "texts": "Start free today.,fitpulse.app"
+        "reviews": [
+          { "name": "Sarah M.", "text": "Changed my routine.", "rating": 5 },
+          { "name": "Jake T.", "text": "Best fitness app.", "rating": 5 },
+          { "name": "Priya K.", "text": "Finally consistent.", "rating": 4 }
+        ]
       },
-      "timing": { "durationWeight": 1.0 }
+      "timing": { "durationWeight": 1.0 },
+      "transition": "cut"
+    },
+    {
+      "id": "s8",
+      "templateId": "bg-gradient-linear",
+      "variables": { "texts": "Start free today.,fitpulse.app" },
+      "timing": { "durationWeight": 1.0 },
+      "transition": "cut"
     }
   ],
   "style": {
     "font": "'Inter', sans-serif",
-    "brandKit": {
-      "bg": "#1a1a2e",
-      "accent": "#e94560"
-    },
+    "brandKit": { "bg": "#1a1a2e", "accent": "#e94560" },
     "defaultTextEffect": "fade-in",
-    "defaultTransition": "crossfade",
+    "defaultTransition": "cut",
     "defaultBackgroundEffect": "slow-zoom-in"
   },
   "meta": {
     "name": "FitPulse Launch",
     "prompt": "Create a launch video for a fitness app called FitPulse",
     "mood": ["Energetic"],
-    "videoType": "ad",
-    "trackRationale": "High-energy track with 6 slots matching the fast-paced ad format",
-    "templateRationale": "bg-video for hero opener, showcase-phone for app demo, counter for stats, end-screen for CTA",
+    "videoType": "launch",
+    "trackRationale": "High-energy track with 55 beats across 27s — tight snap points for 8 scenes",
+    "templateRationale": "bg-video hook, bg-photo for texture, showcase-phone for demo, app-fitness body centerpiece, chart-counter for social proof stat, social-review-stack for testimonials, bg-gradient-linear close CTA",
     "source": "skill",
-    "createdAt": "2026-03-26"
+    "createdAt": "2026-03-27"
   }
 }
 ```
+
+### Config Notes
+
+- **`cut` is the default transition** — fast cuts maintain energy in short-form video. Reserve `crossfade` and `dip-to-black` for deliberate pacing shifts (scene 2 eases into the body; scene 6 creates a visual pause before social proof).
+- **Tier 1 body scene (s4) gets weight 1.3** — the app-fitness dashboard is the product's centerpiece; extra time lets viewers absorb the data. Give the most important body scene extra weight.
+- **Short body scene (s6) gets weight 0.7** — a brief visual pause before social proof prevents viewer fatigue. Use lower weight for transitional body scenes.
+- **Close scene (s8) keeps weight 1.0** — CTAs need enough time for the URL to register; going below 1.0 cuts it too short for readability.
+- **No `slam` text effect** — `zoom-through` on the hook scene and `fade-in` default elsewhere keep motion smooth. `slam` is reserved for single-word impact moments, not general use.
+- **Background effects alternate** — `slow-zoom-in` (s1), `ken-burns` (s2), `drift` (s6) prevent visual repetition across the three media-backed scenes.

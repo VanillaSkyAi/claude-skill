@@ -1,12 +1,5 @@
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from "../config.js";
 
-export interface SceneSlot {
-  start: number;
-  end: number;
-  duration: number;
-  role: "intro" | "build" | "hero" | "accelerate" | "breathe" | "climax" | "outro";
-}
-
 export interface Track {
   id: string;
   name: string;
@@ -14,8 +7,7 @@ export interface Track {
   format: "short" | "standard" | "long";
   description: string;
   videoTypes: string[];
-  sceneSlots: SceneSlot[];
-  beatMarkers: Array<{ time: number }>;
+  beatCount: number;
 }
 
 export async function listTracks(): Promise<Track[]> {
@@ -38,23 +30,24 @@ export async function listTracks(): Promise<Track[]> {
     duration: number;
     description?: string;
     video_types?: string[];
-    scene_slots?: SceneSlot[];
+    scene_slots?: unknown[];
     beat_markers?: number[];
   }
 
   const rows: TrackRow[] = await res.json();
 
-  const tracks: Track[] = rows
+  // Return lightweight listing — no beatMarkers or sceneSlots to save tokens.
+  // The save_config endpoint looks up beats server-side from the trackId.
+  const tracks = rows
     .filter((r) => r.scene_slots && r.beat_markers)
     .map((r) => ({
       id: r.id,
       name: r.name,
       duration: r.duration,
-      format: r.duration < 18 ? "short" : r.duration > 32 ? "long" : "standard",
+      format: (r.duration < 18 ? "short" : r.duration > 32 ? "long" : "standard") as Track["format"],
       description: r.description || "",
       videoTypes: r.video_types || [],
-      sceneSlots: r.scene_slots!,
-      beatMarkers: r.beat_markers!.map((t) => ({ time: t })),
+      beatCount: r.beat_markers!.length,
     }));
 
   return tracks;

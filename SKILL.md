@@ -1,6 +1,6 @@
 ---
 name: vanillasky
-description: Create cinematic beat-synced trailer videos from natural language descriptions using VanillaSky
+description: Create professional beat-synced videos from natural language descriptions using VanillaSky
 ---
 
 # VanillaSky — Create Cinematic Videos
@@ -19,20 +19,18 @@ Create professional beat-synced videos by describing what you want. You compose 
 
 ### 1. What are we making?
 
-If the user's prompt doesn't make the video type clear, ask:
+If the user's prompt doesn't make the intent clear, ask:
 
-> What kind of video do you want to create?
-> - **Ad** — hook fast, show value, drive action (15-30s)
-> - **Trailer** — build tension, tell a story, create desire (25-40s)
-> - **Explainer** — educate, simplify, make it clear (20-30s)
-> - **Social** — stop the scroll, TikTok/Reels (15-20s)
-> - **Showreel** — showcase your work or product (30-60s)
-> - **Brand Story** — who you are, what you stand for (25-40s)
-> - **Event/Launch** — create urgency, reveal something new (15-25s)
+> What kind of video? Describe what you need, or pick a direction:
+> - **Launch** — announce your product, show what you built
+> - **Explain** — teach how it works, landing page video
+> - **Sell** — ad, convert viewers, get signups
+> - **Showcase** — demo features, product tour
+> - **Social** — quick TikTok/Reel/Short
 >
 > Or just describe what you need and I'll pick the best fit.
 
-Use detection cues from [rules/video-types.md](rules/video-types.md) to infer from context. If still ambiguous, default to **Trailer** — it's the most versatile.
+Use detection cues from [rules/composition-rules.md](rules/composition-rules.md) to infer the arc from context. If still ambiguous, default to **Launch** — it's what most founders need first.
 
 ### 2. Content source — URL or manual?
 
@@ -64,9 +62,9 @@ Use detection cues from [rules/video-types.md](rules/video-types.md) to infer fr
 **Don't blindly copy** — use scraped data as inspiration. Rewrite headlines to be punchier (1-5 words for scenes). Extract key features. Use their actual brand colors.
 
 **If no URL available**, ask naturally:
-- "Do you have **brand colors**?" → `style.brandKit.bg` + `.accent`
-- "**Font preference**?" → `style.font` (or suggest based on mood)
-- "Got a **logo**?" → for `end-screen` logoUrl
+- "Do you have **brand colors**?" -> `style.brandKit.bg` + `.accent`
+- "**Font preference**?" -> `style.font` (or suggest based on mood)
+- "Got a **logo**?" -> for `end-screen` logoUrl
 
 If they don't have these, that's fine — defaults look professional. They can always customize in the editor later.
 
@@ -76,29 +74,31 @@ If they don't have these, that's fine — defaults look professional. They can a
 >
 > You can always swap anything later in the editor.
 
-- If they have media → upload it with `upload_media` to get public URLs, then use those in `mediaUrl` / `screenMediaUrl` fields
-- If not → use `mediaKeyword` for Pexels stock and lean on animated templates (intros, charts, social, app mockups)
+- If they have media -> upload it with `upload_media` to get public URLs, then use those in `mediaUrl` / `screenMediaUrl` fields
+- If not -> use `mediaKeyword` for Pexels stock and lean on animated templates (intros, charts, social, app mockups)
 - Mix is fine — some scenes with their media, others with stock
 - If they share local file paths or paste images, upload each one with `upload_media` before building the config
+
+**Sound-off reminder:** 85% of viewers watch muted. Ensure every scene has text overlays — text IS the message for most viewers.
 
 ### 4. Format — where will it live?
 
 > Where will this video be shared?
-> - **TikTok / Instagram Reels / YouTube Shorts** → vertical (9:16)
-> - **YouTube / LinkedIn / Website / Presentations** → horizontal (16:9)
+> - **TikTok / Instagram Reels / YouTube Shorts** -> vertical (9:16)
+> - **YouTube / LinkedIn / Website / Presentations** -> horizontal (16:9)
 
 Infer from context when possible:
-- "social" / "TikTok" / "Reels" / "Shorts" / "Stories" → `"portrait"`
-- "YouTube" / "LinkedIn" / "website" / "presentation" → `"landscape"`
+- "social" / "TikTok" / "Reels" / "Shorts" / "Stories" -> `"portrait"`
+- "YouTube" / "LinkedIn" / "website" / "presentation" -> `"landscape"`
 - If unclear, default to `"portrait"` — most video today is vertical
 
 ### 5. Pick a Music Track
 
-**Call `list_tracks` MCP tool** to get tracks with beat markers and duration. Selection priority:
+**After planning scenes** (not before), call `list_tracks` to find a track that fits:
 
-1. **Video type match** — pick a track whose `videoTypes` includes your video type (ad, trailer, showreel, social)
-2. **Duration fit** — track duration should match the target video length for the video type
-3. **Description feel** — does the track description fit the brand?
+1. **Mood match** — pick a track whose description fits the arc's mood (see composition-rules.md)
+2. **Duration fit** — track duration should be close to your estimated total (from template complexity)
+3. **Vary selection** — don't default to the same track every time
 
 Scene count is driven by track duration: `round(duration / 3)`, clamped to 4-12 scenes. Beats (30-60+ per track, detected by Essentia.js) serve as natural cut points — the system picks which beats to use as scene boundaries at save time.
 
@@ -106,28 +106,9 @@ See [rules/audio-tracks.md](rules/audio-tracks.md) for the beat-driven layout sy
 
 ### 6. Propose a Scene Plan
 
-Present a table showing scenes with their narrative roles and duration weights. The server computes exact timing from beats:
+Present the plan using the 3-phase format from [composition-rules.md](rules/composition-rules.md#scene-plan-format). Show the hook, body, and close phases with their templates and weights so the user sees exactly what each scene shows and why.
 
-| # | Role | Weight | Template | Content |
-|---|------|--------|----------|---------|
-| 1 | intro | 1.0 | bg-video | Visual hook — striking footage |
-| 2 | build | 1.0 | bg-photo | Problem statement |
-| 3 | build | 1.0 | showcase-phone | Product overview |
-| 4 | hero | 1.3 | showcase-tablet-slides | 3-screen app demo |
-| 5 | accelerate | 1.0 | chart-counter | "10K users" stat |
-| 6 | accelerate | 0.8 | bg-photo | Quick visual cut |
-| 7 | breathe | 0.7 | bg-video | Atmospheric footage — brief pause |
-| 8 | climax | 1.0 | social-review-stack | Customer reviews — peak energy |
-| 9 | outro | 0.8 | bg-gradient-linear | CTA |
-
-> Template IDs here are illustrative — always call `list_templates` for the current list.
-
-**Key pacing notes:**
-- `bg-photo` and `bg-video` are great for quick visual cuts between animated scenes — they add rhythm variety
-- Scenes get progressively shorter toward the climax (pacing curve applied automatically)
-- The video ends at peak energy — no slowdown after the climax
-
-Be transparent about template choices. Explain why a template fits its narrative role.
+Be transparent about template choices. Explain why a template fits its role.
 
 ### 7. User Confirms or Tweaks
 
@@ -145,12 +126,11 @@ Save the config and return the editor link. The user can preview, customize, and
 
 Read these for detailed creative and technical patterns:
 
-- [rules/templates.md](rules/templates.md) — Template discovery, variable schemas, duration hints, usage guidelines
+- [rules/composition-rules.md](rules/composition-rules.md) — 5 arcs, 3-phase structure, scene planning, template selection, copy, pacing
+- [rules/templates.md](rules/templates.md) — Template discovery, `texts` variable format, tiers, selection rules
 - [rules/effects-and-style.md](rules/effects-and-style.md) — Text effects, background effects, transitions, fonts, brand kit
-- [rules/composition-rules.md](rules/composition-rules.md) — Narrative arc, template mix, pacing, copy best practices
-- [rules/video-types.md](rules/video-types.md) — Presets: Ad, Trailer, Explainer, Showreel, Social, Brand Story, Event
-- [rules/schema.md](rules/schema.md) — Full VideoConfig JSON example with annotations
-- [rules/audio-tracks.md](rules/audio-tracks.md) — Track catalog with video types, scene slots, and selection guide
+- [rules/schema.md](rules/schema.md) — Full annotated VideoConfig JSON example
+- [rules/audio-tracks.md](rules/audio-tracks.md) — Track selection rules and audio config format
 
 ## Templates
 
@@ -158,24 +138,9 @@ Read these for detailed creative and technical patterns:
 
 Templates are organized by category. Each scene in a video references one template by `templateId` and passes `variables`.
 
-### The `texts` Variable Format
+### The `texts` Variable
 
-All bg-* templates use this format:
-```
-"First line|zoom-in,Second line|slam,Third line"
-```
-- Comma separates entries — each gets equal time within the scene
-- Pipe (`|`) optionally overrides the text effect for that entry
-- Without pipe: uses the scene's global text effect
-- 1 entry = hero size, 2 = headline size, 3+ = slightly smaller
-- Max 8 entries
-
-**Examples:**
-- Single text: `"Get moving."` — one entry, displayed big
-- Two texts: `"Get moving.,Push harder."` — two sequential entries
-- With effects: `"Get moving.|slam,Push harder.|zoom-in"` — per-entry effects
-
-The text transitions happen within one scene — the background stays continuous.
+See [templates.md](rules/templates.md#the-texts-variable) for the full format. Key: comma-separated entries, pipe for per-entry effects, max 8 entries.
 
 ## VideoConfig Schema
 
@@ -183,60 +148,40 @@ See [rules/schema.md](rules/schema.md) for a full annotated example.
 
 ### Schema Rules
 
-- **`audio` object is REQUIRED** — without it, beat-based timing breaks and all scenes fall back to 3s fixed duration. Always include the full audio object with `trackId`, `audioUrl`, `duration`, `beatDetection`, and `beatMarkers`.
-- **`audio.audioUrl`** — always leave empty (`""`), the editor loads it from the track database
-- **`audio.beatMarkers`** — wrap each time value: `{ "time": 4.2 }` not just `4.2`
-- **`scenes[].id`** — use `"s1"`, `"s2"`, etc.
-- **`scenes[].templateId`** — call `list_templates` MCP tool to get current available templates. NEVER hardcode template IDs — the list changes as templates are added/removed.
-- **`scenes[].variables`** — keys must match the template's variable schema (returned by `list_templates`)
-- **`timing.durationWeight`** — relative weight controlling how much time a scene gets (default: 1.0). Hero scenes: 1.2-1.5, quick cuts (bg-photo/bg-video): 0.6-0.8. The server computes `startTime`/`endTime` automatically by snapping to beat boundaries. **Do NOT set startTime/endTime manually.**
-- **`transition` / `backgroundEffect`** — set per-scene to override `style.defaultTransition` / `style.defaultBackgroundEffect`
-- **`textEffect`** — only meaningful for templates with `usesGlobalTextEffect: true` (bg-* and showcase-* templates). Set per-scene to override.
-- **`style.font`** — use the full CSS value: `"'Inter', sans-serif"` not `"Inter"` (see [rules/effects-and-style.md](rules/effects-and-style.md) for all options)
-- **`orientation`** — `"portrait"` (1080×1920, default) or `"landscape"` (1920×1080)
-- **`meta.mood`** — array of mood/tone tags for the video
-- **`meta.prompt`** — ALWAYS set to the user's original verbatim request (the exact words they used to describe the video)
-- **`meta.videoType`** — the detected/chosen video type, lowercase: `"ad"`, `"trailer"`, `"explainer"`, `"social"`, `"showreel"`, `"brand-story"`, or `"event"`
-- **`meta.trackRationale`** — one sentence explaining why you picked this track (e.g. "Energetic electronic track with 6 slots matching the ad pacing")
-- **`meta.templateRationale`** — one sentence summarizing your template strategy (e.g. "Used bg-video for impact scenes, showcase-phone for app demo, end-screen for CTA")
-- **`meta.source`** — set to `"skill"`
-- **`meta.createdAt`** — current ISO date string (e.g. `"2026-03-26"`)
+See [schema.md](rules/schema.md) for a full annotated example. Key rules:
+- `scenes[].templateId` — call `list_templates` first, never hardcode
+- `scenes[].variables` — keys must match the template's variable schema
+- `timing.durationWeight` — relative weight, server computes startTime/endTime. See [composition-rules.md](rules/composition-rules.md) for weight guidelines
+- `style.font` — use full CSS value: `"'Inter', sans-serif"` not `"Inter"`
+- `meta.videoType` — one of: `"launch"`, `"explain"`, `"sell"`, `"showcase"`, `"social"`. Default to `"launch"` if ambiguous
+- `meta.prompt` — ALWAYS set to the user's verbatim request
+- `meta.source` — set to `"skill"`
 
 ### Media Handling
 
 - **User provides local files**: Call `upload_media` with the file path first. It uploads to cloud storage and returns a public URL. Use that URL in `mediaUrl` / `screenMediaUrl` / `logoUrl` fields.
-- **No user media**: For `bg-photo` / `bg-video`, set `mediaKeyword` with a descriptive Pexels search keyword (2–4 words). Leave `mediaUrl` empty — the editor auto-fills the top Pexels result on load.
+- **No user media**: For `bg-photo` / `bg-video`, set `mediaKeyword` with a descriptive Pexels search keyword (2-4 words). Leave `mediaUrl` empty — the editor auto-fills the top Pexels result on load.
 - For showcase templates (`showcase-phone`, `showcase-tablet`, etc.): set `screenMediaUrl` directly if the user provides a screenshot (upload it first with `upload_media`). If not, leave it empty — the template shows a professional placeholder.
 - **User provides URLs**: Use them directly in the relevant fields — no upload needed.
 
-## Pre-Save Validation Checklist
+## Pre-Save Checklist
 
-**Run these checks before saving the config. Fix any failures.**
-
-### 1. Scene count fits track duration
-Scene count should be approximately `round(duration / 3)`, clamped 4-12. The server handles exact beat-boundary timing.
-
-### 2. Duration weights are sensible
-Hero/complex scenes: `durationWeight: 1.2-1.5`. Quick cuts (bg-photo/bg-video): `durationWeight: 0.6-0.8`. Don't set startTime/endTime — the server computes these.
-
-### 3. Template fits expected duration
-Given the shorter scene durations (2-3s average), ensure templates with high minDuration are only used in hero/weighted scenes. Check via `list_templates`.
-
-### 4. Template variables
-Each scene's `variables` keys must match its template's schema. Required fields must be set. See [rules/templates.md](rules/templates.md).
-
-### 5. Last scene is CTA
-The final scene (outro slot) should be a CTA — typically a bg-solid or bg-gradient-linear template with call-to-action text.
+Before calling `save_config`, verify against [composition-rules.md](rules/composition-rules.md):
+- Scene count fits track duration
+- Duration weights follow the rules in composition-rules.md (hero, quick cuts, CTA)
+- Template variables match their schema (call `list_templates` to check)
+- Last scene is a CTA
+- Every scene has text overlays (sound-off design)
 
 ## MCP Tools
 
 Use in this order during video creation. No API keys needed — the MCP server handles everything.
 
-1. **`scrape_url`** (optional, do first if URL available) — `{ url }` → Returns `brandColors`, `fonts`, `headlines`, `description`, `images`, `ogImage`. Use for brand kit, font matching, and copy inspiration.
-2. **`upload_media`** (if user provides local files) — `{ filePath }` → Uploads to cloud storage, returns `{ publicUrl, fileName, mimeType, sizeBytes }`. Call once per file. Use the `publicUrl` in `mediaUrl` / `screenMediaUrl` fields. Supports: jpg, png, webp, gif, mp4, webm, mov. Max 20MB.
-3. **`list_templates`** (REQUIRED) — `{ category? }` → Returns all templates with `id`, `variables`, `minDuration`, `whenToUse`, `copyTip`. Never hardcode template IDs.
-4. **`list_tracks`** (REQUIRED) — Returns tracks with `beatMarkers` (30-60+ beats per track) and `duration`. Scene count is `round(duration / 3)` clamped 4-12. The server picks beat boundaries as scene cut points.
-5. **`save_config`** (final step) — `{ config }` → Returns `{ id, url, warnings? }`. Share the URL. Warnings flag duration issues but don't block the save.
+1. **`scrape_url`** (optional, do first if URL available) — `{ url }` -> Returns `brandColors`, `fonts`, `headlines`, `description`, `images`, `ogImage`. Use for brand kit, font matching, and copy inspiration.
+2. **`upload_media`** (if user provides local files) — `{ filePath }` -> Uploads to cloud storage, returns `{ publicUrl, fileName, mimeType, sizeBytes }`. Call once per file. Use the `publicUrl` in `mediaUrl` / `screenMediaUrl` fields. Supports: jpg, png, webp, gif, mp4, webm, mov. Max 20MB.
+3. **`list_templates`** (REQUIRED) — `{ category? }` -> Returns all templates with `id`, `variables`, `minDuration`, `whenToUse`, `copyTip`. Never hardcode template IDs.
+4. **`list_tracks`** (REQUIRED) — Returns tracks with `id`, `name`, `duration`, `description`, `videoTypes`, and `beatCount`. Pass `trackId` + `duration` in the audio config — beat markers are auto-populated server-side.
+5. **`save_config`** (final step) — `{ config }` -> Returns `{ id, url, warnings? }`. Share the URL. Warnings flag duration issues but don't block the save.
 
 ## Example
 
@@ -246,7 +191,7 @@ Use in this order during video creation. No API keys needed — the MCP server h
 
 **User:** "It tracks heart rate, calories, steps, and sleep. 10K+ users. For everyday athletes. Colors are dark blue (#1a1a3e) and electric green (#00ff88). I have an app screenshot I can share."
 
-**You:** This feels like a **Trailer** — cinematic reveal of the app. Pick "HipHop Sequence" (energetic, fitness mood). Propose:
+**You:** This feels like a **Launch** — announce the app with excitement. Pick "HipHop Sequence" (energetic, fitness mood). Propose 8 scenes with `cut` as default transition:
 
 | # | Template | Key variables | Why | Copy |
 |---|----------|--------------|-----|------|
@@ -259,6 +204,6 @@ Use in this order during video creation. No API keys needed — the MCP server h
 | 7 | bg-video | keyword: "group fitness class energy" | Community energy | texts: "Join thousands." |
 | 8 | bg-solid | — | CTA + brand | texts: "Start free today.,fitpulse.app" |
 
-Brand: dark blue `#1a1a3e` + electric green `#00ff88`. Font: Bebas Neue (bold, energetic). Text effect: `slam`. Background: `slow-zoom-in`.
+Brand: dark blue `#1a1a3e` + electric green `#00ff88`. Font: Bebas Neue (bold, energetic). Text effect: `zoom-through`. Background: `slow-zoom-in`.
 
 After confirmation, build the full VideoConfig JSON and save it.

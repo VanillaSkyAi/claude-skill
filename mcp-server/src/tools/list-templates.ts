@@ -36,5 +36,15 @@ export async function listTemplates(category?: string): Promise<Template[]> {
     throw new Error(`Failed to fetch templates: ${res.status}`);
   }
 
-  return (await res.json()) as Template[];
+  const raw = (await res.json()) as Template[];
+
+  // Slim down the response — strip verbose variable fields to save tokens
+  return raw.map((t) => ({
+    ...t,
+    variables: t.variables.map(({ name, type, required }) => ({
+      name,
+      type,
+      required,
+    })) as TemplateVariable[],
+  }));
 }
