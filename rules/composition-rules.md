@@ -7,6 +7,43 @@ description: 5 arcs, 3-phase structure, scene planning, template selection, copy
 
 > **Scope:** Arcs, scene planning, templates, copy, pacing. For template variables see [templates.md](templates.md). For effects/fonts see [effects-and-style.md](effects-and-style.md). For audio config see [audio-tracks.md](audio-tracks.md).
 
+## Tone Detection — First Step Before Composing
+
+Read the prompt and detect the TONE. This affects everything: colors, copy, templates, music, fonts.
+
+| Tone | Detect from | Colors | Copy style | Avoid |
+|------|------------|--------|-----------|-------|
+| Fun / celebratory | party, celebration, launch day, birthday, Kingsday, holiday | Bright, saturated (orange, yellow, pink) | Playful, exclamation marks | Muted colors, serious language |
+| Serious / somber | war, crisis, memorial, awareness, health | Dark, muted (navy, charcoal) | Measured, factual, respectful | bg-confetti, bg-emoji, playful fonts |
+| Professional | enterprise, B2B, corporate, finance | Clean, restrained (navy, white) | Concise, authoritative | Slang, emojis |
+| Urgent / FOMO | sale, limited, ending soon, deadline | High contrast (red+black, yellow+black) | Short, punchy, countdown | Calm music, slow pacing |
+| Inspirational | dream, journey, mission, impact | Warm, golden (amber, coral) | Aspirational, emotional | Cold/clinical templates |
+| Techy / dev | API, code, deploy, developer, open source | Dark bg, neon accent (green, cyan) | Technical, precise | Rounded/playful fonts |
+
+### Context-Aware Colors (no brand kit / no URL)
+
+When no colors are provided and no URL to scrape, INFER from context:
+
+**Cultural events:** Kingsday = orange + white. Christmas = red + gold. Halloween = orange + black. Valentine's = pink + red.
+
+**Industry:** Finance = navy + gold. Healthcare = blue + white. Food = warm red or green. Tech = dark + neon.
+
+**Mood:** Fun = bright saturated. Serious = dark muted. Tech = dark bg + neon accent.
+
+Do NOT default to #0a0a1a for everything — match the topic.
+
+### Arc-Specific Copy Length
+
+| Arc | Words per scene | Style |
+|-----|----------------|-------|
+| Sell / Social | 1-4 words | Power words. "Ship faster." |
+| Launch | 2-5 words | Announce + benefit. "Meet Atlas AI." |
+| Explain | 3-8 words | One concept per scene. "Replaces 5 tools with one." |
+| Showcase | 2-4 words | Feature labels. "Real-time sync." |
+| Brand story | 4-8 words | Narrative. "We started in a garage." |
+
+Explainer videos need MORE text — each scene explains one concept clearly. Do not sacrifice clarity for brevity.
+
 ## The 3-Phase Structure
 
 Every video, regardless of length or purpose, has three phases:
