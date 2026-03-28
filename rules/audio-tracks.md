@@ -38,6 +38,12 @@ Always call `list_tracks` for current data — never hardcode track names.
 
 **Do NOT match by use-case keywords** like "startup pitches" or "SaaS demos" — match by the FEEL of the music. Two videos about the same product should sound different if they have different arcs.
 
+## Variants — Automatic Track Variety
+
+When calling `save_config`, variants are generated automatically. The server picks 3 contrasting mood profiles (e.g., Cinematic/Clean/Energetic), each with a different track, hook template, closer template, font, and text effect. The user sees 3 tabs in the editor and picks their favorite.
+
+**You don't need to worry about track variety** — the variant system handles it. Just pick the one track that best matches the arc mood for your base composition. The server will select 2 additional contrasting tracks automatically.
+
 ## Audio Config Format
 
 The `save_config` endpoint auto-populates beat markers from the trackId. You only need to pass `trackId` and `duration`:

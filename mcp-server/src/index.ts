@@ -18,17 +18,21 @@ const server = new McpServer({
 
 server.tool(
   "save_config",
-  "Save a VanillaSky VideoConfig and get a shareable editor link. Returns { id, url } where url opens the video in VanillaSky's editor, ready to preview and export.",
+  "Save a VanillaSky VideoConfig and get a shareable editor link. Returns { id, url } where url opens the video in VanillaSky's editor, ready to preview and export. Set generateVariants to true to auto-generate 3 mood-based variants (Cinematic/Energetic/Clean) with different tracks, hooks, and closers.",
   {
     config: z
       .object({})
       .passthrough()
       .describe("The complete VideoConfig JSON object"),
+    generateVariants: z
+      .boolean()
+      .optional()
+      .describe("If true, generates 3 mood-based variants server-side (different track, hook, closer, font, text effect). The URL will open with variant tabs in the editor."),
   },
   { readOnlyHint: false, destructiveHint: false, openWorldHint: true },
-  async ({ config }) => {
+  async ({ config, generateVariants }) => {
     try {
-      const result = await saveConfig(config);
+      const result = await saveConfig(config, { generateVariants: generateVariants ?? true });
       return {
         content: [
           {
