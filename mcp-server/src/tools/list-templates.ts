@@ -38,13 +38,15 @@ export async function listTemplates(category?: string): Promise<Template[]> {
 
   const raw = (await res.json()) as Template[];
 
-  // Slim down the response — strip verbose variable fields to save tokens
+  // Keep default values (helps AI understand complex formats like transaction strings)
+  // Strip only verbose descriptions to save tokens
   return raw.map((t) => ({
     ...t,
-    variables: t.variables.map(({ name, type, required }) => ({
+    variables: t.variables.map(({ name, type, required, default: def }) => ({
       name,
       type,
       required,
+      ...(def != null && def !== "" ? { default: def } : {}),
     })) as TemplateVariable[],
   }));
 }
