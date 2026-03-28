@@ -173,12 +173,18 @@ Set via `style.defaultTransition` or per-scene `transition`.
 
 ## Brand Kit
 
-Optional. Set via `style.brandKit`. All templates read these values with fallbacks.
+Set via `style.brandKit`. All templates read these values — glows, gradients, accents, and backgrounds all use these colors.
+
+**IMPORTANT:** Always set context-appropriate colors. Do NOT default to green (#00e5a0) accent when the prompt implies different colors. Examples:
+- Kingsday → accent: #FF6B00 (orange)
+- Christmas → accent: #C41E3A (red)
+- Finance → accent: #B8860B (gold)
+- Tech → accent: #00D4FF (cyan)
 
 ```json
 {
   "bg": "#0a0a1a",
-  "accent": "#00e5a0",
+  "accent": "#FF6B00",
   "logoDataUrl": "data:image/png;base64,..."
 }
 ```
