@@ -20,7 +20,7 @@ description: Full annotated VideoConfig JSON example — reference for building 
       "id": "s1",
       "templateId": "bg-video",
       "variables": { "texts": "Get moving.", "mediaUrl": "", "mediaKeyword": "fitness workout gym" },
-      "timing": { "durationWeight": 1.0 },
+      "timing": { "durationWeight": 0.7 },
       "transition": "cut",
       "backgroundEffect": "slow-zoom-in"
     },
@@ -28,15 +28,15 @@ description: Full annotated VideoConfig JSON example — reference for building 
       "id": "s2",
       "templateId": "bg-photo",
       "variables": { "texts": "Track everything.", "mediaUrl": "", "mediaKeyword": "smartwatch wrist close up" },
-      "timing": { "durationWeight": 1.0 },
+      "timing": { "durationWeight": 0.5 },
       "transition": "crossfade",
       "backgroundEffect": "ken-burns"
     },
     {
       "id": "s3",
       "templateId": "showcase-phone",
-      "variables": { "screenMediaUrl": "" },
-      "timing": { "durationWeight": 1.0 },
+      "variables": { "texts": "Your dashboard.", "screenMediaUrl": "" },
+      "timing": { "durationWeight": 1.3 },
       "transition": "cut"
     },
     {
@@ -65,11 +65,16 @@ description: Full annotated VideoConfig JSON example — reference for building 
       "id": "s7",
       "templateId": "social-review-stack",
       "variables": {
-        "reviews": [
-          { "name": "Sarah M.", "text": "Changed my routine.", "rating": 5 },
-          { "name": "Jake T.", "text": "Best fitness app.", "rating": 5 },
-          { "name": "Priya K.", "text": "Finally consistent.", "rating": 4 }
-        ]
+        "review1Title": "Life changing",
+        "review1Body": "Changed my entire routine.",
+        "review1Author": "Sarah M.",
+        "review2Title": "Best fitness app",
+        "review2Body": "Nothing else comes close.",
+        "review2Author": "Jake T.",
+        "review3Title": "Finally consistent",
+        "review3Body": "First app that stuck.",
+        "review3Author": "Priya K.",
+        "starColor": "#e94560"
       },
       "timing": { "durationWeight": 1.0 },
       "transition": "cut"
@@ -104,9 +109,9 @@ description: Full annotated VideoConfig JSON example — reference for building 
 
 ### Config Notes
 
-- **`cut` is the default transition** — fast cuts maintain energy in short-form video. Reserve `crossfade` and `dip-to-black` for deliberate pacing shifts (scene 2 eases into the body; scene 6 creates a visual pause before social proof).
-- **Tier 1 body scene (s4) gets weight 1.3** — the app-fitness dashboard is the product's centerpiece; extra time lets viewers absorb the data. Give the most important body scene extra weight.
-- **Short body scene (s6) gets weight 0.7** — a brief visual pause before social proof prevents viewer fatigue. Use lower weight for transitional body scenes.
-- **Close scene (s8) keeps weight 1.0** — CTAs need enough time for the URL to register; going below 1.0 cuts it too short for readability.
-- **No `slam` text effect** — `zoom-through` on the hook scene and `fade-in` default elsewhere keep motion smooth. `slam` is reserved for single-word impact moments, not general use.
-- **Background effects alternate** — `slow-zoom-in` (s1), `ken-burns` (s2), `drift` (s6) prevent visual repetition across the three media-backed scenes.
+- **Fast cuts for media scenes** — bg-video (s1) at 0.7, bg-photo (s2) at 0.5. Quick visual hits before animated content.
+- **Hero scenes get more time** — showcase-phone (s3) at 1.3, app-fitness (s4) at 1.3. Complex animations need 3+ seconds.
+- **Breathe scene (s6) at 0.7** — brief pause before social proof prevents fatigue.
+- **CTA (s8) at 1.0** — URL needs time to register; don't go below 0.8.
+- **social-review-stack uses separate fields** — review1Title/review1Body/review1Author for each review (NOT a reviews array).
+- **Background effects alternate** — slow-zoom-in, ken-burns, drift across media scenes to prevent visual repetition.
