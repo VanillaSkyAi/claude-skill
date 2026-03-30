@@ -26,17 +26,18 @@ Call `list_tracks` MCP tool to get the catalog. Each track returns:
 
 Always call `list_tracks` for current data — never hardcode track names.
 
-## Arc → Track Mood (FOLLOW THIS)
+## Video Type → Track Mood
 
-| Arc | Track energy | Look for in description |
-|-----|-------------|------------------------|
-| **Launch** | Building, cinematic, epic | "build", "epic", "orchestral", "cinematic", "momentum" |
-| **Explain** | Steady, clear, modern | "gentle", "optimistic", "modern", "clean", "steady" |
-| **Sell** | Urgent, punchy, driving | "driving", "energetic", "punchy", "intense", "fast" |
-| **Showcase** | Polished, rhythmic, confident | "confident", "modern", "polished", "groove", "swagger" |
+| Video type | Track energy | Look for in description |
+|------------|-------------|------------------------|
+| **Launch / Trailer** | Building, cinematic, epic | "build", "epic", "orchestral", "cinematic", "momentum" |
+| **Explainer** | Steady, clear, modern | "gentle", "optimistic", "modern", "clean", "steady" |
+| **Ad / Promotion** | Urgent, punchy, driving | "driving", "energetic", "punchy", "intense", "fast" |
+| **Showcase / Demo** | Polished, rhythmic, confident | "confident", "modern", "polished", "groove", "swagger" |
 | **Social** | High-energy, fun, bouncy | "upbeat", "bounce", "fun", "energy", "drops" |
+| **Event** | Exciting, building, celebratory | "build", "energy", "celebration", "epic" |
 
-**Do NOT match by use-case keywords** like "startup pitches" or "SaaS demos" — match by the FEEL of the music. Two videos about the same product should sound different if they have different arcs.
+**Do NOT match by use-case keywords** like "startup pitches" or "SaaS demos" — match by the FEEL of the music. Two videos about the same product should sound different if they have different tones.
 
 ## Variants — Automatic Track Variety
 

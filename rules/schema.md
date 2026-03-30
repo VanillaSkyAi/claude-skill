@@ -99,8 +99,9 @@ description: Full annotated VideoConfig JSON example — reference for building 
     "prompt": "Create a launch video for a fitness app called FitPulse",
     "mood": ["Energetic"],
     "videoType": "launch",
+    "narrativePattern": "Product First",
     "trackRationale": "High-energy track with 55 beats across 27s — tight snap points for 8 scenes",
-    "templateRationale": "bg-video hook, bg-photo for texture, showcase-phone for demo, app-fitness body centerpiece, chart-counter for social proof stat, social-review-stack for testimonials, bg-glow close CTA (avoids muddy gradient blends)",
+    "templateRationale": "Product First pattern: bg-video hook, showcase-phone early demo, app-fitness features, chart-counter traction, social-review-stack proof, bg-glow CTA",
     "source": "skill",
     "createdAt": "2026-03-27"
   }
@@ -109,6 +110,9 @@ description: Full annotated VideoConfig JSON example — reference for building 
 
 ### Config Notes
 
+- **Content flows from the brief** — product name, features, stats, and testimonials gathered during the brief phase populate template variables directly. Never use generic placeholder text.
+- **`meta.videoType`** — set to the detected type (launch, explainer, ad, social, showcase, event, portfolio). Helps the variant system pick contrasting tracks and styles.
+- **`meta.narrativePattern`** — which pattern was chosen (e.g., "Product First", "Problem-Solution"). Documents the creative decision.
 - **Fast cuts for media scenes** — bg-video (s1) at 0.7, bg-photo (s2) at 0.5. Quick visual hits before animated content.
 - **Hero scenes get more time** — showcase-phone (s3) at 1.3, app-fitness (s4) at 1.3. Complex animations need 3+ seconds.
 - **Breathe scene (s6) at 0.7** — brief pause before social proof prevents fatigue.
