@@ -18,21 +18,17 @@ const server = new McpServer({
 
 server.tool(
   "save_config",
-  "Save a VanillaSky VideoConfig and get a shareable editor link. Returns { id, url } where url opens the video in VanillaSky's editor, ready to preview and export. Set generateVariants to true to auto-generate 3 mood-based variants (Cinematic/Energetic/Clean) with different tracks, hooks, and closers.",
+  "Save a VanillaSky VideoConfig and get a shareable editor link. Returns { id, url } where url opens the video in VanillaSky's editor, ready to preview and export.",
   {
     config: z
       .object({})
       .passthrough()
       .describe("The complete VideoConfig JSON object"),
-    generateVariants: z
-      .boolean()
-      .optional()
-      .describe("If true, generates 3 mood-based variants server-side (different track, hook, closer, font, text effect). The URL will open with variant tabs in the editor."),
   },
   { readOnlyHint: false, destructiveHint: false, openWorldHint: true },
-  async ({ config, generateVariants }) => {
+  async ({ config }) => {
     try {
-      const result = await saveConfig(config, { generateVariants: generateVariants ?? true });
+      const result = await saveConfig(config);
       return {
         content: [
           {
@@ -59,7 +55,7 @@ server.tool(
 
 server.tool(
   "list_tracks",
-  "List available music tracks for VanillaSky videos. Returns track metadata including duration, video types, description, scene slots, and beat markers.",
+  "List available music tracks for VanillaSky videos. Returns track metadata including duration, description, mood_tags (energy/mood/movement), and beat count.",
   {},
   { readOnlyHint: true, destructiveHint: false, openWorldHint: true },
   async () => {

@@ -9,7 +9,7 @@ description: Text effects, background effects, transitions, fonts, and brand kit
 
 ## Text Effects
 
-10 built-in effects. Applied to templates with `usesGlobalTextEffect: true` (all bg-* templates and showcase-* templates). Set via `style.defaultTextEffect` or per-scene `textEffect`.
+10 built-in effects. Applied to templates with `usesGlobalTextEffect: true` (all background templates and showcase templates). Set via `style.defaultTextEffect` or per-scene `textEffect`.
 
 | Effect | Character | Best for |
 |--------|-----------|----------|
@@ -43,7 +43,7 @@ description: Text effects, background effects, transitions, fonts, and brand kit
 
 ## Background Effects
 
-9 built-in effects. Applied to templates with `usesGlobalBackgroundEffect: true` (bg-photo and bg-video only). Other templates handle their own backgrounds.
+9 built-in effects. Applied to templates with `usesGlobalBackgroundEffect: true` (photo and video only). Other templates handle their own backgrounds.
 
 Set via `style.defaultBackgroundEffect` or per-scene `backgroundEffect`.
 
@@ -185,7 +185,7 @@ Set via `style.brandKit`. All templates read these values — glows, gradients, 
 {
   "bg": "#0a0a1a",
   "accent": "#FF6B00",
-  "logoDataUrl": "data:image/png;base64,..."
+  "logoDataUrl": "https://...supabase.co/storage/v1/object/public/user-media/logo.png"
 }
 ```
 
@@ -193,7 +193,7 @@ Set via `style.brandKit`. All templates read these values — glows, gradients, 
 |-------|---------|-----------------|
 | `bg` | Background color for all templates | `#0a0a1a` (dark navy) |
 | `accent` | Accent color (highlights, glows, gradients, badges) | `#00e5a0` (mint green) |
-| `logoDataUrl` | Base64-encoded logo for end-screen | — |
+| `logoDataUrl` | Public URL for logo (upload via `upload_media`) | — |
 
 **Tips:**
 - Dark backgrounds (`#0a0a1a` to `#1a1a2e`) work best for cinematic feel
@@ -203,12 +203,12 @@ Set via `style.brandKit`. All templates read these values — glows, gradients, 
 
 **Scraper color mapping — don't trust blindly:**
 - The scraper's `brandColors.primary` is usually a page surface color (e.g. near-black or white), NOT the actual brand color.
-- **Background color decision:** If your scene plan includes card-based templates (social-*, app-*, showcase-*), you MUST use a dark bg (`#0a0a1a` to `#1a1a2e`) — cards render as white/light and are invisible on light backgrounds. If your scene plan uses ONLY bg-*, chart-*, and infographic-* templates, you may use the brand's actual background color (light or dark).
+- **Background color decision:** If your scene plan includes card-based templates (social, app, and showcase templates), you MUST use a dark bg (`#0a0a1a` to `#1a1a2e`) — cards render as white/light and are invisible on light backgrounds. If your scene plan uses ONLY background, chart, and infographic templates, you may use the brand's actual background color (light or dark).
 - When in doubt, default to dark (`#0a0a1a`) — it's always safe.
 - Use the scraper's colors to set `brandKit.accent` only — pick whichever scraped color is most vibrant/saturated as the accent.
 - If the scraper returns two dull colors (e.g. near-black + near-white), ignore both and use a color you know from the brand or the default palette.
 
 **Gradient color warning — muddy blends:**
-`bg-gradient-linear` blends `brandKit.bg` and `brandKit.accent` directly. When bg is dark (#0a-#1a range) and accent is saturated (yellow, green, blue), linear interpolation produces ugly muddy tones (olive, brown, murky green). **Avoid `bg-gradient-linear` for CTA/close scenes — use `bg-glow` or `bg-solid` instead.** These templates show the accent as a highlight/glow without blending two clashing colors. If you must use `bg-gradient-linear`, ensure both colors are in a similar hue family so the blend looks intentional (e.g. dark blue → light blue, not black → yellow).
+`gradient` blends `brandKit.bg` and `brandKit.accent` directly. When bg is dark (#0a-#1a range) and accent is saturated (yellow, green, blue), linear interpolation produces ugly muddy tones (olive, brown, murky green). **Avoid `gradient` for CTA/close scenes — use `glow` or `solidColor` instead.** These templates show the accent as a highlight/glow without blending two clashing colors. If you must use `gradient`, ensure both colors are in a similar hue family so the blend looks intentional (e.g. dark blue → light blue, not black → yellow).
 
-**Light background warning:** Card-based templates (`social-testimonial`, `social-tweet`, `social-notification`, `social-review-stack`, `social-chat`, `social-whatsapp`, `social-google-search`, all `app-*`, all `showcase-*`) render white/light cards. If your brandKit bg is light (e.g., `#fdf2f8`), the card will be nearly invisible against the background and text inside may be unreadable. **Always use a dark brandKit bg (`#0a0a0a` to `#1a1a2e`) when using card-based templates.** If the brand requires a light palette, only use background templates (`bg-*`) and chart templates — not card-based ones.
+**Light background warning:** Card-based templates (testimonial, tweet, notification, reviewStack, chatBubbles, whatsappChat, googleSearch, all app templates, all showcase templates) render white/light cards. If your brandKit bg is light (e.g., `#fdf2f8`), the card will be nearly invisible against the background and text inside may be unreadable. **Always use a dark brandKit bg (`#0a0a0a` to `#1a1a2e`) when using card-based templates.** If the brand requires a light palette, only use background templates (photo, video, solidColor, gradient, glow) and chart templates — not card-based ones.

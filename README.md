@@ -112,11 +112,13 @@ Discover available scene templates with full metadata. **Claude calls this first
 Input:  { category: "background" }  // optional filter
 Output: [
   {
-    id: "bg-photo",
+    id: "photo",
     label: "Photo Background",
     category: "background",
     description: "Full-bleed photo background with vignette overlay and text.",
     tags: ["photo", "image", "hero", "establishing"],
+    position: ["hook", "body"],
+    types: ["promo", "informational", "product"],
     variables: [
       { name: "texts", type: "string", required: true, description: "Comma-separated text entries" },
       { name: "mediaKeyword", type: "string", required: false, description: "Pexels search keyword" }
@@ -134,7 +136,7 @@ This keeps Claude in sync with the latest templates — no hardcoded IDs, no sta
 
 ### `list_tracks`
 
-Browse available music tracks with duration, description, scene slots, beat markers, and video types.
+Browse available music tracks with duration, description, mood_tags, and beat count.
 
 ```
 Input:  {}  // no parameters needed
@@ -143,15 +145,9 @@ Output: [
     id: "7995f8e2-...",
     name: "Shadow Countdown",
     duration: 27.6,
-    format: "standard",
     description: "Dark, suspenseful intro with rising tension",
-    videoTypes: ["trailer", "brand-story"],
-    sceneSlots: [
-      { start: 0, end: 4.7, duration: 4.7, role: "intro" },
-      { start: 4.7, end: 8.1, duration: 3.4, role: "build" },
-      ...
-    ],
-    beatMarkers: [{ time: 1.2 }, { time: 4.7 }, { time: 8.1 }, ...]
+    mood_tags: { energy: "high", mood: ["dramatic", "dark"], movement: "building" },
+    beatCount: 55
   },
   ...
 ]

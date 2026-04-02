@@ -6,7 +6,7 @@ export interface SaveConfigResult {
   warnings?: string[];
 }
 
-export async function saveConfig(config: unknown, options?: { generateVariants?: boolean }): Promise<SaveConfigResult> {
+export async function saveConfig(config: unknown): Promise<SaveConfigResult> {
   const resp = await fetch(
     `${SUPABASE_URL}/functions/v1/save-config`,
     {
@@ -16,7 +16,7 @@ export async function saveConfig(config: unknown, options?: { generateVariants?:
         apikey: SUPABASE_ANON_KEY,
         Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
       },
-      body: JSON.stringify({ config, generateVariants: options?.generateVariants }),
+      body: JSON.stringify({ config }),
     },
   );
 

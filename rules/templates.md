@@ -10,11 +10,13 @@ description: How to discover and use scene templates — call list_templates MCP
 ## How to discover templates
 
 **Always call `list_templates` before composing scenes.** This MCP tool returns the live list of available templates with:
-- `id` — the templateId to use in the config
+- `id` — the templateId to use in the config (camelCase)
 - `label` — human-readable name
 - `category` — template category (e.g. "background")
 - `description` — what the template does
 - `tags` — searchable keywords
+- `position` — where in a video: `hook`, `body`, or `closer`
+- `types` — which recipe types: `promo`, `informational`, `product`
 - `variables` — what data the template needs (name, type, required, default, description)
 - `minDuration` / `preferredDuration` — timing constraints
 - `whenToUse` — guidance on when this template fits
@@ -24,7 +26,7 @@ Never hardcode template IDs — the list changes as templates are added and remo
 
 ## The `texts` variable (background + app templates)
 
-All background templates (bg-*) and all app templates (app-*) share the `texts` variable format. **Always set `texts` explicitly** — don't rely on defaults, as empty `texts` shows no text overlay:
+All background templates (photo, video, solidColor, gradient, glow, confetti, emojiBurst, particles) and all app templates share the `texts` variable format. **Always set `texts` explicitly** — don't rely on defaults, as empty `texts` shows no text overlay:
 
 ```
 "First line|zoom-in,Second line|slam,Third line"
@@ -62,23 +64,23 @@ Match the scene's PURPOSE to the template's `whenToUse` and `tags`:
 Templates are not equal. Richer templates create more engaging videos.
 
 **Tier 1 — Hero templates (use for key scenes):**
-- `app-*` templates — animated phone UIs with real-looking interfaces
-- `showcase-phone`, `showcase-phone-triple`, `showcase-tablet`, `showcase-tablet-slides` — device mockups
-- `social-chat`, `social-whatsapp` — conversation templates (5-10s, storytelling)
-- `social-google-search` — typewriter search with animated result
+- App templates (appGrid, bankingApp, chatListApp, ecommerceApp, fitnessApp, etc.) — animated phone UIs with real-looking interfaces
+- phoneMockup, triplePhone, tabletMockup, tabletSlides — device mockups
+- chatBubbles, whatsappChat — conversation templates (5-10s, storytelling)
+- googleSearch — typewriter search with animated result
 
 **Tier 2 — Supporting templates (social proof, data):**
-- `social-tweet`, `social-review-stack`, `social-testimonial`, `social-milestone`, `social-notification`
-- `chart-bar`, `chart-line`, `chart-progress-ring`, `chart-pie`, `chart-counter`
+- tweet, reviewStack, testimonial, milestone, notification
+- barChart, lineChart, progressRing, pieChart, bigNumber
 
 **Tier 3 — Background templates (palette cleansers and quick cuts):**
-- `bg-photo`, `bg-video` — great at any duration, including short (< 2s) quick visual cuts between animated scenes. Use these for rhythm variety and breathing room.
-- `bg-glow`, `bg-gradient-linear`, `bg-particles`, `bg-confetti`, `bg-emoji` — atmospheric
-- `bg-solid` — CTA only, never for content
+- photo, video — great at any duration, including short (< 2s) quick visual cuts between animated scenes. Use these for rhythm variety and breathing room.
+- glow, gradient, particles, confetti, emojiBurst — atmospheric
+- solidColor — CTA only, never for content
 
-**Every video with 5+ scenes must include at least 1 Tier 1 template.** Plain bg-* scenes should never make up more than 40% of a video.
+**Every video with 5+ scenes must include at least 1 Tier 1 template.** Plain background scenes should never make up more than 40% of a video.
 
-**Intro templates (`intro-*`) are NOT a tier — they're optional cinematic openers.** Most videos should start with `bg-photo` or `bg-video` with strong hook text. Only use intro templates for trailers, launches, or when the user asks for a dramatic/cinematic feel. See composition-rules.md for details.
+**Brand-reveal templates (cinematicFlash, spotlight, vanillaSky, textSlam, countdown) are NOT a tier — they're optional cinematic openers.** Most videos should start with photo or video with strong hook text. Only use brand-reveal templates for trailers, launches, or when the user asks for a dramatic/cinematic feel. See composition-rules.md for details.
 
 ## Structured variable format
 
@@ -92,7 +94,7 @@ Some templates accept structured variables (e.g. `notif1`–`notif6`, `transacti
 
 Templates accept objects and JSON strings as a fallback, but colon-separated strings are the canonical format and render most reliably.
 
-For chat templates (`social-chat`, `social-whatsapp`), pass plain text strings:
+For chat templates (chatBubbles, whatsappChat), pass plain text strings:
 ```
 "Hey, what's up?"
 "I'm good, how are you?|out"
@@ -100,7 +102,7 @@ For chat templates (`social-chat`, `social-whatsapp`), pass plain text strings:
 
 ## Template rules
 
-- **Scene 1 should be `bg-photo` or `bg-video` with strong hook text.** Intro templates are optional — use only for trailers/launches or when the user asks for a cinematic feel.
+- **Scene 1 should be `photo` or `video` with strong hook text.** Brand-reveal templates (textSlam, cinematicFlash, etc.) are optional — use only for trailers/launches or when the user asks for a cinematic feel.
 - **Don't use the same template 3x in a row** — vary for visual interest
 - **Respect minDuration** — templates with complex animations need enough time
 - **Check preferredDuration** — this is the sweet spot for pacing

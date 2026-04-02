@@ -18,7 +18,7 @@ description: Full annotated VideoConfig JSON example — reference for building 
   "scenes": [
     {
       "id": "s1",
-      "templateId": "bg-video",
+      "templateId": "video",
       "variables": { "texts": "Get moving.", "mediaUrl": "", "mediaKeyword": "fitness workout gym" },
       "timing": { "durationWeight": 0.7 },
       "transition": "cut",
@@ -26,7 +26,7 @@ description: Full annotated VideoConfig JSON example — reference for building 
     },
     {
       "id": "s2",
-      "templateId": "bg-photo",
+      "templateId": "photo",
       "variables": { "texts": "Track everything.", "mediaUrl": "", "mediaKeyword": "smartwatch wrist close up" },
       "timing": { "durationWeight": 0.5 },
       "transition": "crossfade",
@@ -34,28 +34,28 @@ description: Full annotated VideoConfig JSON example — reference for building 
     },
     {
       "id": "s3",
-      "templateId": "showcase-phone",
+      "templateId": "phoneMockup",
       "variables": { "texts": "Your dashboard.", "screenMediaUrl": "" },
       "timing": { "durationWeight": 1.3 },
       "transition": "cut"
     },
     {
       "id": "s4",
-      "templateId": "app-fitness",
+      "templateId": "fitnessApp",
       "variables": { "steps": 12450, "calories": 847, "heartRate": 142, "label": "Today's Stats" },
       "timing": { "durationWeight": 1.3 },
       "transition": "cut"
     },
     {
       "id": "s5",
-      "templateId": "chart-counter",
+      "templateId": "bigNumber",
       "variables": { "value": 10000, "label": "Active users", "unit": "+" },
       "timing": { "durationWeight": 1.0 },
       "transition": "cut"
     },
     {
       "id": "s6",
-      "templateId": "bg-photo",
+      "templateId": "photo",
       "variables": { "texts": "Push harder.", "mediaUrl": "", "mediaKeyword": "runner sunrise trail" },
       "timing": { "durationWeight": 0.7 },
       "transition": "dip-to-black",
@@ -63,7 +63,7 @@ description: Full annotated VideoConfig JSON example — reference for building 
     },
     {
       "id": "s7",
-      "templateId": "social-review-stack",
+      "templateId": "reviewStack",
       "variables": {
         "review1Title": "Life changing",
         "review1Body": "Changed my entire routine.",
@@ -81,10 +81,10 @@ description: Full annotated VideoConfig JSON example — reference for building 
     },
     {
       "id": "s8",
-      "templateId": "bg-glow",
-      "variables": { "texts": "Start free today.,fitpulse.app" },
-      "timing": { "durationWeight": 1.0 },
-      "transition": "cut"
+      "templateId": "ctaSplit",
+      "variables": { "tagline": "Start free today", "ctaUrl": "fitpulse.app" },
+      "timing": { "durationWeight": 0.9 },
+      "transition": "dip-to-black"
     }
   ],
   "style": {
@@ -98,10 +98,9 @@ description: Full annotated VideoConfig JSON example — reference for building 
     "name": "FitPulse Launch",
     "prompt": "Create a launch video for a fitness app called FitPulse",
     "mood": ["Energetic"],
-    "videoType": "launch",
-    "narrativePattern": "Product First",
+    "type": "product",
     "trackRationale": "High-energy track with 55 beats across 27s — tight snap points for 8 scenes",
-    "templateRationale": "Product First pattern: bg-video hook, showcase-phone early demo, app-fitness features, chart-counter traction, social-review-stack proof, bg-glow CTA",
+    "templateRationale": "Product First pattern: video hook, phoneMockup early demo, fitnessApp features, bigNumber traction, reviewStack proof, ctaSplit CTA",
     "source": "skill",
     "createdAt": "2026-03-27"
   }
@@ -111,11 +110,10 @@ description: Full annotated VideoConfig JSON example — reference for building 
 ### Config Notes
 
 - **Content flows from the brief** — product name, features, stats, and testimonials gathered during the brief phase populate template variables directly. Never use generic placeholder text.
-- **`meta.videoType`** — set to the detected type (launch, explainer, ad, social, showcase, event, portfolio). Helps the variant system pick contrasting tracks and styles.
-- **`meta.narrativePattern`** — which pattern was chosen (e.g., "Product First", "Problem-Solution"). Documents the creative decision.
-- **Fast cuts for media scenes** — bg-video (s1) at 0.7, bg-photo (s2) at 0.5. Quick visual hits before animated content.
-- **Hero scenes get more time** — showcase-phone (s3) at 1.3, app-fitness (s4) at 1.3. Complex animations need 3+ seconds.
+- **`meta.type`** — set to the detected recipe type (promo, informational, product).
+- **Fast cuts for media scenes** — video (s1) at 0.7, photo (s2) at 0.5. Quick visual hits before animated content.
+- **Hero scenes get more time** — phoneMockup (s3) at 1.3, fitnessApp (s4) at 1.3. Complex animations need 3+ seconds.
 - **Breathe scene (s6) at 0.7** — brief pause before social proof prevents fatigue.
-- **CTA (s8) at 1.0** — URL needs time to register; don't go below 0.8.
-- **social-review-stack uses separate fields** — review1Title/review1Body/review1Author for each review (NOT a reviews array).
+- **CTA (s8) at 0.9** — URL needs time to register; don't go below 0.8. Always use ctaSplit as the last scene.
+- **reviewStack uses separate fields** — review1Title/review1Body/review1Author for each review (NOT a reviews array).
 - **Background effects alternate** — slow-zoom-in, ken-burns, drift across media scenes to prevent visual repetition.

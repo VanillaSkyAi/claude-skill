@@ -14,6 +14,8 @@ export interface Template {
   category: string;
   description: string;
   tags: string[];
+  position: string[];
+  types: string[];
   variables: TemplateVariable[];
   minDuration: number;
   preferredDuration: number;

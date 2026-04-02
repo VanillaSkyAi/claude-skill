@@ -15,22 +15,20 @@ Create professional beat-synced videos by describing what you want. You compose 
 
 ## Workflow
 
-**Key principle:** This is a conversation, not a form. Many prompts answer multiple questions at once — if the user says "make a TikTok ad for fitpulse.app", that's the video type (Ad), format (portrait), and a URL to scrape in one sentence. Skip ahead. Only ask what you don't already know.
+**Key principle:** This is a conversation, not a form. Many prompts answer multiple questions at once — if the user says "make a TikTok ad for fitpulse.app", that's the format (portrait), content source (URL to scrape), and tone in one sentence. Skip ahead. Only ask what you don't already know.
 
 ### 1. What are we making?
 
 If the user's prompt doesn't make the intent clear, ask:
 
 > What kind of video? Describe what you need, or pick a direction:
-> - **Launch** — announce your product, show what you built
-> - **Explain** — teach how it works, landing page video
-> - **Sell** — ad, convert viewers, get signups
-> - **Showcase** — demo features, product tour
-> - **Social** — quick TikTok/Reel/Short
+> - **Promo** — announcements, milestones, events, ads, celebrations
+> - **Informational** — how-tos, case studies, testimonials, comparisons
+> - **Product** — feature launches, changelogs, app demos, product pages
 >
 > Or just describe what you need and I'll pick the best fit.
 
-Use detection cues from [rules/composition-rules.md](rules/composition-rules.md) to infer the arc from context. If still ambiguous, default to **Launch** — it's what most founders need first.
+Internally, detect the recipe type: **promo**, **informational**, or **product**. See [rules/composition-rules.md](rules/composition-rules.md) for detection cues.
 
 ### 2. Content source — URL or manual?
 
@@ -51,7 +49,7 @@ Use detection cues from [rules/composition-rules.md](rules/composition-rules.md)
 | `title` | Scene copy inspiration, `meta.name` |
 | `description` | Scene copy, text entries |
 | `headlines` | Scene text entries — pick the best ones |
-| `ogImage` | `bg-photo.mediaUrl` or showcase template `screenMediaUrl` |
+| `ogImage` | photo mediaUrl or showcase template `screenMediaUrl` |
 | `images` | Product screenshots for showcase template `screenMediaUrl` |
 | `bodyText` | Copy inspiration, feature extraction |
 | `favicon` | Could mention as logo reference (usually too small to use directly) |
@@ -80,7 +78,7 @@ If they don't have these, that's fine — defaults look professional. They can a
 > You can always swap anything later in the editor.
 
 - If they have media -> upload it with `upload_media` to get public URLs, then use those in `mediaUrl` / `screenMediaUrl` fields
-- If not -> use `mediaKeyword` for Pexels stock and lean on animated templates (intros, charts, social, app mockups)
+- If not -> use `mediaKeyword` for Pexels stock and lean on animated templates (hooks, charts, social, app mockups)
 - Mix is fine — some scenes with their media, others with stock
 - If they share local file paths or paste images, upload each one with `upload_media` before building the config
 
@@ -97,17 +95,17 @@ Infer from context when possible:
 - "YouTube" / "LinkedIn" / "website" / "presentation" -> `"landscape"`
 - If unclear, default to `"portrait"` — most video today is vertical
 
-### 5. Pick a Music Track
+### 5. Compose Scenes and Pick a Track
 
-**After planning scenes** (not before), call `list_tracks` to find a track that fits:
+Plan scenes and select a track together — they inform each other:
 
-1. **Mood match** — pick a track whose description fits the arc's mood (see composition-rules.md)
-2. **Duration fit** — track duration should be close to your estimated total (from template complexity)
-3. **Vary selection** — don't default to the same track every time
+1. **Plan scenes first** — follow the 3-phase structure (hook, body, close) from [composition-rules.md](rules/composition-rules.md). Aim for **7-8 scenes** (minimum 6, maximum 10). Last scene is always `ctaSplit`.
+2. **Call `list_tracks`** — find a track whose `mood_tags` (energy, mood, movement) match the content feel. Pick one whose duration fits your estimated total from scene complexity.
+3. **Vary selection** — don't default to the same track every time.
 
-Scene count is driven by track duration: `round(duration / 3)`, clamped to 4-12 scenes. Beats (30-60+ per track, detected by Essentia.js) serve as natural cut points — the system picks which beats to use as scene boundaries at save time.
+Scene count is driven by track duration: `round(duration / 3)`, clamped to 6-10 scenes (aim for 7-8). Beats (30-60+ per track, detected by Essentia.js) serve as natural cut points — the system picks which beats to use as scene boundaries at save time.
 
-See [rules/audio-tracks.md](rules/audio-tracks.md) for the beat-driven layout system.
+See [rules/audio-tracks.md](rules/audio-tracks.md) for the mood tag system and audio config format.
 
 ### 6. Propose a Scene Plan
 
@@ -131,17 +129,19 @@ Save the config and return the editor link. The user can preview, customize, and
 
 Read these for detailed creative and technical patterns:
 
-- [rules/composition-rules.md](rules/composition-rules.md) — 5 arcs, 3-phase structure, scene planning, template selection, copy, pacing
+- [rules/composition-rules.md](rules/composition-rules.md) — 3 recipe types, 3-phase structure, scene planning, template selection, copy, pacing
 - [rules/templates.md](rules/templates.md) — Template discovery, `texts` variable format, tiers, selection rules
 - [rules/effects-and-style.md](rules/effects-and-style.md) — Text effects, background effects, transitions, fonts, brand kit
 - [rules/schema.md](rules/schema.md) — Full annotated VideoConfig JSON example
-- [rules/audio-tracks.md](rules/audio-tracks.md) — Track selection rules and audio config format
+- [rules/audio-tracks.md](rules/audio-tracks.md) — Track selection by mood_tags and audio config format
 
 ## Templates
 
 **Call `list_templates` to get the current template list.** It returns each template's ID, variables, duration, usage tips, and copy guidance. Never hardcode template IDs — they change as templates are added and removed.
 
-Templates are organized by category. Each scene in a video references one template by `templateId` and passes `variables`.
+Template IDs use **camelCase** (e.g., `phoneMockup`, `cinematicFlash`, `bigNumber`, `ctaSplit`). Never use dashed IDs like `showcase-phone` or `intro-text-slam` — they don't exist.
+
+Templates are organized by category and tagged with position (hook/body/closer) and recipe types (promo/informational/product). Each scene in a video references one template by `templateId` and passes `variables`.
 
 ### The `texts` Variable
 
@@ -154,29 +154,30 @@ See [rules/schema.md](rules/schema.md) for a full annotated example.
 ### Schema Rules
 
 See [schema.md](rules/schema.md) for a full annotated example. Key rules:
-- `scenes[].templateId` — call `list_templates` first, never hardcode
+- `scenes[].templateId` — call `list_templates` first, never hardcode. Use camelCase IDs only.
 - `scenes[].variables` — keys must match the template's variable schema
 - `timing.durationWeight` — relative weight, server computes startTime/endTime. See [composition-rules.md](rules/composition-rules.md) for weight guidelines
 - `style.font` — use full CSS value: `"'Inter', sans-serif"` not `"Inter"`
-- `meta.videoType` — one of: `"launch"`, `"explain"`, `"sell"`, `"showcase"`, `"social"`. Default to `"launch"` if ambiguous
+- `meta.type` — one of: `"promo"`, `"informational"`, `"product"`. Default to `"promo"` if ambiguous
 - `meta.prompt` — ALWAYS set to the user's verbatim request
 - `meta.source` — set to `"skill"`
 
 ### Media Handling
 
 - **User provides local files**: Call `upload_media` with the file path first. It uploads to cloud storage and returns a public URL. Use that URL in `mediaUrl` / `screenMediaUrl` / `logoUrl` fields.
-- **No user media**: For `bg-photo` / `bg-video`, set `mediaKeyword` with a descriptive Pexels search keyword (2-4 words). Leave `mediaUrl` empty — the editor auto-fills the top Pexels result on load.
-- For showcase templates (`showcase-phone`, `showcase-tablet`, etc.): set `screenMediaUrl` directly if the user provides a screenshot (upload it first with `upload_media`). If not, leave it empty — the template shows a professional placeholder.
+- **No user media**: For photo / video templates, set `mediaKeyword` with a descriptive Pexels search keyword (2-4 words). Leave `mediaUrl` empty — the editor auto-fills the top Pexels result on load.
+- For showcase templates (`phoneMockup`, `tabletMockup`, `browserMockup`, etc.): set `screenMediaUrl` directly if the user provides a screenshot (upload it first with `upload_media`). If not, leave it empty — the template shows a professional placeholder.
 - **User provides URLs**: Use them directly in the relevant fields — no upload needed.
 
 ## Pre-Save Checklist
 
 Before calling `save_config`, verify against [composition-rules.md](rules/composition-rules.md):
-- Scene count fits track duration
-- Duration weights follow the rules in composition-rules.md (hero, quick cuts, CTA)
+- Scene count fits track duration (aim for 7-8 scenes, min 6, max 10)
+- Duration weights follow the rules in composition-rules.md (showcase gets 1.2-1.5, quick cuts get 0.4-0.5, CTA gets 0.8-1.0)
 - Template variables match their schema (call `list_templates` to check)
-- Last scene is a CTA
+- Last scene uses ctaSplit
 - Every scene has text overlays (sound-off design)
+- Template IDs are camelCase and match exactly (no dashed IDs)
 
 ## MCP Tools
 
@@ -184,9 +185,9 @@ Use in this order during video creation. No API keys needed — the MCP server h
 
 1. **`scrape_url`** (optional, do first if URL available) — `{ url }` -> Returns `brandColors`, `fonts`, `headlines`, `description`, `images`, `ogImage`. Use for brand kit, font matching, and copy inspiration.
 2. **`upload_media`** (if user provides local files) — `{ filePath }` -> Uploads to cloud storage, returns `{ publicUrl, fileName, mimeType, sizeBytes }`. Call once per file. Use the `publicUrl` in `mediaUrl` / `screenMediaUrl` fields. Supports: jpg, png, webp, gif, mp4, webm, mov. Max 20MB.
-3. **`list_templates`** (REQUIRED) — `{ category? }` -> Returns all templates with `id`, `variables`, `minDuration`, `whenToUse`, `copyTip`. Never hardcode template IDs.
-4. **`list_tracks`** (REQUIRED) — Returns tracks with `id`, `name`, `duration`, `description`, `videoTypes`, and `beatCount`. Pass `trackId` + `duration` in the audio config — beat markers are auto-populated server-side.
-5. **`save_config`** (final step) — `{ config }` -> Returns `{ id, url, warnings? }`. Share the URL. Warnings flag duration issues but don't block the save.
+3. **`list_templates`** (REQUIRED) — `{ category? }` -> Returns all templates with `id`, `variables`, `minDuration`, `position` (hook/body/closer), `types` (promo/informational/product), `whenToUse`, `copyTip`. Filter by position and type to pick the right templates. Never hardcode template IDs.
+4. **`list_tracks`** (REQUIRED) — Returns tracks with `id`, `name`, `duration`, `description`, `mood_tags` (energy/mood/movement), and `beatCount`. Pass `trackId` + `duration` in the audio config — beat markers are auto-populated server-side.
+5. **`save_config`** (final step) — `{ config }` -> Returns `{ id, url, warnings? }`. Share the URL. Warnings flag duration issues but don't block the save. One video, one track — no variant generation.
 
 ## Example
 
@@ -196,18 +197,18 @@ Use in this order during video creation. No API keys needed — the MCP server h
 
 **User:** "It tracks heart rate, calories, steps, and sleep. 10K+ users. For everyday athletes. Colors are dark blue (#1a1a3e) and electric green (#00ff88). I have an app screenshot I can share."
 
-**You:** This feels like a **Launch** — announce the app with excitement. Pick "HipHop Sequence" (energetic, fitness mood). Propose 8 scenes with `cut` as default transition:
+**You:** This feels like a **product** recipe — showcase the app with excitement. Pick a track with `energy: high, mood: confident + inspiring, movement: building`. Propose 8 scenes:
 
 | # | Template | Key variables | Why | Copy |
 |---|----------|--------------|-----|------|
-| 1 | bg-video | keyword: "fitness workout gym" | Visual hook — real footage grabs attention | texts: "Get moving." |
-| 2 | bg-video | keyword: "runner sunrise trail" | Action footage sells the lifestyle | texts: "Push harder." |
-| 3 | bg-photo | keyword: "smartwatch close up" | Shows the tech angle | texts: "Track everything." |
-| 4 | showcase-phone | screenMediaUrl: "" (placeholder) | Device mockup — user uploads screenshot | texts: "FitPulse" |
-| 5 | chart-counter | value: 10000, unit: "+" | Impressive scale metric | label: "Active users" |
-| 6 | bg-photo | keyword: "healthy meal preparation" | Lifestyle footage, breathing room | texts: "Fuel your body." |
-| 7 | bg-video | keyword: "group fitness class energy" | Community energy | texts: "Join thousands." |
-| 8 | bg-solid | — | CTA + brand | texts: "Start free today.,fitpulse.app" |
+| 1 | textSlam | texts: "Get moving." | Bold hook — high energy opener | "Get moving." |
+| 2 | video | keyword: "runner sunrise trail" | Action footage sells the lifestyle | "Push harder." |
+| 3 | photo | keyword: "smartwatch close up" | Shows the tech angle | "Track everything." |
+| 4 | phoneMockup | screenMediaUrl: "" (placeholder) | Device mockup — user uploads screenshot | "FitPulse" |
+| 5 | bigNumber | value: 10000, unit: "+" | Impressive scale metric | label: "Active users" |
+| 6 | photo | keyword: "healthy meal preparation" | Lifestyle footage, breathing room | "Fuel your body." |
+| 7 | fitnessApp | — | Dashboard stats, built-in template | "Your daily stats." |
+| 8 | ctaSplit | tagline: "Start free today", ctaUrl: "fitpulse.app" | CTA + brand close | — |
 
 Brand: dark blue `#1a1a3e` + electric green `#00ff88`. Font: Bebas Neue (bold, energetic). Text effect: `zoom-through`. Background: `slow-zoom-in`.
 
