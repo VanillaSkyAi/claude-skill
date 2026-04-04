@@ -18,7 +18,7 @@ description: Full annotated VideoConfig JSON example — reference for building 
   "scenes": [
     {
       "id": "s1",
-      "templateId": "video",
+      "templateId": "media",
       "variables": { "texts": "Get moving.", "mediaUrl": "", "mediaKeyword": "fitness workout gym" },
       "timing": { "durationWeight": 0.7 },
       "transition": "cut",
@@ -26,7 +26,7 @@ description: Full annotated VideoConfig JSON example — reference for building 
     },
     {
       "id": "s2",
-      "templateId": "photo",
+      "templateId": "media",
       "variables": { "texts": "Track everything.", "mediaUrl": "", "mediaKeyword": "smartwatch wrist close up" },
       "timing": { "durationWeight": 0.5 },
       "transition": "crossfade",
@@ -41,8 +41,8 @@ description: Full annotated VideoConfig JSON example — reference for building 
     },
     {
       "id": "s4",
-      "templateId": "fitnessApp",
-      "variables": { "steps": 12450, "calories": 847, "heartRate": 142, "label": "Today's Stats" },
+      "templateId": "tripleStats",
+      "variables": { "stat1Label": "Steps", "stat1Value": "12,450", "stat2Label": "Calories", "stat2Value": "847", "stat3Label": "Heart Rate", "stat3Value": "142 bpm" },
       "timing": { "durationWeight": 1.3 },
       "transition": "cut"
     },
@@ -55,7 +55,7 @@ description: Full annotated VideoConfig JSON example — reference for building 
     },
     {
       "id": "s6",
-      "templateId": "photo",
+      "templateId": "media",
       "variables": { "texts": "Push harder.", "mediaUrl": "", "mediaKeyword": "runner sunrise trail" },
       "timing": { "durationWeight": 0.7 },
       "transition": "dip-to-black",
@@ -100,7 +100,7 @@ description: Full annotated VideoConfig JSON example — reference for building 
     "mood": ["Energetic"],
     "type": "product",
     "trackRationale": "High-energy track with 55 beats across 27s — tight snap points for 8 scenes",
-    "templateRationale": "Product First pattern: video hook, phoneMockup early demo, fitnessApp features, bigNumber traction, reviewStack proof, ctaSplit CTA",
+    "templateRationale": "Product First pattern: media hook, phoneMockup early demo, tripleStats features, bigNumber traction, reviewStack proof, ctaSplit CTA",
     "source": "skill",
     "createdAt": "2026-03-27"
   }
@@ -111,8 +111,8 @@ description: Full annotated VideoConfig JSON example — reference for building 
 
 - **Content flows from the brief** — product name, features, stats, and testimonials gathered during the brief phase populate template variables directly. Never use generic placeholder text.
 - **`meta.type`** — set to the detected recipe type (promo, informational, product).
-- **Fast cuts for media scenes** — video (s1) at 0.7, photo (s2) at 0.5. Quick visual hits before animated content.
-- **Hero scenes get more time** — phoneMockup (s3) at 1.3, fitnessApp (s4) at 1.3. Complex animations need 3+ seconds.
+- **Fast cuts for media scenes** — media (s1) at 0.7, media (s2) at 0.5. Quick visual hits before animated content.
+- **Hero scenes get more time** — phoneMockup (s3) at 1.3, tripleStats (s4) at 1.3. Complex animations need 3+ seconds.
 - **Breathe scene (s6) at 0.7** — brief pause before social proof prevents fatigue.
 - **CTA (s8) at 0.9** — URL needs time to register; don't go below 0.8. Always use ctaSplit as the last scene.
 - **reviewStack uses separate fields** — review1Title/review1Body/review1Author for each review (NOT a reviews array).

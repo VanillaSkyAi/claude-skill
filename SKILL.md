@@ -49,7 +49,7 @@ Internally, detect the recipe type: **promo**, **informational**, or **product**
 | `title` | Scene copy inspiration, `meta.name` |
 | `description` | Scene copy, text entries |
 | `headlines` | Scene text entries — pick the best ones |
-| `ogImage` | photo mediaUrl or showcase template `screenMediaUrl` |
+| `ogImage` | media mediaUrl or showcase template `screenMediaUrl` |
 | `images` | Product screenshots for showcase template `screenMediaUrl` |
 | `bodyText` | Copy inspiration, feature extraction |
 | `favicon` | Could mention as logo reference (usually too small to use directly) |
@@ -139,7 +139,7 @@ Read these for detailed creative and technical patterns:
 
 **Call `list_templates` to get the current template list.** It returns each template's ID, variables, duration, usage tips, and copy guidance. Never hardcode template IDs — they change as templates are added and removed.
 
-Template IDs use **camelCase** (e.g., `phoneMockup`, `cinematicFlash`, `bigNumber`, `ctaSplit`). Never use dashed IDs like `showcase-phone` or `intro-text-slam` — they don't exist.
+Template IDs use **camelCase** (e.g., `phoneMockup`, `bigNumber`, `ctaSplit`). Never use dashed IDs like `showcase-phone` or `intro-text-slam` — they don't exist.
 
 Templates are organized by category and tagged with position (hook/body/closer) and recipe types (promo/informational/product). Each scene in a video references one template by `templateId` and passes `variables`.
 
@@ -165,7 +165,7 @@ See [schema.md](rules/schema.md) for a full annotated example. Key rules:
 ### Media Handling
 
 - **User provides local files**: Call `upload_media` with the file path first. It uploads to cloud storage and returns a public URL. Use that URL in `mediaUrl` / `screenMediaUrl` / `logoUrl` fields.
-- **No user media**: For photo / video templates, set `mediaKeyword` with a descriptive Pexels search keyword (2-4 words). Leave `mediaUrl` empty — the editor auto-fills the top Pexels result on load.
+- **No user media**: For media templates, set `mediaKeyword` with a descriptive Pexels search keyword (2-4 words). Leave `mediaUrl` empty — the editor auto-fills the top Pexels result on load.
 - For showcase templates (`phoneMockup`, `tabletMockup`, `browserMockup`, etc.): set `screenMediaUrl` directly if the user provides a screenshot (upload it first with `upload_media`). If not, leave it empty — the template shows a professional placeholder.
 - **User provides URLs**: Use them directly in the relevant fields — no upload needed.
 
@@ -202,12 +202,12 @@ Use in this order during video creation. No API keys needed — the MCP server h
 | # | Template | Key variables | Why | Copy |
 |---|----------|--------------|-----|------|
 | 1 | textSlam | texts: "Get moving." | Bold hook — high energy opener | "Get moving." |
-| 2 | video | keyword: "runner sunrise trail" | Action footage sells the lifestyle | "Push harder." |
-| 3 | photo | keyword: "smartwatch close up" | Shows the tech angle | "Track everything." |
+| 2 | media | keyword: "runner sunrise trail" | Action footage sells the lifestyle | "Push harder." |
+| 3 | media | keyword: "smartwatch close up" | Shows the tech angle | "Track everything." |
 | 4 | phoneMockup | screenMediaUrl: "" (placeholder) | Device mockup — user uploads screenshot | "FitPulse" |
 | 5 | bigNumber | value: 10000, unit: "+" | Impressive scale metric | label: "Active users" |
-| 6 | photo | keyword: "healthy meal preparation" | Lifestyle footage, breathing room | "Fuel your body." |
-| 7 | fitnessApp | — | Dashboard stats, built-in template | "Your daily stats." |
+| 6 | media | keyword: "healthy meal preparation" | Lifestyle footage, breathing room | "Fuel your body." |
+| 7 | tripleStats | — | Key metrics at a glance | "Your daily stats." |
 | 8 | ctaSplit | tagline: "Start free today", ctaUrl: "fitpulse.app" | CTA + brand close | — |
 
 Brand: dark blue `#1a1a3e` + electric green `#00ff88`. Font: Bebas Neue (bold, energetic). Text effect: `zoom-through`. Background: `slow-zoom-in`.

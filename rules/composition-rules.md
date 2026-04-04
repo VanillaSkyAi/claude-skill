@@ -27,7 +27,7 @@ Every video uses one of 3 recipe types. Each recipe type filters which templates
 | Recipe | When to use | Composition strategy |
 |--------|------------|---------------------|
 | **promo** | Announcements, milestones, events, hot takes, hiring, celebrations | Lead with boldest claim or biggest number. Fast energy. 2-4 words per scene. |
-| **informational** | Blog recaps, how-tos, case studies, testimonials, comparisons | Lead with question or surprising stat. Problem → explanation → proof. More photo breathers. |
+| **informational** | Blog recaps, how-tos, case studies, testimonials, comparisons | Lead with question or surprising stat. Problem → explanation → proof. More media breathers. |
 | **product** | Feature launches, changelogs, product pages, app demos | Lead with product name. MUST include 1+ showcase template. Show product first, then features, then proof. |
 
 **Detection cues:**
@@ -101,22 +101,16 @@ Pick the pattern that matches the content's strengths:
 
 ## Templates by Recipe Type
 
-Templates are filtered by recipe type. Each template is tagged with which types it belongs to. The AI can only pick from templates tagged for the chosen type.
+**Always call `list_templates` first.** Each template has `position` (hook/body/closer) and `types` (promo/informational/product) fields. Filter by your chosen type and position to get the valid templates for each scene slot.
 
-**Always call `list_templates` first.** Template IDs use camelCase (e.g., `phoneMockup`, `cinematicFlash`, `bigNumber`). Never use dashed IDs — they don't exist.
+### How to pick templates
+1. Call `list_templates` to get all available templates with their `position` and `types`
+2. Choose a type (promo, informational, or product) based on content
+3. **Scene 1 (hook):** filter templates where `position` includes "hook" AND `types` includes your type
+4. **Scenes 2-N (body):** filter where `position` includes "body" AND `types` includes your type
+5. **Last scene (closer):** filter where `position` includes "closer" AND `types` includes your type
 
-### Hook templates (scene 1)
-- **promo**: vanillaSky, countdown, textSlam, numberHook, photo, video
-- **informational**: questionHook, numberHook, photo, video
-- **product**: cinematicFlash, spotlight, textSlam, photo, video
-
-### Body templates (scenes 2 to N-1)
-- **promo**: solidColor, photo, video, gradient, glow, confetti, emojiBurst, bigNumber, tweet, notification, milestone, emojiRain, tripleStats, emojiGrid, cardList
-- **informational**: solidColor, photo, video, barChart, lineChart, progressRing, pieChart, tweet, chatBubbles, googleSearch, whatsappChat, reviewStack, testimonial, emojiGrid, tripleStats, comparison, problemSolution, cardList, steps, questionHook
-- **product**: solidColor, photo, video, glow, particles, bigNumber, phoneMockup, triplePhone, tabletMockup, tabletSlides, browserMockup, browserSlides, codeEditor, terminal, googleSearch, all app templates (appGrid, bankingApp, fitnessApp, etc.), emojiGrid, cardList, steps
-
-### Closer templates (last scene)
-- **All types**: ctaSplit (always use ctaSplit as the closer)
+Do NOT hardcode template IDs — always use what `list_templates` returns.
 
 ---
 
@@ -140,7 +134,7 @@ HOOK  →  BODY  →  CLOSE
 - **One message per video** — the most common failure is cramming multiple messages.
 - **Sound-off by default** — 85% of social video is watched muted. Every scene MUST have text overlays.
 - **Aim for 7-8 scenes.** Minimum 6, maximum 10.
-- **Include at least 1 photo or video scene** for visual rhythm in the body.
+- **Include at least 1 media scene** for visual rhythm in the body.
 
 ---
 
@@ -182,17 +176,17 @@ Don't count scenes from a formula. Plan them from what you have:
 - Has stats/traction → bigNumber (max 1), barChart, progressRing, tripleStats
 - Has features to list → emojiGrid, cardList, steps
 - Has customer quotes → testimonial, reviewStack
-- Has nothing → photo with Pexels keywords + text-driven scenes
-- **Alternate busy and calm:** follow a complex scene with a photo quick cut for breathing room
+- Has nothing → media with Pexels keywords + text-driven scenes
+- **Alternate busy and calm:** follow a complex scene with a media quick cut for breathing room
 
 **Step 5: Plan the CLOSE** (1 scene)
-- Always use ctaSplit
+- Pick from templates with `position` "closer" for your type
 - Use `dip-to-black` transition before the CTA for a dramatic pause
 
 **Step 6: Estimate total duration** from template complexity
 - Showcase templates (phoneMockup, browserMockup, etc.): ~4s each → durationWeight 1.2-1.5
 - Infographic/chart/social templates: ~3s each → durationWeight 0.8-1.0
-- photo/video quick cuts: ~2s each → durationWeight 0.4-0.5
+- media quick cuts: ~2s each → durationWeight 0.4-0.5
 - Hook templates: ~2-3s → durationWeight 0.7-0.8
 - CTA (ctaSplit): ~2-3s → durationWeight 0.8-1.0
 
@@ -213,26 +207,26 @@ Don't count scenes from a formula. Plan them from what you have:
 
 ### Template variety
 
-**The #1 cause of boring videos is over-relying on text-on-background templates.** solidColor, glow, gradient are palette cleansers — never the main content.
+**The #1 cause of boring videos is over-relying on text-on-background templates.** ambient is a palette cleanser — never the main content.
 
 ### Content → template mapping
 
 | Content | Don't use | Use instead |
 |---------|-----------|-------------|
-| App/product features | solidColor with feature list | phoneMockup or tabletMockup |
-| Price/offer | bigNumber | ecommerceApp with product card |
+| App/product features | ambient with feature list | phoneMockup or tabletMockup |
+| Price/offer | bigNumber | productSearch with product card |
 | Comparison | bigNumber twice | barChart or comparison |
-| Customer quotes | gradient with quote text | testimonial or reviewStack |
-| Stats dashboard | Multiple bigNumber | fitnessApp, bankingApp, or weatherApp |
-| Notifications | solidColor with text | notification with app-style card |
+| Customer quotes | ambient with quote text | testimonial or reviewStack |
+| Stats dashboard | Multiple bigNumber | tripleStats or bankingApp |
+| Notifications | ambient with text | notification with app-style card |
 
 ### Showcase templates work without screenshots
 
 Device mockups show professional placeholders when no screenshot is provided. Always include at least one showcase template for product-type videos.
 
-### Brand-reveal templates: use sparingly
+### Hook templates: use sparingly
 
-cinematicFlash, spotlight, vanillaSky, textSlam, countdown are cinematic openers — excellent for launches, trailers, and brand stories.
+countdown, textSlam, questionHook, numberHook are cinematic openers — excellent for launches, trailers, and brand stories.
 
 ### Card templates need dark backgrounds
 
@@ -254,23 +248,23 @@ All social, app, and showcase templates render white/light cards. Always use a d
 
 Override per-scene for contrast — e.g., use `zoom-through` on the climax scene while keeping `fade-in` as default.
 
-- **Max 3 high-energy scenes before a breather** — use a photo/video quick cut
+- **Max 3 high-energy scenes before a breather** — use a media quick cut
 - **Match cuts** — when adjacent scenes share a visual element, use crossfade
 
 ### Background effects on photos
 
 **Always set defaultBackgroundEffect** — never leave it empty. slow-zoom-in is a safe default. Static photos look lifeless.
 
-**Alternate camera movement** on consecutive photo scenes:
+**Alternate camera movement** on consecutive media scenes:
 
 | Scene | Effect |
 |-------|--------|
-| Photo 1 | slow-zoom-in |
-| Photo 2 | ken-burns |
-| Photo 3 | slow-zoom-out |
-| Photo 4 | drift |
+| Media 1 | slow-zoom-in |
+| Media 2 | ken-burns |
+| Media 3 | slow-zoom-out |
+| Media 4 | drift |
 
-Never use the same effect on adjacent photos.
+Never use the same effect on adjacent media scenes.
 
 ### Pexels keyword strategy
 
@@ -325,13 +319,13 @@ Set a calm defaultTextEffect (e.g., fade-in), override on 2-3 key moments:
 
 | BAD | WHY | GOOD |
 |-----|-----|------|
-| 5 solidColor scenes in a row | Slideshow, no visual interest | Mix photo, showcase, chart templates |
+| 5 ambient scenes in a row | Slideshow, no visual interest | Mix media, showcase, chart templates |
 | crossfade on every transition | Amateur "iMovie default" | 80% hard cuts, crossfade for continuity only |
 | slam effect on every text | Reads as dated | zoom-through for impact, fade-in default |
 | "Welcome to our company" as scene 1 | Zero hook value | Problem statement or product in action |
 | 12 words per scene | Unreadable at 2-3s | 3-7 words max |
 | CTA holds for 0.8s | Can't read or act | CTA holds 2-3 seconds minimum |
-| Same background effect on all photos | Monotone slideshow | Alternate zoom-in, ken-burns, drift |
+| Same background effect on all media scenes | Monotone slideshow | Alternate zoom-in, ken-burns, drift |
 | Every scene same durationWeight | No rhythm | Vary: showcase gets 1.3, quick cuts get 0.5 |
 | Track picked before scene plan | Duration mismatch | Plan scenes first, pick track to fit |
 | Picking templates before gathering content | Generic results | ALWAYS gather content first, then compose |
@@ -346,11 +340,11 @@ Present the plan as a table before building the config:
 | # | Phase | Weight | Template | Content |
 |---|-------|--------|----------|---------|
 | 1 | hook | 0.8 | textSlam | "Ship faster." — bold opener |
-| 2 | body | 0.5 | photo | Problem: "Deploys take hours." |
+| 2 | body | 0.5 | media | Problem: "Deploys take hours." |
 | 3 | body | 1.3 | phoneMockup | App screenshot — the product |
-| 4 | body | 1.0 | fitnessApp | Live dashboard stats |
+| 4 | body | 1.0 | tripleStats | Key metrics at a glance |
 | 5 | body | 0.9 | bigNumber | "10K users" — traction proof |
-| 6 | body | 0.5 | photo | Quick visual cut — breathing room |
+| 6 | body | 0.5 | media | Quick visual cut — breathing room |
 | 7 | body | 1.0 | reviewStack | Customer reviews |
 | 8 | close | 0.9 | ctaSplit | "Try it free → app.com" |
 

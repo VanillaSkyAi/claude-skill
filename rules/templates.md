@@ -26,7 +26,7 @@ Never hardcode template IDs — the list changes as templates are added and remo
 
 ## The `texts` variable (background + app templates)
 
-All background templates (photo, video, solidColor, gradient, glow, confetti, emojiBurst, particles) and all app templates share the `texts` variable format. **Always set `texts` explicitly** — don't rely on defaults, as empty `texts` shows no text overlay:
+All background templates (media, ambient, confetti, emojiBurst) and all app templates share the `texts` variable format. **Always set `texts` explicitly** — don't rely on defaults, as empty `texts` shows no text overlay:
 
 ```
 "First line|zoom-in,Second line|slam,Third line"
@@ -56,7 +56,7 @@ Match the scene's PURPOSE to the template's `whenToUse` and `tags`:
 | Brand statement | "clean", "gradient", "brand" |
 | Celebration / launch | "confetti", "celebration", "party" |
 | Emotional / atmospheric | "glow", "atmospheric", "dreamy" |
-| Product showcase | "photo", "image" |
+| Product showcase | "media", "image" |
 | Fun / social media | "emoji", "fun", "social" |
 
 ## Template tiers — prefer higher tiers
@@ -64,7 +64,7 @@ Match the scene's PURPOSE to the template's `whenToUse` and `tags`:
 Templates are not equal. Richer templates create more engaging videos.
 
 **Tier 1 — Hero templates (use for key scenes):**
-- App templates (appGrid, bankingApp, chatListApp, ecommerceApp, fitnessApp, etc.) — animated phone UIs with real-looking interfaces
+- App templates (bankingApp, chatListApp, lockScreen, notificationCenter, productSearch, searchBar, socialFeed) — animated phone UIs with real-looking interfaces
 - phoneMockup, triplePhone, tabletMockup, tabletSlides — device mockups
 - chatBubbles, whatsappChat — conversation templates (5-10s, storytelling)
 - googleSearch — typewriter search with animated result
@@ -74,13 +74,13 @@ Templates are not equal. Richer templates create more engaging videos.
 - barChart, lineChart, progressRing, pieChart, bigNumber
 
 **Tier 3 — Background templates (palette cleansers and quick cuts):**
-- photo, video — great at any duration, including short (< 2s) quick visual cuts between animated scenes. Use these for rhythm variety and breathing room.
-- glow, gradient, particles, confetti, emojiBurst — atmospheric
-- solidColor — CTA only, never for content
+- media — great at any duration, including short (< 2s) quick visual cuts between animated scenes. Use for rhythm variety and breathing room.
+- ambient, confetti, emojiBurst — atmospheric
+
 
 **Every video with 5+ scenes must include at least 1 Tier 1 template.** Plain background scenes should never make up more than 40% of a video.
 
-**Brand-reveal templates (cinematicFlash, spotlight, vanillaSky, textSlam, countdown) are NOT a tier — they're optional cinematic openers.** Most videos should start with photo or video with strong hook text. Only use brand-reveal templates for trailers, launches, or when the user asks for a dramatic/cinematic feel. See composition-rules.md for details.
+**Hook templates (category "hook") are optional openers.** Most videos should start with media and strong hook text. Only use hook templates for trailers, launches, or when the user asks for a dramatic/cinematic feel. Call `list_templates` to see available hooks.
 
 ## Structured variable format
 
@@ -102,7 +102,7 @@ For chat templates (chatBubbles, whatsappChat), pass plain text strings:
 
 ## Template rules
 
-- **Scene 1 should be `photo` or `video` with strong hook text.** Brand-reveal templates (textSlam, cinematicFlash, etc.) are optional — use only for trailers/launches or when the user asks for a cinematic feel.
+- **Scene 1 should be `media` with strong hook text.** Hook templates (textSlam, countdown, etc.) are optional — use only for trailers/launches or when the user asks for a cinematic feel.
 - **Don't use the same template 3x in a row** — vary for visual interest
 - **Respect minDuration** — templates with complex animations need enough time
 - **Check preferredDuration** — this is the sweet spot for pacing
